@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/home"
+    tools:context=".MainActivity"
+    >
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottomBar"
+        />
+    <LinearLayout
+        android:id="@+id/bottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:elevation="10dp"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:baselineAligned="false">
+
+        <LinearLayout
+            android:id="@+id/homeLayout"
+            android:background="@drawable/home_round_100"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:gravity="center"
+            android:layout_weight="1"
+            >
+
+            <ImageView
+                android:id="@+id/homeImageView"
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/home_selected" />
+
+            <TextView
+                android:id="@+id/homeTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="主页"
+                android:textColor="@color/home"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/squareLayout"
+            android:background="@android:color/transparent"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:gravity="center"
+            android:layout_weight="1"
+            >
+
+            <ImageView
+                android:id="@+id/squareImageView"
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/square" />
+            <TextView
+                android:id="@+id/squareTextView"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="发现"
+                android:layout_marginStart="10dp"
+                android:textStyle="bold"
+                android:textColor="@color/home"
+                android:textSize="16sp"
+                />
+        </LinearLayout>
+
+        <!--        布局的宽度根据权值平局分配-->
+        <LinearLayout
+            android:id="@+id/personLayout"
+            android:background="@android:color/transparent"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:gravity="center"
+            android:layout_weight="1"
+            >
+
+            <ImageView
+                android:id="@+id/personImageView"
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/person" />
+            <TextView
+                android:id="@+id/personTextView"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="个人"
+                android:layout_marginStart="10dp"
+                android:textStyle="bold"
+                android:textColor="@color/person"
+                android:textSize="16sp"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,59 @@
+package com.example.wanandroid.service;
+
+import com.example.wanandroid.bean.MessageBean;
+
+import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
+import retrofit2.http.POST;
+
+/**
+ * @className: UserService
+ * @author: Voyager
+ * @description:
+ * @date: 2023/6/25
+ **/
+public interface UserService {
+
+    /**
+     * 登录请求
+     * @methodName login
+     * @description 登录请求
+     * username相当于“键”
+     *@param passwordStr 储存数据的数据对象
+     * @param usernameStr  储存数据的数据对象
+     * @return MessageBean
+     */
+    @FormUrlEncoded
+    @POST("user/login")
+    Call<MessageBean> login(@Field("username") String usernameStr,@Field("password") String passwordStr);
+
+    /**
+     * 注册请求
+     * @methodName register
+     * @description 注册
+     * @param usernameStr
+     * @param rePasswordString
+     * @param passwordStr
+     * @return MessageBean
+     */
+    @FormUrlEncoded
+    @POST("user/register")
+    Call<MessageBean> register(@Field("username") String usernameStr,@Field("password") String passwordStr,@Field("repassword") String rePasswordString);
+
+    /**
+     * 退出登录
+     * @methodName logout
+     * @description:  退出登录
+     * @return MessageBean
+     */
+
+    @FormUrlEncoded
+    @GET("user/logout/json")
+    Call<MessageBean> logout();
+
+
+
+
+}

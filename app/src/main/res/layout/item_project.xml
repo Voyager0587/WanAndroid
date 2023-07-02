@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:layout_marginTop="5dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/article_round10"
+    android:layout_margin="5sp">
+
+    <TextView
+        android:id="@+id/chapterName"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginLeft="10dp"
+        android:gravity="center"
+        android:text="跨平台应用"
+        android:textSize="13sp"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:text="2023-06-07 21:01"
+        android:layout_alignParentEnd="true"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="248dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/chapterName"
+        android:layout_marginLeft="10dp"
+        android:ellipsize="end"
+        android:ems="7"
+        android:maxLines="2"
+        android:text="Android 14 之返回界面升级：预览目标界面 + 全新返回箭头434"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
+
+    <TextView
+        android:id="@+id/author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="15dp"
+        android:textColor="@color/black"
+        android:text="ZuYun" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="37dp"
+        android:layout_height="70dp"
+        android:layout_below="@+id/time"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="31dp"
+        tools:srcCompat="@color/black" />
+
+</RelativeLayout>

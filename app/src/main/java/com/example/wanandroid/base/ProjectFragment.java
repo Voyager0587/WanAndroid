@@ -1,0 +1,187 @@
+package com.example.wanandroid.base;
+
+import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import com.example.wanandroid.R;
+import com.example.wanandroid.adapter.ProjectAdapter;
+import com.example.wanandroid.bean.ProjectBean;
+import com.example.wanandroid.bean.ProjectCategoryBean;
+import com.example.wanandroid.utils.HttpUtils;
+import com.google.android.material.snackbar.Snackbar;
+import com.scwang.smart.refresh.footer.BallPulseFooter;
+import com.scwang.smart.refresh.header.BezierRadarHeader;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.constant.SpinnerStyle;
+import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+/**
+ * @author liukai
+ */
+public class ProjectFragment extends Fragment {
+
+    RecyclerView projectRecyclerView;
+    ProjectAdapter projectAdapter;
+    SmartRefreshLayout refreshLayout;
+    private LinearLayoutManager manager;
+    List<ProjectBean.DataBean.DatasBean> data=new ArrayList<>();
+    List<ProjectBean.DataBean.DatasBean> loadMoreData=new ArrayList<>();
+    /**
+     * @param id 分类id
+     * @param page 文章获取的页数
+     * @param isLoadAll 是否全部加载
+     */
+    int id,page,isLoadAll=-1;
+    private static final String ARG_PARAM1 = "param1";
+
+
+    public ProjectFragment(int id) {
+        this.id = id;
+    }
+
+    public static ProjectFragment newInstance(int id) {
+        ProjectFragment fragment = new ProjectFragment(id);
+        Bundle args = new Bundle();
+        args.putInt(ARG_PARAM1, id);
+        fragment.setArguments(args);
+        return fragment;
+    }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view=inflater.inflate(R.layout.fragment_project, container, false);
+        refreshLayout=view.findViewById(R.id.refresh_layout);
+        projectRecyclerView=view.findViewById(R.id.project_recyclerView);
+        page=1;
+        initData();
+        initRefreshLayout();
+        return view;
+    }
+
+
+
+    private void initData(){
+        data.clear();
+        Call<ProjectBean> projectBeanCall=HttpUtils.getProjectService().getProjectList(page,id);
+        projectBeanCall.enqueue(new Callback<ProjectBean>() {
+            @Override
+            public void onResponse(@NonNull Call<ProjectBean> call, @NonNull Response<ProjectBean> response) {
+                if(response.isSuccessful()){
+                    ProjectBean projectBean=response.body();
+                    if(projectBean!=null&&projectBean.getData()!=null){
+                        data=projectBean.getData().getDatas();
+                        projectAdapter=new ProjectAdapter(data);
+                        requireActivity().runOnUiThread(() -> {
+                            initRecyclerView();
+                        });
+
+                        //TODO 开始能上拉加载，下拉刷新了
+                        //FIXME 有些界面下拉加载后再刷新数据就不显示了
+//                        projectAdapter.notifyItemRangeInserted(data.size(),payload_articleBeanList.size());
+//                        manager.scrollToPositionWithOffset(position-3, 200);
+                    }
+                }
+            }
+//TODO
+// ①如果没有网络的话要将page重新置1
+// ②其次，要判断获取文章response为null时，是否是网络没了还是根本就是数据已经全部显示了（errorCode==0)也许能判断
+// ③还要把banner的刷新加入刷新和加载
+            @Override
+            public void onFailure(@NonNull Call<ProjectBean> call, Throwable t) {
+                Snackbar.make(refreshLayout,"error:网络问题!",Snackbar.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     * @methodName loadMoreData
+     * @description 获取更多数据
+     * @param pageGet 获取的数据所在的页数
+     */
+
+    public void loadMoreData(int pageGet){
+        loadMoreData.clear();
+        Call<ProjectBean> projectBeanCall=HttpUtils.getProjectService().getProjectList(pageGet,id);
+        projectBeanCall.enqueue(new Callback<ProjectBean>() {
+            @Override
+            public void onResponse(@NonNull Call<ProjectBean> call, @NonNull Response<ProjectBean> response) {
+                if(response.isSuccessful()){
+                    ProjectBean projectBean=response.body();
+                    if(projectBean!=null&&projectBean.getData()!=null){
+                        loadMoreData.addAll(projectBean.getData().getDatas());
+                        if(loadMoreData.isEmpty()){
+                            isLoadAll=1;
+                        }
+                        data.addAll(projectBean.getData().getDatas());
+                        projectAdapter.notifyItemRangeInserted(data.size(),loadMoreData.size());
+                        manager.scrollToPositionWithOffset(data.size(), 200);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ProjectBean> call, Throwable t) {
+                Snackbar.make(refreshLayout,"error:获取数据失败!",Snackbar.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+
+    }
+    private void initRecyclerView(){
+        manager = new LinearLayoutManager(getActivity());
+        manager.setOrientation(RecyclerView.VERTICAL);
+        projectAdapter.setContext(requireContext());
+        projectRecyclerView.setLayoutManager(manager);
+        projectRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
+        projectRecyclerView.setAdapter(projectAdapter);
+        projectAdapter.notifyDataSetChanged();
+    }
+    /**
+     * 初始化refreshLayout,添加加载和刷新监听
+     */
+    private void initRefreshLayout() {
+        refreshLayout.setRefreshHeader(new BezierRadarHeader(requireActivity()).setEnableHorizontalDrag(true));
+        //设置 Footer 为 球脉冲 样式
+        refreshLayout.setRefreshFooter(new BallPulseFooter(requireActivity()).setSpinnerStyle(SpinnerStyle.Scale));
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshlayout) {
+                refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
+                page=1;
+                initData();
+                projectAdapter.notifyDataSetChanged();
+            }
+        });
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshlayout) {
+                refreshlayout.finishLoadMore(2000/*,false*/);//传入false表示加载失败
+                page++;
+                loadMoreData(page);
+                refreshlayout.finishLoadMore(800);
+                refreshlayout.finishLoadMore();
+                if(isLoadAll==1){
+                    Snackbar.make(refreshLayout,"没有更多数据了",Snackbar.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+}

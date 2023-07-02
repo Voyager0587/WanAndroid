@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/login_background_1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="510dp"
+        android:background="@drawable/round_right_left_100"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <EditText
+            android:id="@+id/account"
+            android:layout_width="346dp"
+            android:layout_height="51dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="100dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/input_round_13"
+            android:textColor="@color/black"
+            android:hint="@string/aacount"
+            android:inputType="textEmailAddress"
+            android:paddingLeft="35dp" />
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="346dp"
+            android:layout_height="51dp"
+            android:layout_below="@id/account"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/input_round_13"
+            android:textColor="@color/black"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:paddingLeft="35dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/login"
+            android:layout_width="343dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/password"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/input_round_13"
+            android:text="登录"
+            app:backgroundTint="@color/login_blue"
+            app:rippleColor="@color/login_blue_80" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/signup"
+            android:layout_width="343dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/password"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="90dp"
+            android:background="@drawable/input_round_13"
+            android:text="注册"
+            android:textColor="@color/black"
+            app:backgroundTint="@color/white"
+            app:rippleColor="@color/login_blue_80" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="115dp"
+        android:layout_height="73dp"
+        android:layout_marginBottom="15dp"
+        android:gravity="center"
+        android:layout_marginRight="-30dp"
+        android:text="登录"
+        android:textColor="@color/white"
+        android:textSize="44sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
+        app:layout_constraintEnd_toEndOf="@+id/imageView" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imageView"
+        android:layout_width="280dp"
+        android:layout_height="289dp"
+        android:layout_marginLeft="-30dp"
+        android:layout_marginBottom="-56dp"
+        android:src="@drawable/login_icon"
+        app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
