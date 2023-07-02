@@ -1,4 +1,4 @@
-package com.example.wanandroid.base;
+package com.example.wanandroid.base.home;
 
 import android.os.Bundle;
 

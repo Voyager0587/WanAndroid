@@ -1,6 +1,7 @@
 package com.example.wanandroid.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.wanandroid.R;
+import com.example.wanandroid.base.WebActivity;
 import com.example.wanandroid.bean.ProjectBean;
 
 import java.util.List;
@@ -65,7 +67,15 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
                 .load(datasBean.getEnvelopePic())
                 .thumbnail(0.1f)
                 .into(holder.imageView);
+        holder.itemView.setOnClickListener(v -> {
+            if(datasBean.getLink() != null) {
+                Intent intent = new Intent(context, WebActivity.class);
+                intent.putExtra("url",datasBean.getLink());
+                holder.itemView.getContext().startActivity(intent);
 
+            }
+
+        });
     }
 
     @Override

@@ -12,6 +12,7 @@
     <color name="login_blue_80">#CC2196F3</color>
     <color name="color_gray">#CC979B9D</color>
     <color name="color_gray_light">#C2BDBD</color>
+    <color name="color_gray_light_plus">#F2F2F2</color>
     <color name="home">#1194AA</color>
     <color name="square">#AE7E0F</color>
     <color name="notification">#AE7E0F</color>

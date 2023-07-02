@@ -1,21 +1,21 @@
-package com.example.wanandroid.base;
+package com.example.wanandroid.base.home;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.wanandroid.R;
+import com.example.wanandroid.base.SquareFragment;
+import com.example.wanandroid.base.home.HomeFragment;
 
 public class BlogActivity extends AppCompatActivity {
 

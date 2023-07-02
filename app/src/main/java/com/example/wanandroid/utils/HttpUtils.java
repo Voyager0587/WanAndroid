@@ -1,5 +1,6 @@
 package com.example.wanandroid.utils;
 
+import com.example.wanandroid.bean.HotkeyBean;
 import com.example.wanandroid.service.ProjectService;
 import com.example.wanandroid.service.UserService;
 import com.example.wanandroid.service.WanAndroidService;
@@ -30,7 +31,6 @@ public class HttpUtils {
         projectService=retrofit.create(ProjectService.class);
     }
 
-
     /**
      * 这段代码是一个单例模式的实现，用于获取HttpUtil类的唯一实例。如果实例已经存在，则直接返回该实例；否则创建一个新实例并返回。
      * 单例模式可以保证一个类在应用程序中只有一个实例，节约了系统资源，提高了系统性能。
@@ -53,8 +53,6 @@ public class HttpUtils {
         return projectService;
     }
 
-
-
     /**
      * 外部获取UserService的服务
      */
@@ -68,4 +66,5 @@ public class HttpUtils {
     public static WanAndroidService getwAndroidService() {
         return wanAndroidService;
     }
+
 }

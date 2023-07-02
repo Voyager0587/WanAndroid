@@ -16,6 +16,7 @@ import com.example.wanandroid.base.WebActivity;
 import com.example.wanandroid.bean.ArticleBean;
 
 import com.sackcentury.shinebuttonlib.ShineButton;
+import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
 
 import java.util.List;
 
@@ -28,7 +29,6 @@ import java.util.List;
 public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder> {
 
     private List<ArticleBean> articleBeanList;
-    private OnLoadMoreListener onLoadMoreListener;
     private Context mContext;
 
     public Context getmContext() {
@@ -43,15 +43,6 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         this.articleBeanList = articleBeanList;
     }
 
-
-
-    public interface OnLoadMoreListener {
-        void onLoadMore();
-    }
-
-    public void setOnLoadMoreListener(OnLoadMoreListener listener) {
-        this.onLoadMoreListener = listener;
-    }
     public static class ArticleViewHolder extends RecyclerView.ViewHolder{
             TextView author,top_text,title,time,chapterName;
             ShineButton like;
@@ -86,11 +77,6 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         holder.title.setText(articleBean.getTitle());
         holder.time.setText(articleBean.getDate());
         holder.chapterName.setText(articleBean.getChapterName());
-        if (position == getItemCount() - 1) {
-            if (onLoadMoreListener != null) {
-                onLoadMoreListener.onLoadMore();
-            }
-        }
         holder.like.setOnClickListener(v -> {
 
         });

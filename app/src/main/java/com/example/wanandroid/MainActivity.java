@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -13,11 +12,10 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.wanandroid.base.BlogActivity;
+import com.example.wanandroid.base.home.BlogActivity;
 import com.example.wanandroid.bean.MessageBean;
 import com.example.wanandroid.sharedPreference.SaveAcount;
 import com.example.wanandroid.utils.HttpUtils;
-import com.example.wanandroid.utils.LogUtil;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.HashMap;
