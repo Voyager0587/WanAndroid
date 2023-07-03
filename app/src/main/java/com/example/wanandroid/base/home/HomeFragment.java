@@ -1,5 +1,6 @@
 package com.example.wanandroid.base.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,10 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.example.wanandroid.R;
 import com.example.wanandroid.adapter.ArticleAdapter;
 import com.example.wanandroid.adapter.BannerAdapter;
+import com.example.wanandroid.base.search.SearchActivity;
 import com.example.wanandroid.bean.ArticleBean;
 import com.example.wanandroid.bean.BannerBean;
 import com.example.wanandroid.bean.HomeArticleBean;
@@ -50,6 +53,7 @@ public class HomeFragment extends Fragment {
     private int page;
     private Banner banner;
     private RefreshLayout refreshLayout;
+    private RelativeLayout top_layout;
     RecyclerView recyclerView;
     public HomeFragment() {
         // Required empty public constructor
@@ -68,7 +72,12 @@ public class HomeFragment extends Fragment {
         banner= view.findViewById(R.id.banner);
         recyclerView=view.findViewById(R.id.recyclerView_article);
         refreshLayout = view.findViewById(R.id.refresh_layout);
+        top_layout=view.findViewById(R.id.top_layout);
         //设置 Header 为 贝塞尔雷达 样式
+        top_layout.setOnClickListener(v -> {
+            Intent intent=new Intent(requireActivity(), SearchActivity.class);
+            requireActivity().startActivity(intent);
+        });
 
         initRefreshLayout();
         initData();

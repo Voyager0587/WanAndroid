@@ -9,11 +9,14 @@
     android:id="@+id/top_layout"
     android:layout_width="match_parent"
     android:layout_height="60dp">
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/search"
+            android:layout_centerVertical="true"
+            />
 
-    <SearchView
-        android:id="@+id/search"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+
 </RelativeLayout>
     <TextView
     android:layout_width="match_parent"

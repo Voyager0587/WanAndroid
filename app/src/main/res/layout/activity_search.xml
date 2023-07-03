@@ -7,10 +7,11 @@
     android:layout_height="match_parent"
     tools:context=".base.search.SearchActivity">
   <LinearLayout
+      android:id="@+id/search_fragment_container"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:layout_below="@id/search_input"
-    >
+      android:orientation="horizontal">
 
 
   </LinearLayout>
@@ -27,6 +28,7 @@
       android:layout_width="match_parent"
       android:textCursorDrawable="@color/login_blue"
       android:paddingLeft="6dp"
+      android:hint="请输入作者名称"
       android:layout_toRightOf="@id/imageView"
       android:layout_height="50dp"
       android:drawableLeft="@drawable/search"

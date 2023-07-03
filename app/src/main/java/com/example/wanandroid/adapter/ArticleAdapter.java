@@ -95,7 +95,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
 
     @Override
     public int getItemCount() {
-        //TODO 懒加载，我的想法是：由于文章的获取是按page获取的，因此可以下拉刷新一次就get一次数据（page++），然后add数据之后UI刷新
+
         return articleBeanList.size();
     }
     public void refreshData(){
