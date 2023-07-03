@@ -23,6 +23,13 @@ import java.util.zip.Inflater;
  **/
 public class HotkeyAdapter extends RecyclerView.Adapter<HotkeyAdapter.ViewHolder> {
     private  List<HotkeyBean.DataBean> hotkeyBeanList;
+    //监听器，便于在Fragment中操作item的监听事件
+    private OnListener mListener;
+
+
+    public void setmListener(OnListener mListener) {
+        this.mListener = mListener;
+    }
 
     public HotkeyAdapter(List<HotkeyBean.DataBean> hotkeyBeanList) {
         this.hotkeyBeanList=hotkeyBeanList;
@@ -33,11 +40,17 @@ public class HotkeyAdapter extends RecyclerView.Adapter<HotkeyAdapter.ViewHolder
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_hotkey,parent,false);
         ViewHolder holder=new ViewHolder(view);
+        holder.itemView.setOnClickListener(v -> {
+            if(mListener!=null){
+                mListener.onItemClick(v,holder.getAdapterPosition());
+            }
+        });
         return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.title.setText(hotkeyBeanList.get(position).getName());
 
     }
 
@@ -54,6 +67,12 @@ public class HotkeyAdapter extends RecyclerView.Adapter<HotkeyAdapter.ViewHolder
             title=itemView.findViewById(R.id.hotkey);
 
         }
+    }
+
+    public interface OnListener {
+        void onItemClick(View view, int position);
+        //TODO 实在不行就直接两个Activity了，而且还有那个特定的转场动画，控件联系转场
+        //试试Monica那个方法
     }
 
 

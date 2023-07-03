@@ -30,6 +30,7 @@ android {
 
 dependencies {
 
+    implementation 'com.google.android:flexbox:2.0.1'
 
     implementation 'com.github.Justson.AgentWeb:agentweb-core:v5.0.6-androidx' // (必选)
     implementation 'com.github.Justson.AgentWeb:agentweb-filechooser:v5.0.6-androidx' // (可选)

@@ -1,4 +1,4 @@
-package com.example.wanandroid.base;
+package com.example.wanandroid.base.sqaure;
 
 import android.os.Bundle;
 
@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import com.example.wanandroid.R;
 import com.example.wanandroid.adapter.ProjectAdapter;
 import com.example.wanandroid.bean.ProjectBean;
-import com.example.wanandroid.bean.ProjectCategoryBean;
 import com.example.wanandroid.utils.HttpUtils;
 import com.google.android.material.snackbar.Snackbar;
 import com.scwang.smart.refresh.footer.BallPulseFooter;
@@ -91,8 +90,8 @@ public class ProjectFragment extends Fragment {
                             initRecyclerView();
                         });
 
-                        //TODO 开始能上拉加载，下拉刷新了
-                        //FIXME 有些界面下拉加载后再刷新数据就不显示了
+                        //TODO 显示“已经没有数据可以来加载了呢”的逻辑
+
 //                        projectAdapter.notifyItemRangeInserted(data.size(),payload_articleBeanList.size());
 //                        manager.scrollToPositionWithOffset(position-3, 200);
                     }

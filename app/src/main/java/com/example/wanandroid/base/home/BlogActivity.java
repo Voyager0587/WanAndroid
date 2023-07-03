@@ -14,8 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.wanandroid.R;
-import com.example.wanandroid.base.SquareFragment;
-import com.example.wanandroid.base.home.HomeFragment;
+import com.example.wanandroid.base.sqaure.SquareFragment;
 
 public class BlogActivity extends AppCompatActivity {
 

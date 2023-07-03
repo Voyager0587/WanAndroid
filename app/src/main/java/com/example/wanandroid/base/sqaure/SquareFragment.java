@@ -1,4 +1,4 @@
-package com.example.wanandroid.base;
+package com.example.wanandroid.base.sqaure;
 
 import android.os.Bundle;
 
@@ -16,13 +16,7 @@ import com.example.wanandroid.adapter.ProjectCategoryAdapter;
 import com.example.wanandroid.bean.ProjectCategoryBean;
 import com.example.wanandroid.utils.HttpUtils;
 import com.google.android.material.tabs.TabLayout;
-import com.scwang.smart.refresh.footer.BallPulseFooter;
-import com.scwang.smart.refresh.header.BezierRadarHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
-import com.scwang.smart.refresh.layout.api.RefreshLayout;
-import com.scwang.smart.refresh.layout.constant.SpinnerStyle;
-import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
-import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
