@@ -25,6 +25,8 @@ import com.example.wanandroid.utils.HttpUtils;
 import com.google.android.material.snackbar.Snackbar;
 import com.scwang.smart.refresh.footer.BallPulseFooter;
 import com.scwang.smart.refresh.header.BezierRadarHeader;
+import com.scwang.smart.refresh.header.ClassicsHeader;
+import com.scwang.smart.refresh.header.TwoLevelHeader;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.constant.SpinnerStyle;
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
@@ -47,6 +49,9 @@ public class HomeFragment extends Fragment {
     private static final int BANNER = 1002;
     private List<BannerBean.DataBean> bannerData;
     private List<ArticleBean> articleBeanList=new ArrayList<>();
+    /**
+     * 上拉加载的文章
+     */
     private List<ArticleBean> payload_articleBeanList=new ArrayList<>();
     private ArticleAdapter articleAdapter;
     private LinearLayoutManager manager;
@@ -90,25 +95,20 @@ public class HomeFragment extends Fragment {
     private void initRefreshLayout() {
         refreshLayout.setRefreshHeader(new BezierRadarHeader(requireActivity()).setEnableHorizontalDrag(true));
         //设置 Footer 为 球脉冲 样式
+//        refreshLayout.setRefreshHeader(new Head(requireActivity()));
         refreshLayout.setRefreshFooter(new BallPulseFooter(requireActivity()).setSpinnerStyle(SpinnerStyle.Scale));
-        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(@NonNull RefreshLayout refreshlayout) {
-                refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
-                page=0;
-                initData();
-                articleAdapter.notifyDataSetChanged();
-            }
+        refreshLayout.setOnRefreshListener(refreshlayout -> {
+            refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
+            page=0;
+            initData();
+            articleAdapter.notifyDataSetChanged();
         });
-        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore(@NonNull RefreshLayout refreshlayout) {
-                refreshlayout.finishLoadMore(2000/*,false*/);//传入false表示加载失败
-                page++;
-                getHomeArticleBeanList(page);
-                refreshlayout.finishLoadMore();
+        refreshLayout.setOnLoadMoreListener(refreshlayout -> {
+            refreshlayout.finishLoadMore(2000/*,false*/);//传入false表示加载失败
+            page++;
+            getHomeArticleBeanList(page);
+            refreshlayout.finishLoadMore();
 
-            }
         });
     }
 

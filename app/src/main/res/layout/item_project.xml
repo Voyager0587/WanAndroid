@@ -29,7 +29,7 @@
         android:layout_alignParentEnd="true"
         android:textColor="@color/black" />
 
-    <TextView
+    <org.sufficientlysecure.htmltextview.HtmlTextView
         android:id="@+id/title"
         android:layout_width="248dp"
         android:layout_height="wrap_content"

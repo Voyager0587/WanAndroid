@@ -92,6 +92,7 @@ public class HotkeyFragment extends Fragment implements HotkeyAdapter.OnListener
         hotkey_recyclerView.setAdapter(hotkeyAdapter);
         hotkeyAdapter.setmListener(this);
         hotkeyAdapter.notifyDataSetChanged();
+
     }
 
     /**

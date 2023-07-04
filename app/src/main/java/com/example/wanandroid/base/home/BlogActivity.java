@@ -166,10 +166,5 @@ public class BlogActivity extends AppCompatActivity {
 
         });
     }
-    private void switchFragment(Fragment fragment){
-        getSupportFragmentManager().beginTransaction()
-                .setReorderingAllowed(true)
-                .replace(R.id.fragment_container,fragment,null)
-                .commit();
-    }
+
 }

@@ -20,6 +20,8 @@ import com.example.wanandroid.R;
 import com.example.wanandroid.base.WebActivity;
 import com.example.wanandroid.bean.ProjectBean;
 
+import org.sufficientlysecure.htmltextview.HtmlTextView;
+
 import java.util.List;
 
 
@@ -59,7 +61,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
         ProjectBean.DataBean.DatasBean datasBean=projectBean.get(position);
         Animation animation= AnimationUtils.loadAnimation(context,R.anim.item_anim);
         holder.itemView.setAnimation(animation);
-        holder.title.setText(datasBean.getTitle());
+        holder.title.setHtml(datasBean.getTitle());
         holder.chapterName.setText(datasBean.getChapterName());
         holder.time.setText(datasBean.getNiceDate());
         holder.author.setText(datasBean.getAuthor());
@@ -85,7 +87,8 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView chapterName,author,time,title;
+        private TextView chapterName,author,time;
+        HtmlTextView title;
         private ImageView imageView;
         private RelativeLayout relativeLayout;
         public ViewHolder(@NonNull View itemView) {

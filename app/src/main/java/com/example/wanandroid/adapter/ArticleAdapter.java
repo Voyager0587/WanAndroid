@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,9 @@ import com.example.wanandroid.bean.ArticleBean;
 
 import com.sackcentury.shinebuttonlib.ShineButton;
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
+
+import org.sufficientlysecure.htmltextview.ClickableTableSpan;
+import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import java.util.List;
 
@@ -43,15 +47,22 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         this.articleBeanList = articleBeanList;
     }
 
-    public static class ArticleViewHolder extends RecyclerView.ViewHolder{
-            TextView author,top_text,title,time,chapterName;
-            ShineButton like;
+    public ArticleAdapter( Context mContext,List<ArticleBean> articleBeanList) {
+        this.articleBeanList = articleBeanList;
+        this.mContext = mContext;
+    }
 
+    public static class ArticleViewHolder extends RecyclerView.ViewHolder{
+            TextView author,top_text,time,chapterName;
+            HtmlTextView title;
+            ShineButton like;
+         RelativeLayout layout_article;
         public ArticleViewHolder(@NonNull View itemView) {
             super(itemView);
             author = itemView.findViewById(R.id.author);
             top_text = itemView.findViewById(R.id.top_text);
             title = itemView.findViewById(R.id.title);
+            layout_article=itemView.findViewById(R.id.layout_article);
             time = itemView.findViewById(R.id.time);
             chapterName = itemView.findViewById(R.id.chapterName);
             like = itemView.findViewById(R.id.like);
@@ -74,12 +85,21 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         if(articleBean.getType()==1) {
             holder.top_text.setVisibility(View.VISIBLE);
         }
-        holder.title.setText(articleBean.getTitle());
+        holder.title.setHtml(articleBean.getTitle());
         holder.time.setText(articleBean.getDate());
         holder.chapterName.setText(articleBean.getChapterName());
         holder.like.setOnClickListener(v -> {
 
         });
+        holder.title.setOnClickListener(v -> {
+            if(articleBean.getUrl() != null) {
+                Intent intent = new Intent(mContext, WebActivity.class);
+                intent.putExtra("url",articleBean.getUrl());
+                holder.itemView.getContext().startActivity(intent);
+
+            }
+        });
+
         holder.itemView.setOnClickListener(v -> {
             if(articleBean.getUrl() != null) {
                 Intent intent = new Intent(mContext, WebActivity.class);
