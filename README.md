@@ -1,13 +1,9 @@
 # WanAndroid
 
-###发现界面
-采用Tab+ViewPager+Fragment实现项目分类展示
+html-textview：富文本显示标题
 
-//富文本显示标题
-implementation 'org.sufficientlysecure:html-textview:4.0'
+FlexboxMananger:灵活RecyclerView的布局Manager
 
-//灵活RecyclerView的布局Manager
-implementation 'com.google.android:flexbox:2.0.1'
 
 SmartRefreshLayout：智能的刷新和加载的UI
 
