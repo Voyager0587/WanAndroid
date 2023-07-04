@@ -7,8 +7,11 @@ import com.example.wanandroid.bean.TopArticleBean;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * @className: WanAndroidService
@@ -50,11 +53,12 @@ public interface WanAndroidService {
 
     /**
      * @param page 页数
-     * @param author 作者名称
+     * @param k 作者名称
      * @return HomeArticleBean
      */
-    @GET("article/list/{page}/json")
-    Call<HomeArticleBean> getHomeArticle(@Path("page") int page, @Field("author") String author);
+    @POST("article/query/{page}/json")
+    @FormUrlEncoded
+    Call<HomeArticleBean> getHomeArticle(@Path("page") int page, @Field("k") String k);
 
 
 
