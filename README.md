@@ -12,6 +12,8 @@ AgentWeb:显示网页
 
 Glide：显示图片
 
+shinebutton：漂亮的收藏按钮
+
 Banner：轮播图显示
 
 ViewPager：结合TabLayout和Fragment实现分类界面滑动切换
