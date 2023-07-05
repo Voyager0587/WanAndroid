@@ -71,8 +71,7 @@ public class HotkeyAdapter extends RecyclerView.Adapter<HotkeyAdapter.ViewHolder
 
     public interface OnListener {
         void onItemClick(View view, int position);
-        //TODO 实在不行就直接两个Activity了，而且还有那个特定的转场动画，控件联系转场
-        //试试Monica那个方法
+
     }
 
 

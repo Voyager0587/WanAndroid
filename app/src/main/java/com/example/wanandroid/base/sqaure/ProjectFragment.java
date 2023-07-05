@@ -90,17 +90,21 @@ public class ProjectFragment extends Fragment {
                             initRecyclerView();
                         });
 
-                        //TODO 显示“已经没有数据可以来加载了呢”的逻辑
+                        //TODO 显示“已经没有数据可以来加载了呢”的逻辑★★
+                        //TODO 暂时先弄网络那个吧★★★★
+                        // ①如果没有网络的话要将page重新置1
+                        // ②其次，要判断获取文章response为null时，是否是网络没了还是根本就是数据已经全部显示了（errorCode==0)也许能判断
+                        // ③还要把banner的刷新加入刷新和加载
+
+
+                        //TODO 考虑二级分类界面，今天不管怎么着二级分类都要有个思路★★★★★
+
 
 //                        projectAdapter.notifyItemRangeInserted(data.size(),payload_articleBeanList.size());
 //                        manager.scrollToPositionWithOffset(position-3, 200);
                     }
                 }
             }
-//TODO
-// ①如果没有网络的话要将page重新置1
-// ②其次，要判断获取文章response为null时，是否是网络没了还是根本就是数据已经全部显示了（errorCode==0)也许能判断
-// ③还要把banner的刷新加入刷新和加载
             @Override
             public void onFailure(@NonNull Call<ProjectBean> call, Throwable t) {
                 Snackbar.make(refreshLayout,"error:网络问题!",Snackbar.LENGTH_SHORT).show();
