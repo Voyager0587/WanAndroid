@@ -1,6 +1,7 @@
 package com.example.wanandroid.service;
 
 import com.example.wanandroid.bean.BannerBean;
+import com.example.wanandroid.bean.ChapterBean;
 import com.example.wanandroid.bean.HomeArticleBean;
 import com.example.wanandroid.bean.HotkeyBean;
 import com.example.wanandroid.bean.TopArticleBean;
@@ -52,15 +53,30 @@ public interface WanAndroidService {
     Call<HotkeyBean> getHotkeyData();
 
     /**
+     * 搜索文章
      * @param page 页数
-     * @param k 作者名称
+     * @param k 关键词
      * @return HomeArticleBean
      */
     @POST("article/query/{page}/json")
     @FormUrlEncoded
     Call<HomeArticleBean> getHomeArticle(@Path("page") int page, @Field("k") String k);
 
+    /**
+     * 获取体系数据，一二级标题
+     * @return ChapterBean
+     */
+    @GET("/tree/json")
+    Call<ChapterBean> getChapterData();
 
+    /**
+     * 通过chapter_id获取文章
+     * @param page 文章页数
+     * @param cid 二级标题的id
+     * @return HomeArticleBean
+     */
+    @GET("article/list/{page}/json")
+    Call<HomeArticleBean> getArticleById(@Path("page") int page,@Query("cid") String cid);
 
 
 

@@ -48,11 +48,11 @@ public class HomeFragment extends Fragment {
     private static final int ARTICLE = 1001;
     private static final int BANNER = 1002;
     private List<BannerBean.DataBean> bannerData;
-    private List<ArticleBean> articleBeanList=new ArrayList<>();
+    private List<ArticleBean> articleBeanList = new ArrayList<>();
     /**
      * 上拉加载的文章
      */
-    private List<ArticleBean> payload_articleBeanList=new ArrayList<>();
+    private List<ArticleBean> payload_articleBeanList = new ArrayList<>();
     private ArticleAdapter articleAdapter;
     private LinearLayoutManager manager;
     private int page;
@@ -60,6 +60,7 @@ public class HomeFragment extends Fragment {
     private RefreshLayout refreshLayout;
     private RelativeLayout top_layout;
     RecyclerView recyclerView;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -70,17 +71,18 @@ public class HomeFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_home, container, false);
-        banner= view.findViewById(R.id.banner);
-        recyclerView=view.findViewById(R.id.recyclerView_article);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        banner = view.findViewById(R.id.banner);
+        recyclerView = view.findViewById(R.id.recyclerView_article);
         refreshLayout = view.findViewById(R.id.refresh_layout);
-        top_layout=view.findViewById(R.id.top_layout);
+        top_layout = view.findViewById(R.id.top_layout);
         //设置 Header 为 贝塞尔雷达 样式
         top_layout.setOnClickListener(v -> {
-            Intent intent=new Intent(requireActivity(), SearchActivity.class);
+            Intent intent = new Intent(requireActivity(), SearchActivity.class);
             requireActivity().startActivity(intent);
         });
 
@@ -99,7 +101,7 @@ public class HomeFragment extends Fragment {
         refreshLayout.setRefreshFooter(new BallPulseFooter(requireActivity()).setSpinnerStyle(SpinnerStyle.Scale));
         refreshLayout.setOnRefreshListener(refreshlayout -> {
             refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
-            page=0;
+            page = 0;
             initData();
             articleAdapter.notifyDataSetChanged();
         });
@@ -114,6 +116,7 @@ public class HomeFragment extends Fragment {
 
     /**
      * 初始化View
+     *
      * @param choice 想要初始化的View
      */
     private void initView(int choice) {
@@ -150,7 +153,7 @@ public class HomeFragment extends Fragment {
                         .setBannerRound(10f) //圆角
                         .setIndicator(new RectangleIndicator(getActivity())) //线条指示器
                         .setIndicatorHeight(18)//设置indicator的高度
-                        .setIndicatorWidth(18,18) //选中下宽度是否一致
+                        .setIndicatorWidth(18, 18) //选中下宽度是否一致
                         .setIndicatorGravity(IndicatorConfig.Direction.CENTER);
             }
         });
@@ -161,13 +164,13 @@ public class HomeFragment extends Fragment {
      */
     private void initData() {
 
-        Call<BannerBean> bannerBeanCall= HttpUtils.getwAndroidService().getBannerData();
+        Call<BannerBean> bannerBeanCall = HttpUtils.getwAndroidService().getBannerData();
         bannerBeanCall.enqueue(new Callback<BannerBean>() {
             @Override
             public void onResponse(@NonNull Call<BannerBean> call, @NonNull Response<BannerBean> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     assert response.body() != null;
-                    bannerData=response.body().getData();
+                    bannerData = response.body().getData();
                     initView(BANNER);
 
                 }
@@ -175,23 +178,23 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFailure(@NonNull Call<BannerBean> call, @NonNull Throwable t) {
-                Snackbar.make(banner,"！！！！",Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(banner, "！！！！", Snackbar.LENGTH_SHORT).show();
             }
         });
 
         articleBeanList.clear();
-        Call<TopArticleBean> topArticleBeanCall=HttpUtils.getwAndroidService().getTopArticleData();
+        Call<TopArticleBean> topArticleBeanCall = HttpUtils.getwAndroidService().getTopArticleData();
         topArticleBeanCall.enqueue(new Callback<TopArticleBean>() {
             @Override
             public void onResponse(@NonNull Call<TopArticleBean> call, @NonNull Response<TopArticleBean> response) {
-                if(response.isSuccessful()){
-                    assert response.body()!= null;
-                    TopArticleBean topArticleBean=response.body();
-                    if(topArticleBean.getData() != null){
-                        List<TopArticleBean.DataBean> data=topArticleBean.getData();
-                        if(data!=null&&data.size()>0){
+                if (response.isSuccessful()) {
+                    assert response.body() != null;
+                    TopArticleBean topArticleBean = response.body();
+                    if (topArticleBean.getData() != null) {
+                        List<TopArticleBean.DataBean> data = topArticleBean.getData();
+                        if (data != null && data.size() > 0) {
                             for (int i = 0; i < data.size(); i++) {
-                                ArticleBean articleBean=new ArticleBean();
+                                ArticleBean articleBean = new ArticleBean();
                                 articleBean.setTitle(data.get(i).getTitle());
                                 articleBean.setAuthor(data.get(i).getAuthor());
                                 articleBean.setChapterName(data.get(i).getChapterName());
@@ -209,24 +212,25 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFailure(@NonNull Call<TopArticleBean> call, @NonNull Throwable t) {
-                Snackbar.make(banner,"获取置顶文章失败！",Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(banner, "获取置顶文章失败！", Snackbar.LENGTH_SHORT).show();
             }
         });
-        page=0;
-            getHomeArticleBeanList(page);
+        page = 0;
+        getHomeArticleBeanList(page);
     }
 
     /**
+     * @param pageGet 要获取的文章所在page
      * @methodName getHomeArticleBeanList
      * 获取主页文章
-     * @param pageGet 要获取的文章所在page
      */
-    private void getHomeArticleBeanList(int pageGet){
-        int position=articleBeanList.size();
-        if(pageGet!=0) {
+    private void getHomeArticleBeanList(int pageGet) {
+        int position = articleBeanList.size();
+        if (pageGet != 0) {
             payload_articleBeanList.clear();
         }
-        Call<HomeArticleBean> homeArticleBeanCall=HttpUtils.getwAndroidService().getHomeArticle(pageGet);
+        //TODO 有些可以传入page_size(1~40)，但page_size可能!=page,page的范围是0~40★
+        Call<HomeArticleBean> homeArticleBeanCall = HttpUtils.getwAndroidService().getHomeArticle(pageGet);
         homeArticleBeanCall.enqueue(new Callback<HomeArticleBean>() {
             @Override
             public void onResponse(@NonNull Call<HomeArticleBean> call, @NonNull Response<HomeArticleBean> response) {
@@ -249,18 +253,19 @@ public class HomeFragment extends Fragment {
                                 initView(ARTICLE);
                             });
                         }
-                        if(page!=0) {
-//                            articleAdapter.notifyItemInserted(payload_articleBeanList.size());
-                            articleAdapter.notifyItemRangeInserted(articleBeanList.size(),payload_articleBeanList.size());
-                            manager.scrollToPositionWithOffset(position-3, 200);
+                        if (page != 0) {
+//                          articleAdapter.notifyItemInserted(payload_articleBeanList.size());
+                            articleAdapter.notifyItemRangeInserted(articleBeanList.size(), payload_articleBeanList.size());
+                            manager.scrollToPositionWithOffset(position - 3, 200);
 
                         }
                     }
                 }
             }
+
             @Override
             public void onFailure(@NonNull Call<HomeArticleBean> call, @NonNull Throwable t) {
-                Snackbar.make(banner,"获取主页文章失败！",Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(banner, "获取主页文章失败！", Snackbar.LENGTH_SHORT).show();
             }
         });
 
@@ -268,9 +273,9 @@ public class HomeFragment extends Fragment {
 
     /**
      * @methodName initRecyclerView
-     *  初始化RecyclerView
+     * 初始化RecyclerView
      */
-    private void initRecyclerView(){
+    private void initRecyclerView() {
 
         manager = new LinearLayoutManager(getActivity());
         manager.setOrientation(RecyclerView.VERTICAL);
@@ -287,11 +292,13 @@ public class HomeFragment extends Fragment {
         super.onDestroyView();
         banner.destroy();
     }
+
     @Override
     public void onStart() {
         super.onStart();
         banner.start();
     }
+
     @Override
     public void onStop() {
         super.onStop();

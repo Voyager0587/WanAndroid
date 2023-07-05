@@ -56,11 +56,9 @@ public class HotkeyFragment extends Fragment implements HotkeyAdapter.OnListener
         View view=inflater.inflate(R.layout.fragment_hotkey, container, false);
         hotkey_recyclerView= view.findViewById(R.id.hotkey_recyclerView);
         refresh_layout=view.findViewById(R.id.refresh_layout);
-        //FIXME 热词的显示有问题，建议直接改成垂直列表或者你再修改？
+        //FIXME 热词的显示有问题，建议直接改成垂直列表或者你再修改？★★
         getHotkeyData();
         initListener();
-
-
         return view;
     }
 

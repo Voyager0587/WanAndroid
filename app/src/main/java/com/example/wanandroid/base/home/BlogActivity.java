@@ -16,6 +16,14 @@ import android.widget.TextView;
 import com.example.wanandroid.R;
 import com.example.wanandroid.base.sqaure.SquareFragment;
 
+/**
+ * @className BlogActivity
+ * @description 
+ * @author Voyager 
+ * @CreateTime   
+ */
+
+
 public class BlogActivity extends AppCompatActivity {
 
     Fragment homeFragment;
@@ -44,17 +52,17 @@ public class BlogActivity extends AppCompatActivity {
         iniView();
     }
 
-    private void iniView(){
+    private void iniView() {
         fragmentContainerView = (FragmentContainerView) findViewById(R.id.fragment_container);
         homeLayout = (LinearLayout) findViewById(R.id.homeLayout);
-        squareLayout=findViewById(R.id.squareLayout);
-        personLayout=findViewById(R.id.personLayout);
-        homeImageView=findViewById(R.id.homeImageView);
-        personImageView=findViewById(R.id.personImageView);
-        squareImageView=findViewById(R.id.squareImageView);
-        homeTextView=findViewById(R.id.homeTextView);
-        personTextView=findViewById(R.id.personTextView);
-        squareTextView=findViewById(R.id.squareTextView);
+        squareLayout = findViewById(R.id.squareLayout);
+        personLayout = findViewById(R.id.personLayout);
+        homeImageView = findViewById(R.id.homeImageView);
+        personImageView = findViewById(R.id.personImageView);
+        squareImageView = findViewById(R.id.squareImageView);
+        homeTextView = findViewById(R.id.homeTextView);
+        personTextView = findViewById(R.id.personTextView);
+        squareTextView = findViewById(R.id.squareTextView);
 
         homeLayout.setOnClickListener(v -> {
             //检查是否被选中
@@ -153,11 +161,11 @@ public class BlogActivity extends AppCompatActivity {
                 squareLayout.setBackgroundResource(R.drawable.square_round_100);
 
                 //添加动画
-                ScaleAnimation scaleAnimation=new ScaleAnimation(0.8f,1.0f,1f,1f,Animation.RELATIVE_TO_SELF,1.0f,Animation.RELATIVE_TO_SELF,0.0f);
+                ScaleAnimation scaleAnimation = new ScaleAnimation(0.8f, 1.0f, 1f, 1f, Animation.RELATIVE_TO_SELF, 1.0f, Animation.RELATIVE_TO_SELF, 0.0f);
                 scaleAnimation.setDuration(200);
                 scaleAnimation.setFillAfter(true);
                 squareLayout.startAnimation(scaleAnimation);
-                selectedTab=2;
+                selectedTab = 2;
             }
 
 

@@ -27,14 +27,17 @@ public class SearchActivity extends AppCompatActivity {
     EditText search_input;
     ImageView imageView;
     Button confirm_button;
+
     /**
      * EditView中的文本
      */
     String input;
+
     /**
      * 计数来判断是否在EditView中文本为空，在搜索过后清楚文本为空时展示热刺界面
      */
     private static int count=0;
+
     /**
      * 文章页数
      */
@@ -80,8 +83,8 @@ public class SearchActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 input=s.toString();
                 if(input.isEmpty()&&count!=0){
-                    //TODO 这边都要改成Hide和show的方法
-                    //TODO Banner的点击事件还没加
+                    //TODO 这边都要改成Hide和show的方法★★★
+                    //TODO Banner的点击事件还没加★★
                     getSupportFragmentManager()
                                 .beginTransaction()
                                 .setReorderingAllowed(true)
