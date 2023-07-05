@@ -17,6 +17,7 @@ import com.example.wanandroid.adapter.SuperChapterAdapter;
 import com.example.wanandroid.bean.ArticleBean;
 import com.example.wanandroid.bean.ChapterBean;
 import com.example.wanandroid.bean.HomeArticleBean;
+import com.example.wanandroid.bean.TopArticleBean;
 import com.example.wanandroid.utils.HttpUtils;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -41,11 +42,14 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
     //上拉加载的文章
     private List<ArticleBean> payload_articleBeanList=new ArrayList<>();
 
+    //TODO 你既然记录了二级的，那一级的不是也会变吗？
     /**
      * @param page 当前分类下文章的页数
      * @param currentPosition 记录当前选择的二级分类
+     * @param currentId 记录上一次点击的二级分类id
+     * @param superPosition 记录一级标题
      */
-    int page=0,currentPosition;
+    int page=0,currentPosition,currentId,superPosition;
     public HomeTestFragment() {
         // Required empty public constructor
     }
@@ -58,6 +62,7 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
         superChapter_recyclerview = view.findViewById(R.id.superChapter_recyclerview);
         chapter_recyclerview = view.findViewById(R.id.chapter_recyclerview);
         article_recyclerview=view.findViewById(R.id.recyclerView_article);
+        getDefaultArticle();
         initChapter();
         getSuperChapterName();
         return view;
@@ -68,8 +73,12 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
      */
     private void initChapter() {
         ChapterBean.DataBean dataBean=new ChapterBean.DataBean("全部文章");
-        dataBean.getChildren().add(new ChapterBean.DataBean.ChildrenBean("默认"));
+        List<ChapterBean.DataBean.ChildrenBean> childrenBeanList=new ArrayList<>();
+        childrenBeanList.add(new ChapterBean.DataBean.ChildrenBean("默认"));
+        childrenBeanList.get(0).setId(-100);
+        dataBean.setChildren(childrenBeanList);
         data.add(dataBean);
+
     }
 
     /**
@@ -83,7 +92,7 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
                 if (response.isSuccessful()) {
                     ChapterBean chapterBean = response.body();
                     assert chapterBean != null;
-                    data = chapterBean.getData();
+                    data.addAll(chapterBean.getData());
                     requireActivity().runOnUiThread(()->{
                         initSuperRecyclerView();
                     });
@@ -104,11 +113,14 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
      */
     private void initSuperRecyclerView() {
         superChapterAdapter =new SuperChapterAdapter(data);
+        superChapterAdapter.setOnItemClickListener(this);
         LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
         layoutManager.setOrientation(RecyclerView.HORIZONTAL);
-        chapter_recyclerview.setLayoutManager(layoutManager);
-        chapter_recyclerview.setAdapter(superChapterAdapter);
+        superChapter_recyclerview.setLayoutManager(layoutManager);
+        superChapter_recyclerview.setAdapter(superChapterAdapter);
         superChapterAdapter.notifyDataSetChanged();
+        initChapterRecyclerView(0);
+
     }
 
     /**
@@ -116,10 +128,12 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
      */
     private void initChapterRecyclerView(int position) {
         secondAdapter=new ChapterAdapter(data.get(position).getChildren());
+        secondAdapter.setOnItemClickListener(this);
         LinearLayoutManager manager=new LinearLayoutManager(getContext());
         manager.setOrientation(RecyclerView.HORIZONTAL);
         chapter_recyclerview.setLayoutManager(manager);
         chapter_recyclerview.setAdapter(secondAdapter);
+
         secondAdapter.notifyDataSetChanged();
     }
 
@@ -146,6 +160,10 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
             //getHomeArticle();
             return;
         }
+        if(id!=String.valueOf(currentId)){
+            articleBeanList.clear();
+        }
+        currentId= Integer.parseInt(id);
         Call<HomeArticleBean> call=HttpUtils.getwAndroidService().getArticleById(page,id);
         call.enqueue(new Callback<HomeArticleBean>() {
             @Override
@@ -184,8 +202,108 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
 
     }
 
+    /**
+     * 加载文章
+     * @param page 加载的文章所在页数
+     * @param id 分类id
+     */
+    private void loadArticle(int page,int id){
+
+    }
 
 
+    /**
+     * 获取默认文章
+     */
+    private void getDefaultArticle(){
+        articleBeanList.clear();
+        Call<TopArticleBean> topArticleBeanCall = HttpUtils.getwAndroidService().getTopArticleData();
+        topArticleBeanCall.enqueue(new Callback<TopArticleBean>() {
+            @Override
+            public void onResponse(@NonNull Call<TopArticleBean> call, @NonNull Response<TopArticleBean> response) {
+                if (response.isSuccessful()) {
+                    assert response.body() != null;
+                    TopArticleBean topArticleBean = response.body();
+                    if (topArticleBean.getData() != null) {
+                        List<TopArticleBean.DataBean> data = topArticleBean.getData();
+                        if (data != null && data.size() > 0) {
+                            for (int i = 0; i < data.size(); i++) {
+                                ArticleBean articleBean = new ArticleBean();
+                                articleBean.setTitle(data.get(i).getTitle());
+                                articleBean.setAuthor(data.get(i).getAuthor());
+                                articleBean.setChapterName(data.get(i).getChapterName());
+                                articleBean.setShareUser(data.get(i).getShareUser());
+                                articleBean.setType(1);
+                                articleBean.setUrl(data.get(i).getLink());
+                                articleBean.setDate(data.get(i).getNiceDate());
+                                articleBeanList.add(articleBean);
+                            }
+                        }
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<TopArticleBean> call, @NonNull Throwable t) {
+                Snackbar.make(article_recyclerview, "获取置顶文章失败！", Snackbar.LENGTH_SHORT).show();
+            }
+        });
+        page = 0;
+        getHomeArticleBeanList(page);
+    }
+
+    /**
+     * @param pageGet 要获取的文章所在page
+     * @methodName getHomeArticleBeanList
+     * 获取主页文章
+     */
+    private void getHomeArticleBeanList(int pageGet) {
+        int position = articleBeanList.size();
+        if (pageGet != 0) {
+            payload_articleBeanList.clear();
+        }
+        //TODO 有些可以传入page_size(1~40)，但page_size可能!=page,page的范围是0~40★
+        Call<HomeArticleBean> homeArticleBeanCall = HttpUtils.getwAndroidService().getHomeArticle(pageGet);
+        homeArticleBeanCall.enqueue(new Callback<HomeArticleBean>() {
+            @Override
+            public void onResponse(@NonNull Call<HomeArticleBean> call, @NonNull Response<HomeArticleBean> response) {
+                if (response.isSuccessful()) {
+                    assert response.body() != null;
+                    List<HomeArticleBean.DataBean.DatasBean> homeArticleBeanList = response.body().getData().getDatas();
+                    if (homeArticleBeanList.size() > 0) {
+                        for (int i = 0; i < homeArticleBeanList.size(); i++) {
+                            ArticleBean articleBean = new ArticleBean();
+                            articleBean.setTitle(homeArticleBeanList.get(i).getTitle());
+                            articleBean.setAuthor(homeArticleBeanList.get(i).getAuthor());
+                            articleBean.setChapterName(homeArticleBeanList.get(i).getChapterName());
+                            articleBean.setShareUser(homeArticleBeanList.get(i).getShareUser());
+                            articleBean.setType(0);
+                            articleBean.setUrl(homeArticleBeanList.get(i).getLink());
+                            articleBean.setDate(homeArticleBeanList.get(i).getNiceDate());
+                            articleBeanList.add(articleBean);
+                            payload_articleBeanList.add(articleBean);
+                            requireActivity().runOnUiThread(() -> {
+                                initRecyclerView();
+                            });
+                        }
+                        if (page != 0) {
+//                          articleAdapter.notifyItemInserted(payload_articleBeanList.size());
+                            articleAdapter.notifyItemRangeInserted(articleBeanList.size(), payload_articleBeanList.size());
+                            manager.scrollToPositionWithOffset(position - 3, 200);
+
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<HomeArticleBean> call, @NonNull Throwable t) {
+                Snackbar.make(article_recyclerview, "获取主页文章失败！", Snackbar.LENGTH_SHORT).show();
+            }
+        });
+
+    }
 
     /**
      * 二级标题的点击事件
@@ -197,7 +315,19 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
         if(this.currentPosition!=position){
             page=0;
         }
-        getArticleById(page, String.valueOf(childrenBeanList.get(position).getId()));
+        if(position==0&&superPosition==0){
+            childrenBeanList=data.get(0).getChildren();
+            getDefaultArticle();
+        }
+        if(childrenBeanList.get(position).getId()!=-100){
+            requireActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    getArticleById(page, String.valueOf(childrenBeanList.get(position).getId()));
+                }
+            });
+        }
+
 
     }
 
@@ -208,10 +338,17 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
      */
     @Override
     public void onSuperItemClick(View view, int position) {
+
+        childrenBeanList=data.get(position).getChildren();
+        superPosition=position;
         requireActivity().runOnUiThread(()->{
             initChapterRecyclerView(position);
         });
-        childrenBeanList=data.get(position).getChildren();
+
 
     }
+
+
+    //另一个就是点击一级标题不会自动加载文章，而是进一步点击第二级才会切换文章
+
 }

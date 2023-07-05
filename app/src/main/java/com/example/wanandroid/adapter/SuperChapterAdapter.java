@@ -23,6 +23,10 @@ public class SuperChapterAdapter extends RecyclerView.Adapter<SuperChapterAdapte
     List<ChapterBean.DataBean> data;
     private OnSuperItemClickListener onItemClickListener;
 
+    public void setOnItemClickListener(OnSuperItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
     public SuperChapterAdapter(List<ChapterBean.DataBean> data) {
         this.data = data;
     }
