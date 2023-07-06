@@ -16,14 +16,15 @@
     <color name="color_gray_light">#C2BDBD</color>
     <color name="color_gray_light_plus">#FAF6F6</color>
     <color name="home">#1194AA</color>
-    <color name="square">#AE7E0F</color>
+    <color name="square">#FFBF00</color>
     <color name="notification">#AE7E0F</color>
     <color name="person">#5B37B7</color>
     <color name="red">#F14F4F</color>
 
     <color name="home_20">#331194AA</color>
-    <color name="square_20">#33AE7E0F</color>
+    <color name="square_20">#33FFBF00</color>
     <color name="notification_20">#33AE7E0F</color>
     <color name="person_20">#335B37B7</color>
+    <color name="person_30">#4D5B37B7</color>
     <color name="red_back">#EBACAC</color>
 </resources>

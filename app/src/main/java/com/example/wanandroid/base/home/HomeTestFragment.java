@@ -1,9 +1,11 @@
 package com.example.wanandroid.base.home;
 
+import  android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -12,14 +14,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.wanandroid.R;
 import com.example.wanandroid.adapter.ArticleAdapter;
+import com.example.wanandroid.adapter.BannerAdapter;
 import com.example.wanandroid.adapter.ChapterAdapter;
 import com.example.wanandroid.adapter.SuperChapterAdapter;
+import com.example.wanandroid.base.search.SearchActivity;
 import com.example.wanandroid.bean.ArticleBean;
+import com.example.wanandroid.bean.BannerBean;
 import com.example.wanandroid.bean.ChapterBean;
 import com.example.wanandroid.bean.HomeArticleBean;
 import com.example.wanandroid.bean.TopArticleBean;
 import com.example.wanandroid.utils.HttpUtils;
 import com.google.android.material.snackbar.Snackbar;
+import com.scwang.smart.refresh.footer.BallPulseFooter;
+import com.scwang.smart.refresh.header.BezierRadarHeader;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.constant.SpinnerStyle;
+import com.youth.banner.Banner;
+import com.youth.banner.config.IndicatorConfig;
+import com.youth.banner.indicator.RectangleIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +41,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
+/**
+ * @author liukai
+ */
 public class HomeTestFragment extends Fragment implements SuperChapterAdapter.OnSuperItemClickListener, ChapterAdapter.OnItemClickListener {
 
     SuperChapterAdapter superChapterAdapter;
@@ -39,8 +54,15 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
     List<ChapterBean.DataBean> data = new ArrayList<>();
     List<ChapterBean.DataBean.ChildrenBean> childrenBeanList= new ArrayList<>();
     private List<ArticleBean> articleBeanList=new ArrayList<>();
+    private List<BannerBean.DataBean> bannerData;
     //上拉加载的文章
     private List<ArticleBean> payload_articleBeanList=new ArrayList<>();
+    private Banner banner;
+    private RefreshLayout refreshLayout;
+    private RelativeLayout top_layout;
+    private int chapterId=-100;
+
+
 
     //TODO 你既然记录了二级的，那一级的不是也会变吗？
     /**
@@ -52,7 +74,7 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
      */
     int page=0,currentPosition,currentId,superPosition,temSecondaryPosition=0;
     public HomeTestFragment() {
-        // Required empty public constructor
+
     }
 
 
@@ -63,9 +85,18 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
         superChapter_recyclerview = view.findViewById(R.id.superChapter_recyclerview);
         chapter_recyclerview = view.findViewById(R.id.chapter_recyclerview);
         article_recyclerview=view.findViewById(R.id.recyclerView_article);
+        banner = view.findViewById(R.id.banner);
+        refreshLayout = view.findViewById(R.id.refresh_layout);
+        top_layout = view.findViewById(R.id.top_layout);
+        top_layout.setOnClickListener(v -> {
+            Intent intent = new Intent(requireActivity(), SearchActivity.class);
+            requireActivity().startActivity(intent);
+        });
+        initBannerData();
         getDefaultArticle();
         initChapter();
         getSuperChapterName();
+        initRefreshLayout();
         return view;
     }
 
@@ -82,6 +113,33 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
 
     }
 
+    /**
+     * 初始化refreshLayout,添加加载和刷新监听
+     */
+    private void initRefreshLayout() {
+        refreshLayout.setRefreshHeader(new BezierRadarHeader(requireActivity()).setEnableHorizontalDrag(true));
+        //设置 Footer 为 球脉冲 样式
+//        refreshLayout.setRefreshHeader(new Head(requireActivity()));
+        refreshLayout.setRefreshFooter(new BallPulseFooter(requireActivity()).setSpinnerStyle(SpinnerStyle.Scale));
+        refreshLayout.setOnRefreshListener(refreshlayout -> {
+            refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
+            page = 0;
+            initRecyclerView();
+            articleAdapter.notifyDataSetChanged();
+        });
+
+        refreshLayout.setOnLoadMoreListener(refreshlayout -> {
+            refreshlayout.finishLoadMore(2000/*,false*/);//传入false表示加载失败
+            page++;
+            if(chapterId==-100){
+                getHomeArticleBeanList(page);
+            }else {
+                getArticleById(page,String.valueOf(chapterId));
+            }
+            refreshlayout.finishLoadMore();
+
+        });
+    }
     /**
      * 获取标题
      */
@@ -156,18 +214,21 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
 
 
     private void getArticleById(int page,String id) {
+        int position=articleBeanList.size();
         if(id ==null){
             //getHomeArticle();
             return;
         }
-        if(id!=String.valueOf(currentId)){
+
+        if(Integer.parseInt(id)!=currentId){
             articleBeanList.clear();
         }
+
         currentId= Integer.parseInt(id);
         Call<HomeArticleBean> call=HttpUtils.getwAndroidService().getArticleById(page,id);
         call.enqueue(new Callback<HomeArticleBean>() {
             @Override
-            public void onResponse(Call<HomeArticleBean> call, Response<HomeArticleBean> response) {
+            public void onResponse(@NonNull Call<HomeArticleBean> call, @NonNull Response<HomeArticleBean> response) {
                 if(response.isSuccessful()){
                     HomeArticleBean homeArticleBean= response.body();
                     if(homeArticleBean!=null){
@@ -185,9 +246,15 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
                                 articleBean.setDate(homeArticleBeanList.get(i).getNiceDate());
                                 articleBeanList.add(articleBean);
                                 payload_articleBeanList.add(articleBean);
-                                requireActivity().runOnUiThread(() -> {
+                                    requireActivity().runOnUiThread(() -> {
                                 initRecyclerView();
                                 });
+                            }
+                            if (page != 0) {
+
+                                articleAdapter.notifyItemRangeInserted(articleBeanList.size(), payload_articleBeanList.size());
+                                manager.scrollToPositionWithOffset(position - 3, 0);
+
                             }
                         }
                     }
@@ -195,7 +262,7 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
             }
 
             @Override
-            public void onFailure(Call<HomeArticleBean> call, Throwable t) {
+            public void onFailure(@NonNull Call<HomeArticleBean> call, @NonNull Throwable t) {
                 Snackbar.make(article_recyclerview,"获取文章失败",Snackbar.LENGTH_SHORT).show();
             }
         });
@@ -288,9 +355,9 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
                             });
                         }
                         if (page != 0) {
-
+                            //TODO 接下来修改二级分类UI
                             articleAdapter.notifyItemRangeInserted(articleBeanList.size(), payload_articleBeanList.size());
-                            manager.scrollToPositionWithOffset(position - 3, 200);
+                            manager.scrollToPositionWithOffset(position - 3,-30);
 
                         }
                     }
@@ -313,22 +380,25 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
     @Override
     public void onItemClick(View view, int position) {
         secondAdapter.setSecondPosition(position);
-        if(this.currentPosition!=position){
-            page=0;
-        }
         if(position==0&&superPosition==0){
             childrenBeanList=data.get(0).getChildren();
             getDefaultArticle();
         }
+        if(chapterId!=childrenBeanList.get(position).getId()){
+            articleBeanList.clear();
+            page=0;
+        }
+        chapterId=childrenBeanList.get(position).getId();
         if(childrenBeanList.get(position).getId()!=-100){
             requireActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    getArticleById(page, String.valueOf(childrenBeanList.get(position).getId()));
+                    getArticleById(page, String.valueOf(chapterId));
                 }
             });
         }
         String judge=""+superPosition;
+        currentPosition=position;
         secondAdapter.setSuperJudge(judge);
         temSecondaryPosition=Integer.parseInt(ChapterAdapter.getSecondJudge());
         secondAdapter.setSecondJudge(""+position);
@@ -354,4 +424,61 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
         });
 
     }
+
+    private void initBannerData() {
+        Call<BannerBean> bannerBeanCall = HttpUtils.getwAndroidService().getBannerData();
+        bannerBeanCall.enqueue(new Callback<BannerBean>() {
+            @Override
+            public void onResponse(@NonNull Call<BannerBean> call, @NonNull Response<BannerBean> response) {
+                if (response.isSuccessful()) {
+                    assert response.body() != null;
+                    bannerData = response.body().getData();
+                    initBannerView();
+
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<BannerBean> call, @NonNull Throwable t) {
+                Snackbar.make(banner, "！！！！", Snackbar.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     * @description 初始化Banner视图
+     */
+    private void initBannerView() {
+        requireActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                banner.setAdapter(new BannerAdapter(bannerData)).addBannerLifecycleObserver(getActivity())
+                        .setBannerRound(10f) //圆角
+                        .setIndicator(new RectangleIndicator(getActivity())) //线条指示器
+                        .setIndicatorHeight(18)//设置indicator的高度
+                        .setIndicatorWidth(18, 18) //选中下宽度是否一致
+                        .setIndicatorGravity(IndicatorConfig.Direction.CENTER);
+            }
+        });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        banner.destroy();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        banner.start();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        banner.stop();
+    }
+
+
 }
