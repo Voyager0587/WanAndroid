@@ -71,8 +71,8 @@ public class SuperChapterAdapter extends RecyclerView.Adapter<SuperChapterAdapte
         public ChapterViewHolder(@NonNull View itemView) {
             super(itemView);
             textView=itemView.findViewById(R.id.chapterName);
-            bgWhite=R.drawable.round_20;
-            bgBlue=R.drawable.person_round_100;
+            bgWhite=R.drawable.item_chapter;
+            bgBlue=R.drawable.home_round_100;
         }
     }
 

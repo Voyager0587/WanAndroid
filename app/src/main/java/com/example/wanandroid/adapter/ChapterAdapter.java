@@ -1,6 +1,5 @@
 package com.example.wanandroid.adapter;
 
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -123,8 +122,8 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
             super(itemView);
             textView=itemView.findViewById(R.id.chapterName);
             chapter_layout=itemView.findViewById(R.id.recyclerView_search);
-            bgWhite=R.drawable.round_20;
-            bgBlue=R.drawable.person_round_100;
+            bgWhite=R.drawable.item_chapter;
+            bgBlue=R.drawable.home_round_100;
         }
     }
 

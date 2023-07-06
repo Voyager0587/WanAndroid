@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,6 +17,7 @@ import com.example.wanandroid.R;
 import com.example.wanandroid.base.WebActivity;
 import com.example.wanandroid.bean.ArticleBean;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.sackcentury.shinebuttonlib.ShineButton;
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
 
@@ -88,8 +90,9 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         holder.title.setHtml(articleBean.getTitle());
         holder.time.setText(articleBean.getDate());
         holder.chapterName.setText(articleBean.getChapterName());
+        //TODO 点赞那个先别弄了，实在不行就把收藏写在AgentWebView里面，就在X旁边或者菜单里面★★★
         holder.like.setOnClickListener(v -> {
-
+            Toast.makeText(mContext, "点��成功", Toast.LENGTH_SHORT).show();
         });
         holder.title.setOnClickListener(v -> {
             if(articleBean.getUrl() != null) {

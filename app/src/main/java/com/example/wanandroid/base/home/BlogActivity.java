@@ -44,10 +44,10 @@ public class BlogActivity extends AppCompatActivity {
         setContentView(R.layout.activity_blog);
         fragmentManager = getSupportFragmentManager();
 
-        homeFragment = new HomeFragment();
+        homeFragment = new HomeTestFragment();
         fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
-                .add(R.id.fragment_container, new HomeTestFragment(), "HomeFragment")
+                .add(R.id.fragment_container, homeFragment, "HomeFragment")
                 .commit();
         iniView();
     }
@@ -78,7 +78,7 @@ public class BlogActivity extends AppCompatActivity {
 
                 homeFragment = fragmentManager.findFragmentByTag("HomeFragment");
                 if (homeFragment == null) {
-                    homeFragment = new HomeFragment();
+                    homeFragment = new HomeTestFragment();
                     fragmentManager.beginTransaction()
                             .setReorderingAllowed(true)
                             .add(R.id.fragment_container, homeFragment, "HomeFragment")
