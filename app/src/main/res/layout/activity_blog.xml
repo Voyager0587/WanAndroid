@@ -83,7 +83,7 @@
                 android:text="发现"
                 android:layout_marginStart="10dp"
                 android:textStyle="bold"
-                android:textColor="@color/home"
+                android:textColor="@color/square"
                 android:textSize="16sp"
                 />
         </LinearLayout>

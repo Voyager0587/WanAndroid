@@ -1,5 +1,6 @@
 package com.example.wanandroid.adapter;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,7 @@ import java.util.List;
 public class SuperChapterAdapter extends RecyclerView.Adapter<SuperChapterAdapter.ChapterViewHolder> {
     List<ChapterBean.DataBean> data;
     private OnSuperItemClickListener onItemClickListener;
-
+    private int selectedPosition = 0;
     public void setOnItemClickListener(OnSuperItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
@@ -42,8 +43,16 @@ public class SuperChapterAdapter extends RecyclerView.Adapter<SuperChapterAdapte
     @Override
     public void onBindViewHolder(@NonNull ChapterViewHolder holder, int position) {
         holder.textView.setText(data.get(position).getName());
+        if(selectedPosition== holder.getAdapterPosition()){
+            holder.itemView.setBackgroundResource(holder.bgBlue);
+        }else {
+            holder.itemView.setBackgroundResource(holder.bgWhite);
+        }
+//        holder.itemView.setBackgroundColor(selectedPosition == holder.getAdapterPosition() ? holder.bgBlue : holder.bgWhite);
         holder.textView.setOnClickListener(v -> {
+            selectedPosition=holder.getAdapterPosition();
             onItemClickListener.onSuperItemClick(v, holder.getAdapterPosition());
+
         });
 
         //想一想要不要设计两个Adapter
@@ -57,10 +66,13 @@ public class SuperChapterAdapter extends RecyclerView.Adapter<SuperChapterAdapte
     }
 
     public static class ChapterViewHolder extends RecyclerView.ViewHolder{
+        int bgBlue, bgWhite;
         TextView textView;
         public ChapterViewHolder(@NonNull View itemView) {
             super(itemView);
             textView=itemView.findViewById(R.id.chapterName);
+            bgWhite=R.drawable.round_20;
+            bgBlue=R.drawable.person_round_100;
         }
     }
 

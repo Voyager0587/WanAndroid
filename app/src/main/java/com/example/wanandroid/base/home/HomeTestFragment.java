@@ -48,8 +48,9 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
      * @param currentPosition 记录当前选择的二级分类
      * @param currentId 记录上一次点击的二级分类id
      * @param superPosition 记录一级标题
+     * @param temSecondaryPosition 记录上一次点击的二级分类，以便于调用notifyItemChanged(position)进行更新
      */
-    int page=0,currentPosition,currentId,superPosition;
+    int page=0,currentPosition,currentId,superPosition,temSecondaryPosition=0;
     public HomeTestFragment() {
         // Required empty public constructor
     }
@@ -133,7 +134,6 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
         manager.setOrientation(RecyclerView.HORIZONTAL);
         chapter_recyclerview.setLayoutManager(manager);
         chapter_recyclerview.setAdapter(secondAdapter);
-
         secondAdapter.notifyDataSetChanged();
     }
 
@@ -288,7 +288,7 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
                             });
                         }
                         if (page != 0) {
-//                          articleAdapter.notifyItemInserted(payload_articleBeanList.size());
+
                             articleAdapter.notifyItemRangeInserted(articleBeanList.size(), payload_articleBeanList.size());
                             manager.scrollToPositionWithOffset(position - 3, 200);
 
@@ -312,6 +312,7 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
      */
     @Override
     public void onItemClick(View view, int position) {
+        secondAdapter.setSecondPosition(position);
         if(this.currentPosition!=position){
             page=0;
         }
@@ -327,7 +328,12 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
                 }
             });
         }
-
+        String judge=""+superPosition;
+        secondAdapter.setSuperJudge(judge);
+        temSecondaryPosition=Integer.parseInt(ChapterAdapter.getSecondJudge());
+        secondAdapter.setSecondJudge(""+position);
+        secondAdapter.notifyItemChanged(position);
+        secondAdapter.notifyItemChanged(temSecondaryPosition);
 
     }
 
@@ -341,14 +347,11 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
 
         childrenBeanList=data.get(position).getChildren();
         superPosition=position;
+        secondAdapter.setSuperPosition(position);
+        superChapterAdapter.notifyDataSetChanged();
         requireActivity().runOnUiThread(()->{
             initChapterRecyclerView(position);
         });
 
-
     }
-
-
-    //另一个就是点击一级标题不会自动加载文章，而是进一步点击第二级才会切换文章
-
 }
