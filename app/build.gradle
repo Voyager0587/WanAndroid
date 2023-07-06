@@ -30,6 +30,8 @@ android {
 
 dependencies {
 
+
+    implementation 'org.litepal.guolindev:core:3.2.3'
     //富文本显示标题
     implementation 'org.sufficientlysecure:html-textview:4.0'
     //灵活RecyclerView的布局Manager

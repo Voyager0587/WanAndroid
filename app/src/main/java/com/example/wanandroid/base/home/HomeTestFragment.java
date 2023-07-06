@@ -43,6 +43,7 @@ import retrofit2.Response;
 
 /**
  * @author liukai
+ * @description 主页界面的Fragment
  */
 public class HomeTestFragment extends Fragment implements SuperChapterAdapter.OnSuperItemClickListener, ChapterAdapter.OnItemClickListener {
 

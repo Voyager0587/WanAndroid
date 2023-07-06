@@ -23,7 +23,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:layout_toLeftOf="@+id/like"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="40dp"
         android:text="2023-06-07 21:01"
         android:textColor="@color/black" />
     <org.sufficientlysecure.htmltextview.HtmlTextView
@@ -36,27 +37,27 @@
         android:text="Android 14 之返回界面升级：预览目标界面 + 全新返回箭头fasfsfswffsffsa"
         android:textColor="@color/black" />
 
-<com.sackcentury.shinebuttonlib.ShineButton
-    android:id="@+id/like"
-    android:layout_width="30dp"
-    android:layout_height="30dp"
-    android:layout_marginEnd="10dp"
-    android:layout_marginBottom="10dp"
-    android:src="@android:color/darker_gray"
-    android:layout_alignParentBottom="true"
-    android:layout_alignParentEnd="true"
-    app:btn_fill_color="@android:color/holo_orange_dark"
-    app:allow_random_color="true"
-    app:enable_flashing="false"
-    app:big_shine_color="#FF6666"
-    app:click_animation_duration="200"
-    app:shine_animation_duration="1500"
-    app:shine_turn_angle="10"
-    app:small_shine_offset_angle="20"
-    app:small_shine_color="#CC9999"
-    app:shine_count="8"
-    app:siShape="@raw/heart"
-    />
+<!--<com.sackcentury.shinebuttonlib.ShineButton-->
+<!--    android:id="@+id/like"-->
+<!--    android:layout_width="30dp"-->
+<!--    android:layout_height="30dp"-->
+<!--    android:layout_marginEnd="10dp"-->
+<!--    android:layout_marginBottom="10dp"-->
+<!--    android:src="@android:color/darker_gray"-->
+<!--    android:layout_alignParentBottom="true"-->
+<!--    android:layout_alignParentEnd="true"-->
+<!--    app:btn_fill_color="@android:color/holo_orange_dark"-->
+<!--    app:allow_random_color="true"-->
+<!--    app:enable_flashing="false"-->
+<!--    app:big_shine_color="#FF6666"-->
+<!--    app:click_animation_duration="200"-->
+<!--    app:shine_animation_duration="1500"-->
+<!--    app:shine_turn_angle="10"-->
+<!--    app:small_shine_offset_angle="20"-->
+<!--    app:small_shine_color="#CC9999"-->
+<!--    app:shine_count="8"-->
+<!--    app:siShape="@raw/heart"-->
+<!--    />-->
     <TextView
         android:id="@+id/top_text"
         android:layout_alignParentEnd="true"

@@ -4,6 +4,7 @@ import com.example.wanandroid.bean.BannerBean;
 import com.example.wanandroid.bean.ChapterBean;
 import com.example.wanandroid.bean.HomeArticleBean;
 import com.example.wanandroid.bean.HotkeyBean;
+import com.example.wanandroid.bean.MessageBean;
 import com.example.wanandroid.bean.TopArticleBean;
 
 import retrofit2.Call;
@@ -78,6 +79,51 @@ public interface WanAndroidService {
     @GET("article/list/{page}/json")
     Call<HomeArticleBean> getArticleById(@Path("page") int page,@Query("cid") String cid);
 
+
+    //TODO 注意所有收藏相关都需要登录操作，建议登录将返回的cookie（其中包含账号、密码）持久化到本地即可。★★★★★
+    /**
+     * 收藏站内文章
+     * @param id 文章id
+     * @return MessageBean
+     */
+    @POST("lg/collect/{id}/json")
+    @FormUrlEncoded
+    Call<MessageBean> collectInnerArticle(@Path("id") int id);
+
+    /**
+     * 收藏站外文章
+     * @param title 标题
+     * @param author 作者
+     * @param link 链接
+     * @return MessageBean
+     */
+    @POST("lg/collect/add/json")
+    Call<MessageBean> collectOutArticle(@Field("title") String title,@Field("author") String author,@Field("link") String link);
+
+    /**
+     * 从展示的文章的列表那里收藏文章，也许是不同列表（收藏和展示列表）的文章id不同
+     * @param id 文章id
+     * @return MessageBean
+     */
+    @POST("lg/uncollect_originId/{id}/json")
+    Call<MessageBean> uncollectArticleInList(@Path("id") int id);
+
+    /**
+     * 从个人收藏界面
+     * @param id 文章id
+     * @param originId  originId 代表的是你收藏之前的那篇文章本身的id； 但是收藏支持主动添加，这种情况下，没有originId则为-1
+     */
+    @POST("lg/uncollect/{id}}/json")
+    Call<MessageBean> uncollectArticleInPerson(@Path("id") int id,@Field("originId") int originId);
+
+
+    /**
+     * 获取收藏文章列表
+     * @param page 页数
+     * @return MessageBean
+     */
+    @GET("lg/collect/list/{page}/json")
+    Call<MessageBean> getCollectArticle(@Path("page") int page);
 
 
 

@@ -57,7 +57,6 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     public static class ArticleViewHolder extends RecyclerView.ViewHolder{
             TextView author,top_text,time,chapterName;
             HtmlTextView title;
-            ShineButton like;
          RelativeLayout layout_article;
         public ArticleViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -67,7 +66,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
             layout_article=itemView.findViewById(R.id.layout_article);
             time = itemView.findViewById(R.id.time);
             chapterName = itemView.findViewById(R.id.chapterName);
-            like = itemView.findViewById(R.id.like);
+
 
         }
     }
@@ -84,16 +83,17 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     public void onBindViewHolder(@NonNull ArticleViewHolder holder, int position) {
         ArticleBean articleBean = articleBeanList.get(position);
         holder.author.setText(articleBean.getAuthor());
+        int type = articleBean.getType();
         if(articleBean.getType()==1) {
             holder.top_text.setVisibility(View.VISIBLE);
+        }else {
+            holder.top_text.setVisibility(View.GONE);
         }
         holder.title.setHtml(articleBean.getTitle());
         holder.time.setText(articleBean.getDate());
         holder.chapterName.setText(articleBean.getChapterName());
-        //TODO 点赞那个先别弄了，实在不行就把收藏写在AgentWebView里面，就在X旁边或者菜单里面★★★
-        holder.like.setOnClickListener(v -> {
-            Toast.makeText(mContext, "点��成功", Toast.LENGTH_SHORT).show();
-        });
+
+
         holder.title.setOnClickListener(v -> {
             if(articleBean.getUrl() != null) {
                 Intent intent = new Intent(mContext, WebActivity.class);
@@ -102,7 +102,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
 
             }
         });
-
+        //TODO 点赞那个先别弄了，实在不行就把收藏写在AgentWebView里面，就在X旁边或者菜单里面★★★
         holder.itemView.setOnClickListener(v -> {
             if(articleBean.getUrl() != null) {
                 Intent intent = new Intent(mContext, WebActivity.class);

@@ -38,6 +38,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
+/**
+ * @author liukai
+ * @description 本Fragment已弃用
+ */
 public class HomeFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final int ARTICLE = 1001;
