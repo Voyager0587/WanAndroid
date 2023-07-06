@@ -69,6 +69,14 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
                 .load(datasBean.getEnvelopePic())
                 .thumbnail(0.1f)
                 .into(holder.imageView);
+        holder.title.setOnClickListener(v -> {
+            if(datasBean.getLink() != null) {
+                Intent intent = new Intent(context, WebActivity.class);
+                intent.putExtra("url",datasBean.getLink());
+                holder.itemView.getContext().startActivity(intent);
+
+            }
+        });
         holder.itemView.setOnClickListener(v -> {
             if(datasBean.getLink() != null) {
                 Intent intent = new Intent(context, WebActivity.class);

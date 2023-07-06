@@ -47,7 +47,7 @@ public class BlogActivity extends AppCompatActivity {
         homeFragment = new HomeFragment();
         fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
-                .add(R.id.fragment_container, homeFragment, "HomeFragment")
+                .add(R.id.fragment_container, new HomeTestFragment(), "HomeFragment")
                 .commit();
         iniView();
     }
