@@ -21,7 +21,6 @@ public class WebActivity extends AppCompatActivity {
         Intent intent=getIntent();
         String url=intent.getStringExtra("url");
         String baseUrl=url.substring(0,26);
-
         WebFragment webFragment= WebFragment.newInstance(url);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_web,webFragment).commit();
         cancel.setOnClickListener(v -> {
@@ -29,7 +28,7 @@ public class WebActivity extends AppCompatActivity {
         });
         like.setOnClickListener(v -> {
             if(BASE_URL.equals(baseUrl)){
-
+            //TODO cookie保存
             }else {
 
             }

@@ -14,13 +14,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.wanandroid.R;
+import com.example.wanandroid.base.person.PersonFragment;
 import com.example.wanandroid.base.sqaure.SquareFragment;
 
 /**
  * @className BlogActivity
- * @description 
+ * @description 通过container包含博客，发现和个人三个界面
  * @author Voyager 
- * @CreateTime   
  */
 
 
@@ -80,15 +80,31 @@ public class BlogActivity extends AppCompatActivity {
                 if (homeFragment == null) {
                     homeFragment = new HomeTestFragment();
                     fragmentManager.beginTransaction()
-                            .setReorderingAllowed(true)
-                            .add(R.id.fragment_container, homeFragment, "HomeFragment")
-                            .commit();
+                                .setReorderingAllowed(true)
+                                .add(R.id.fragment_container, homeFragment, "HomeFragment")
+                                .commit();
                 } else {
-                    fragmentManager.beginTransaction()
-                            .setReorderingAllowed(true)
-                            .hide(squareFragment)
-                            .show(homeFragment)
-                            .commit();
+                    if(personFragment!=null&&squareFragment==null){
+                        fragmentManager.beginTransaction()
+                                .setReorderingAllowed(true)
+                                .hide(personFragment)
+                                .show(homeFragment)
+                                .commit();
+                    }    else if(squareFragment!=null&&personFragment!=null){
+                        fragmentManager.beginTransaction()
+                                .setReorderingAllowed(true)
+                                .hide(squareFragment)
+                                .hide(personFragment)
+                                .show(homeFragment)
+                                .commit();
+                    }else {
+                        fragmentManager.beginTransaction()
+                                .setReorderingAllowed(true)
+                                .hide(squareFragment)
+                                .show(homeFragment)
+                                .commit();
+                    }
+
                 }
 //                Intent intent2=new Intent(BlogActivity.this,SquareActivity.class);
 //                startActivity(intent2);
@@ -126,17 +142,36 @@ public class BlogActivity extends AppCompatActivity {
                 squareFragment = fragmentManager.findFragmentByTag("SquareFragment");
                 if (squareFragment == null) {
                     squareFragment = new SquareFragment();
-                    fragmentManager.beginTransaction()
-                            .setReorderingAllowed(true)
-                            .hide(homeFragment)
-                            .add(R.id.fragment_container, squareFragment, "SquareFragment")
-                            .commit();
+                    if(personFragment!=null){
+                        fragmentManager.beginTransaction()
+                                .setReorderingAllowed(true)
+                                .hide(homeFragment)
+                                .hide(personFragment)
+                                .add(R.id.fragment_container, squareFragment, "SquareFragment")
+                                .commit();
+                    }else {
+                        fragmentManager.beginTransaction()
+                                .setReorderingAllowed(true)
+                                .hide(homeFragment)
+                                .add(R.id.fragment_container, squareFragment, "SquareFragment")
+                                .commit();
+                    }
                 } else {
-                    fragmentManager.beginTransaction()
-                            .setReorderingAllowed(true)
-                            .hide(homeFragment)
-                            .show(squareFragment)
-                            .commit();
+                    if(personFragment!=null){
+                        fragmentManager.beginTransaction()
+                                .setReorderingAllowed(true)
+                                .hide(homeFragment)
+                                .hide(personFragment)
+                                .show(squareFragment)
+                                .commit();
+                    }else {
+                        fragmentManager.beginTransaction()
+                                .setReorderingAllowed(true)
+                                .hide(homeFragment)
+                                .show(squareFragment)
+                                .commit();
+                    }
+
                 }
 //                getSupportFragmentManager().beginTransaction()
 //                        .setReorderingAllowed(true)
@@ -171,6 +206,74 @@ public class BlogActivity extends AppCompatActivity {
 
         });
         personLayout.setOnClickListener(v -> {
+            //检查是否被选中
+            if (selectedTab!=3){
+
+                //设置界面为LikeFragment
+
+                personFragment = fragmentManager.findFragmentByTag("personFragment");
+                if (personFragment == null) {
+                    personFragment = new PersonFragment();
+                    if(squareFragment!=null){
+                        fragmentManager.beginTransaction()
+                                .setReorderingAllowed(true)
+                                .hide(homeFragment)
+                                .hide(squareFragment)
+                                .add(R.id.fragment_container, personFragment, "personFragment")
+                                .commit();
+                    }else {
+                        fragmentManager.beginTransaction()
+                                .setReorderingAllowed(true)
+                                .hide(homeFragment)
+                                .add(R.id.fragment_container, personFragment, "personFragment")
+                                .commit();
+                    }
+
+                } else {
+                    if(squareFragment!=null){
+                        fragmentManager.beginTransaction()
+                                .setReorderingAllowed(true)
+                                .hide(homeFragment)
+                                .hide(squareFragment)
+                                .show(personFragment)
+                                .commit();
+                    }else {
+                        fragmentManager.beginTransaction()
+                                .setReorderingAllowed(true)
+                                .hide(homeFragment)
+                                .show(personFragment)
+                                .commit();
+                    }
+
+                }
+//                getSupportFragmentManager().beginTransaction()
+//                        .setReorderingAllowed(true)
+//                        .replace(R.id.fragment_container,SquareFragment.class,null)
+//                        .addToBackStack(null)
+//                        .commit();
+
+
+                //设置其他按钮为未选中状态
+                homeTextView.setVisibility(View.GONE);
+                squareTextView.setVisibility(View.GONE);
+
+                homeImageView.setImageResource(R.drawable.home);
+                squareImageView.setImageResource(R.drawable.square);
+
+                homeLayout.setBackgroundColor(getResources().getColor(R.color.white));
+                squareLayout.setBackgroundColor(getResources().getColor(R.color.white));
+
+                personTextView.setVisibility(View.VISIBLE);
+                personImageView.setImageResource(R.drawable.person_selected);
+                personLayout.setBackgroundResource(R.drawable.person_round_100);
+
+                //添加动画
+                ScaleAnimation scaleAnimation = new ScaleAnimation(0.8f, 1.0f, 1f, 1f, Animation.RELATIVE_TO_SELF, 1.0f, Animation.RELATIVE_TO_SELF, 0.0f);
+                scaleAnimation.setDuration(200);
+                scaleAnimation.setFillAfter(true);
+                personLayout.startAnimation(scaleAnimation);
+                selectedTab = 3;
+            }
 
         });
     }

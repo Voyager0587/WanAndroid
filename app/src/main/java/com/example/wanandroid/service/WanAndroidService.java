@@ -2,6 +2,7 @@ package com.example.wanandroid.service;
 
 import com.example.wanandroid.bean.BannerBean;
 import com.example.wanandroid.bean.ChapterBean;
+import com.example.wanandroid.bean.CollectArticleBean;
 import com.example.wanandroid.bean.HomeArticleBean;
 import com.example.wanandroid.bean.HotkeyBean;
 import com.example.wanandroid.bean.MessageBean;
@@ -11,6 +12,8 @@ import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -117,14 +120,18 @@ public interface WanAndroidService {
     Call<MessageBean> uncollectArticleInPerson(@Path("id") int id,@Field("originId") int originId);
 
 
-    /**
-     * 获取收藏文章列表
-     * @param page 页数
-     * @return MessageBean
-     */
-    @GET("lg/collect/list/{page}/json")
-    Call<MessageBean> getCollectArticle(@Path("page") int page);
 
+    /**
+     * 获取收藏文章
+     * @className WanAndroidService
+     * @author Voyager
+     * @param page 文章页数
+     * @param loginUserName 账号cookie
+     * @param loginUserPassword 密码cookie
+     */
+
+    @GET("lg/collect/list/{page}/json")
+    Call<CollectArticleBean> getCollectArticle(@Path("page") int page, @Header("Cookie") String loginUserName, @Header("Cookie") String loginUserPassword);
 
 
 }

@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EEEEEE"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+>
+
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        android:fitsSystemWindows="true"
+        app:layout_collapseMode="parallax"
+        app:layout_collapseParallaxMultiplier="1"
+        app:layout_constraintTop_toTopOf="parent">
+        <!--背景图-->
+        <ImageView
+            android:id="@+id/iv_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/person"
+            android:scaleType="centerCrop"
+            app:layout_collapseMode="pin"
+            app:layout_scrollFlags="scroll|snap" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="140dp"
+            android:background="#FFF" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_user"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            android:padding="1dp"
+            android:src="@drawable/img1"
+            app:shapeAppearanceOverlay="@style/circleImageStyle"
+            app:strokeColor="#FFF"
+            app:strokeWidth="2dp" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_sex_bg"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignEnd="@+id/iv_user"
+            android:layout_alignBottom="@+id/iv_user"
+            android:background="@color/person_20"
+            android:padding="1dp"
+            app:shapeAppearanceOverlay="@style/circleImageStyle"
+            app:strokeColor="#FFF"
+            app:strokeWidth="1dp" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignEnd="@+id/iv_user"
+            android:layout_alignBottom="@+id/iv_user"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:src="@drawable/camera" />
+
+
+        <TextView
+            android:id="@+id/tv_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_user"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="12dp"
+            android:text="Study"
+            android:textColor="#000"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tv_note"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_nickname"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:text="兴趣：Android、Java、Kotlin"
+            android:textColor="#000"
+            android:textSize="16sp" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/collectArticle"
+        android:layout_width="0dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/color_gray_light_plus"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout2">
+
+
+
+
+        <ImageView
+            android:id="@+id/arrow1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/arrow" />
+
+        <TextView
+            android:id="@+id/like_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/like_imageView"
+            android:layout_centerVertical="true"
+            android:text="收藏"
+            android:layout_marginStart="24dp"
+            android:textColor="@color/color_gray_dark"
+            android:textSize="25sp" />
+
+        <ImageView
+            android:id="@+id/like_imageView"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/like" />
+    </RelativeLayout>
+
+
+    <!--关于界面-->
+    <RelativeLayout
+        android:id="@+id/info_layout"
+        android:layout_width="0dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/color_gray_light_plus"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/collectArticle">
+
+
+
+
+        <ImageView
+            android:id="@+id/arrow2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/arrow" />
+
+        <TextView
+            android:id="@+id/share_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/share_imageView"
+            android:layout_centerVertical="true"
+            android:text="关于"
+            android:layout_marginStart="24dp"
+            android:textColor="@color/color_gray_dark"
+            android:textSize="25sp" />
+
+
+        <ImageView
+            android:id="@+id/share_imageView"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/more_info" />
+    </RelativeLayout>
+
+
+
+    <RelativeLayout
+        android:id="@+id/logout_layout"
+        android:layout_width="0dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/color_gray_light_plus"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/info_layout">
+
+
+
+
+        <ImageView
+            android:id="@+id/arrow3"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/arrow" />
+
+        <TextView
+            android:id="@+id/logout_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/logout_imageView"
+            android:layout_centerVertical="true"
+            android:text="注销"
+            android:layout_marginStart="24dp"
+            android:textColor="@color/color_gray_dark"
+            android:textSize="25sp" />
+
+
+        <ImageView
+            android:id="@+id/logout_imageView"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/logout_1" />
+    </RelativeLayout>
+
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

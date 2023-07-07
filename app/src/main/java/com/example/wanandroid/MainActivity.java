@@ -1,5 +1,6 @@
 package com.example.wanandroid;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -9,14 +10,19 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.wanandroid.base.home.BlogActivity;
 import com.example.wanandroid.bean.MessageBean;
+import com.example.wanandroid.bean.UserBean;
 import com.example.wanandroid.sharedPreference.SaveAcount;
 import com.example.wanandroid.utils.HttpUtils;
 import com.google.android.material.button.MaterialButton;
+
+import org.litepal.LitePal;
+import org.litepal.tablemanager.Connector;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,8 +32,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * @author liukai
+ * @className MainActivity
+ * @description 登录界面
+ * @author Voyager
+ * @createTime
  */
+
 public class MainActivity extends AppCompatActivity {
     MaterialButton login,signup;
     EditText password,account;
@@ -39,12 +49,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         map= SaveAcount.getAccountInfo(this);
-
+        Connector.getDatabase();
         context=getBaseContext();
         initView();
         initListener();
         HttpUtils.getInstance();
     }
+
+
     private void initListener(){
 
         login.setOnClickListener(v -> {accountStr=account.getText().toString().trim();
@@ -61,13 +73,16 @@ public class MainActivity extends AppCompatActivity {
             Call<MessageBean> call=HttpUtils.getUserService().login(accountStr,passwordStr);
             call.enqueue(new Callback<MessageBean>() {
                 @Override
-                public void onResponse(Call<MessageBean> call, Response<MessageBean> response) {
+                public void onResponse(@NonNull Call<MessageBean> call, @NonNull Response<MessageBean> response) {
                     assert response.body() != null;
                     if(response.isSuccessful()){
                     MessageBean message=response.body();
                         if(0==message.getErrorCode()){
                             Toast.makeText(context,"登录成功",Toast.LENGTH_SHORT).show();
                             SaveAcount.saveAccountInfo(MainActivity.this,accountStr,passwordStr);
+                            LitePal.deleteAll(UserBean.class,"id > ?","0");
+                            UserBean userBean=new UserBean(accountStr,passwordStr);
+                            userBean.save();
                             Intent intent=new Intent(MainActivity.this, BlogActivity.class);
                             startActivity(intent);
                             finish();
@@ -80,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<MessageBean> call, Throwable t) {
+                public void onFailure(@NonNull Call<MessageBean> call, @NonNull Throwable t) {
                     Log.e("MainActivity_login", "回调失败：" + t.getMessage() + "," + t.toString());
                 }
             });
@@ -123,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
     private void initView() {
         login=findViewById(R.id.login);
         signup=findViewById(R.id.signup);
