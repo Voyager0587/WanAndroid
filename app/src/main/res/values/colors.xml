@@ -12,7 +12,9 @@
 
     <color name="login_blue">#2196F3</color>
     <color name="login_blue_80">#CC2196F3</color>
+    <color name="blue_dark">#1494FA</color>
     <color name="color_gray">#CC979B9D</color>
+    <color name="color_gray_dark">#CC343434</color>
     <color name="color_gray_light">#C2BDBD</color>
     <color name="color_gray_light_plus">#FAF6F6</color>
     <color name="home">#1194AA</color>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal>
+    <dbname value="BookStore"/>
+
+    <version value="6"/>
+    <list>
+        <mapping class="com.example.wanandroid.bean.MessageBean"/>
+        <mapping class="com.example.wanandroid.bean.UserBean"/>
+
+    </list>
+</litepal>

@@ -18,9 +18,6 @@ public interface UserService {
 
     /**
      * 登录请求
-     * @methodName login
-     * @description 登录请求
-     * username相当于“键”
      *@param passwordStr 储存数据的数据对象
      * @param usernameStr  储存数据的数据对象
      * @return MessageBean
@@ -31,11 +28,9 @@ public interface UserService {
 
     /**
      * 注册请求
-     * @methodName register
-     * @description 注册
-     * @param usernameStr
-     * @param rePasswordString
-     * @param passwordStr
+     * @param usernameStr 用户名
+     * @param rePasswordString 第二次密码
+     * @param passwordStr 密码
      * @return MessageBean
      */
     @FormUrlEncoded
@@ -44,16 +39,11 @@ public interface UserService {
 
     /**
      * 退出登录
-     * @methodName logout
-     * @description:  退出登录
      * @return MessageBean
      */
-
     @FormUrlEncoded
     @GET("user/logout/json")
     Call<MessageBean> logout();
-
-
 
 
 }

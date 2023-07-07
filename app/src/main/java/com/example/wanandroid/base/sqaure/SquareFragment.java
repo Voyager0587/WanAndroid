@@ -27,8 +27,12 @@ import retrofit2.Response;
 
 
 /**
- * @author liukai
+ * @className SquareFragment
+ * @description 发现界面，显示界面
+ * @author Voyager
+ * @createTime
  */
+
 public class SquareFragment extends Fragment {
     ViewPager viewPager;
     TabLayout tabLayout;
