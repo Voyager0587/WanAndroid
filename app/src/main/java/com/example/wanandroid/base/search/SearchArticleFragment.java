@@ -103,6 +103,7 @@ public class SearchArticleFragment extends Fragment {
                         articleBean.setTitle(homeArticleBeanList.get(i).getTitle());
                         articleBean.setAuthor(homeArticleBeanList.get(i).getAuthor());
                         articleBean.setChapterName(homeArticleBeanList.get(i).getChapterName());
+                        articleBean.setId(homeArticleBeanList.get(i).getId());
                         articleBean.setShareUser(homeArticleBeanList.get(i).getShareUser());
                         articleBean.setType(0);
                         articleBean.setUrl(homeArticleBeanList.get(i).getLink());

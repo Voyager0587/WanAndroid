@@ -1,12 +1,15 @@
 package com.example.wanandroid.bean;
 
+import java.io.Serializable;
+
 /**
  * @className: ArticleBean
  * @author: Voyager
  * @description: 简化版文章数据类，便于RecyclerView的使用
  * @date: 2023/6/25
  **/
-public class ArticleBean {
+public class ArticleBean implements Serializable {
+    public static final String TAG = "articleBean";
     /**
      * 文章作者
      */
@@ -27,7 +30,8 @@ public class ArticleBean {
      * 文章发布时间
      */
     private String date;
-    /** 文章种类：置顶的文章--1.普通文章--0
+    /**
+     * 文章种类：置顶的文章--1.普通文章--0
      */
     private int type;
 
@@ -35,6 +39,11 @@ public class ArticleBean {
      * 文章章节名称
      */
     private String chapterName;
+
+    /**
+     * 文章id，可用来进行收藏相关的操作
+     */
+    private int id;
 
     public ArticleBean(String author, String shareUser, String title, String url, String date, int type, String chapterName) {
         this.author = author;
@@ -47,6 +56,14 @@ public class ArticleBean {
     }
 
     public ArticleBean() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getChapterName() {
@@ -70,10 +87,10 @@ public class ArticleBean {
     }
 
     public void setShareUser(String shareUser) {
-        if (shareUser!=null) {
+        if (shareUser != null) {
             this.shareUser = shareUser;
         } else {
-            this.shareUser="0";
+            this.shareUser = "0";
         }
 
     }

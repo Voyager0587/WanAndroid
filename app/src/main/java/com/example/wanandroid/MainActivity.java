@@ -1,8 +1,5 @@
 package com.example.wanandroid;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,18 +7,18 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.wanandroid.base.home.BlogActivity;
 import com.example.wanandroid.bean.MessageBean;
-import com.example.wanandroid.bean.UserBean;
 import com.example.wanandroid.sharedPreference.SaveAcount;
 import com.example.wanandroid.utils.HttpUtils;
 import com.google.android.material.button.MaterialButton;
 
-import org.litepal.LitePal;
 import org.litepal.tablemanager.Connector;
 
 import java.util.HashMap;
@@ -80,9 +77,6 @@ public class MainActivity extends AppCompatActivity {
                         if(0==message.getErrorCode()){
                             Toast.makeText(context,"登录成功",Toast.LENGTH_SHORT).show();
                             SaveAcount.saveAccountInfo(MainActivity.this,accountStr,passwordStr);
-                            LitePal.deleteAll(UserBean.class,"id > ?","0");
-                            UserBean userBean=new UserBean(accountStr,passwordStr);
-                            userBean.save();
                             Intent intent=new Intent(MainActivity.this, BlogActivity.class);
                             startActivity(intent);
                             finish();
