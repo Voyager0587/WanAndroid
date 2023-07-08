@@ -98,6 +98,9 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
             if(articleBean.getUrl() != null) {
                 Intent intent = new Intent(mContext, WebActivity.class);
                 intent.putExtra("url",articleBean.getUrl());
+                intent.putExtra("id",articleBean.getId());
+                intent.putExtra("title",articleBean.getTitle());
+                intent.putExtra("author",articleBean.getAuthor());
                 holder.itemView.getContext().startActivity(intent);
 
             }
@@ -106,6 +109,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         holder.itemView.setOnClickListener(v -> {
             if(articleBean.getUrl() != null) {
                 Intent intent = new Intent(mContext, WebActivity.class);
+                intent.putExtra("id",articleBean.getId());
                 intent.putExtra("url",articleBean.getUrl());
                 holder.itemView.getContext().startActivity(intent);
 

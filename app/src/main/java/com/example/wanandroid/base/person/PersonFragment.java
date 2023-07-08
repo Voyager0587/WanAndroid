@@ -10,7 +10,6 @@ import android.widget.RelativeLayout;
 import androidx.fragment.app.Fragment;
 
 import com.example.wanandroid.R;
-import com.example.wanandroid.base.CollectArticleActivity;
 import com.google.android.material.snackbar.Snackbar;
 
 

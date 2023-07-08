@@ -30,6 +30,11 @@ android {
 
 dependencies {
 
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.10.0"))
+
+    // define any required OkHttp artifacts without version
+    implementation("com.squareup.okhttp3:okhttp")
+    implementation("com.squareup.okhttp3:logging-interceptor")
 
     implementation 'org.litepal.guolindev:core:3.2.3'
     //富文本显示标题

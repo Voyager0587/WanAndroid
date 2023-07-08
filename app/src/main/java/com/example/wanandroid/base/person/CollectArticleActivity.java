@@ -1,26 +1,22 @@
-package com.example.wanandroid.base;
+package com.example.wanandroid.base.person;
+
+import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Bundle;
-
 import com.example.wanandroid.R;
 import com.example.wanandroid.adapter.ArticleAdapter;
 import com.example.wanandroid.bean.ArticleBean;
 import com.example.wanandroid.bean.CollectArticleBean;
-import com.example.wanandroid.bean.MessageBean;
-import com.example.wanandroid.bean.UserBean;
 import com.example.wanandroid.utils.HttpUtils;
 import com.google.android.material.snackbar.Snackbar;
 import com.scwang.smart.refresh.footer.BallPulseFooter;
 import com.scwang.smart.refresh.header.BezierRadarHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.scwang.smart.refresh.layout.constant.SpinnerStyle;
-
-import org.litepal.LitePal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +51,6 @@ public class CollectArticleActivity extends AppCompatActivity {
         initView();
         initRefreshLayout();
         getCollectArticle(0);
-        initRecyclerView();
 
     }
 
@@ -68,7 +63,6 @@ public class CollectArticleActivity extends AppCompatActivity {
             collectArticleList.clear();
             page = 0;
             getCollectArticle(0);
-            initRecyclerView();
             articleAdapter.notifyDataSetChanged();
         });
 
@@ -83,6 +77,7 @@ public class CollectArticleActivity extends AppCompatActivity {
 
     private void initView() {
         collectArticleRecyclerView=findViewById(R.id.collectArticleRecyclerView);
+
     }
 
 
@@ -92,8 +87,9 @@ public class CollectArticleActivity extends AppCompatActivity {
     private void initRecyclerView() {
         manager=new LinearLayoutManager(this);
         collectArticleRecyclerView.setLayoutManager(manager);
-        collectArticleRecyclerView.setAdapter(articleAdapter);
         articleAdapter=new ArticleAdapter(collectArticleList);
+        articleAdapter.setmContext(this);
+        collectArticleRecyclerView.setAdapter(articleAdapter);
         articleAdapter.notifyDataSetChanged();
 
     }
@@ -103,8 +99,8 @@ public class CollectArticleActivity extends AppCompatActivity {
      * @param page 文章页数
      */
     private void getCollectArticle(int page) {
-        UserBean userBean= LitePal.findFirst(UserBean.class);
-        Call<CollectArticleBean> getCollectArticleCall= HttpUtils.getwAndroidService().getCollectArticle(page, userBean.getUsername(), userBean.getPassword());
+
+        Call<CollectArticleBean> getCollectArticleCall= HttpUtils.getwAndroidService().getCollectArticle(page);
         getCollectArticleCall.enqueue(new Callback<CollectArticleBean>() {
             @Override
             public void onResponse(@NonNull Call<CollectArticleBean> call, @NonNull Response<CollectArticleBean> response) {
@@ -122,18 +118,20 @@ public class CollectArticleActivity extends AppCompatActivity {
                         articleBean.setUrl(datasBeanList.get(i).getLink());
                         articleBean.setChapterName(datasBeanList.get(i).getChapterName());
                         articleBean.setTitle(datasBeanList.get(i).getTitle());
+                        articleBean.setId(datasBeanList.get(i).getId());
                         collectArticleList.add(articleBean);
                         if(page!=0){
                             loadCollectArticleList.add(articleBean);
 
                         }
+                        runOnUiThread(() -> initRecyclerView());
                     }
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<CollectArticleBean> call, @NonNull Throwable t) {
-                Snackbar.make(collectArticleRecyclerView,"获取收藏文章失败"+t.toString(),Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(collectArticleRecyclerView,"获取收藏文章失败"+ t,Snackbar.LENGTH_SHORT).show();
             }
         });
     }

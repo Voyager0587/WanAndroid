@@ -242,6 +242,7 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
                                 articleBean.setAuthor(homeArticleBeanList.get(i).getAuthor());
                                 articleBean.setChapterName(homeArticleBeanList.get(i).getChapterName());
                                 articleBean.setShareUser(homeArticleBeanList.get(i).getShareUser());
+                                articleBean.setId(homeArticleBeanList.get(i).getId());
                                 articleBean.setType(0);
                                 articleBean.setUrl(homeArticleBeanList.get(i).getLink());
                                 articleBean.setDate(homeArticleBeanList.get(i).getNiceDate());
@@ -300,6 +301,7 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
                                 articleBean.setTitle(data.get(i).getTitle());
                                 articleBean.setAuthor(data.get(i).getAuthor());
                                 articleBean.setChapterName(data.get(i).getChapterName());
+                                articleBean.setId(data.get(i).getId());
                                 articleBean.setShareUser(data.get(i).getShareUser());
                                 articleBean.setType(1);
                                 articleBean.setUrl(data.get(i).getLink());
@@ -346,6 +348,7 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
                             articleBean.setAuthor(homeArticleBeanList.get(i).getAuthor());
                             articleBean.setChapterName(homeArticleBeanList.get(i).getChapterName());
                             articleBean.setShareUser(homeArticleBeanList.get(i).getShareUser());
+                            articleBean.setId(homeArticleBeanList.get(i).getId());
                             articleBean.setType(0);
                             articleBean.setUrl(homeArticleBeanList.get(i).getLink());
                             articleBean.setDate(homeArticleBeanList.get(i).getNiceDate());

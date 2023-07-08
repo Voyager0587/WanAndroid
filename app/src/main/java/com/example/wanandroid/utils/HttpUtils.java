@@ -1,17 +1,26 @@
 package com.example.wanandroid.utils;
 
-import com.example.wanandroid.bean.HotkeyBean;
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import com.example.wanandroid.service.ProjectService;
 import com.example.wanandroid.service.UserService;
 import com.example.wanandroid.service.WanAndroidService;
 
+import java.io.IOException;
+import java.util.HashSet;
+
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * @className: HttpUtils
  * @author: Voyager
- * @description:
+ * @description: 工具类，全局获取Service
  * @date: 2023/6/25
  **/
 public class HttpUtils {
@@ -22,11 +31,19 @@ public class HttpUtils {
     private static Retrofit retrofit;
     private static HttpUtils httpUtils;
     private HttpUtils(){
+        //OkHttpClient.Builder添加两个拦截器
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(new ReceivedCookiesInterceptor())
+                .addInterceptor(new AddCookiesInterceptor())
+                .build();
+
         retrofit=new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
                 .build();
         userService=retrofit.create(UserService.class);
+
         wanAndroidService =retrofit.create(WanAndroidService.class);
         projectService=retrofit.create(ProjectService.class);
     }
@@ -66,5 +83,66 @@ public class HttpUtils {
     public static WanAndroidService getwAndroidService() {
         return wanAndroidService;
     }
+
+
+
+    /**
+     * @className ReceivedCookiesInterceptor
+     * @description 接收拦截器，获取Cookie
+     * @date 2023/7/8 12:23
+     */
+    public static class ReceivedCookiesInterceptor implements Interceptor {
+
+        public ReceivedCookiesInterceptor() {
+            super();
+        }
+
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+            Response originalResponse = chain.proceed(chain.request());
+            //这里获取请求返回的cookie
+            if (!originalResponse.headers("Set-Cookie").isEmpty()) {
+
+                HashSet<String> cookies = new HashSet<>();
+                for(String header: originalResponse.headers("Set-Cookie"))
+                {
+                    LogUtil.i("拦截的cookie", "拦截的cookie是："+header);
+                    cookies.add(header);
+                }
+                //保存的sharepreference文件名为cookieData
+                SharedPreferences sharedPreferences = App.getInstance().getSharedPreferences("cookieData", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putStringSet("cookie", cookies);
+
+                editor.commit();
+            }
+
+            return originalResponse;
+        }
+    }
+
+    /**
+     * @className AddCookiesInterceptor
+     * @description 发送拦截器，添加Cookie到请求头
+     * @author Voyager 
+     * @date 2023/7/8 12:23
+     */
+    public static class AddCookiesInterceptor implements Interceptor {
+
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+
+            Request.Builder builder = chain.request().newBuilder();
+            HashSet<String> perferences = (HashSet) App.getInstance().getSharedPreferences("cookieData", Context.MODE_PRIVATE).getStringSet("cookie", null);
+            if (perferences != null) {
+                for (String cookie : perferences) {
+                    builder.addHeader("Cookie", cookie);
+                }
+            }
+            return chain.proceed(builder.build());
+        }
+    }
+
+
 
 }
