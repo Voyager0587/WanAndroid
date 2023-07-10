@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * @className: HotkeyBean
  * @author: Voyager
- * @description:
+ * @description: 热词的数据类
  * @date: 2023/7/2
  **/
 public class HotkeyBean {

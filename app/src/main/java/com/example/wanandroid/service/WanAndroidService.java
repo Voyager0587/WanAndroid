@@ -20,7 +20,7 @@ import retrofit2.http.Query;
 /**
  * @className: WanAndroidService
  * @author: Voyager
- * @description:
+ * @description: 跟文章相关的操作，包括获取文章、搜索和收藏等
  * @date: 2023/6/26
  **/
 public interface WanAndroidService {
@@ -34,14 +34,14 @@ public interface WanAndroidService {
     Call<BannerBean> getBannerData();
 
     /**
-     * 获取置顶文章
+     * 获取主页置顶文章
      * @return TopArticleBean
      */
     @GET("article/top/json")
     Call<TopArticleBean> getTopArticleData();
 
     /**
-     * 获取首页的文章
+     * 获取首页文章列表
      * @param page 文章页码(0-40)，可以分页加载（可以用来实现懒加载）
      * @return HomeArticleBean
      */
@@ -102,7 +102,7 @@ public interface WanAndroidService {
     Call<MessageBean> collectOutArticle(@Field("title") String title,@Field("author") String author,@Field("link") String link);
 
     /**
-     * 从展示的文章的列表那里取消收藏文章，也许是不同列表（收藏和展示列表）的文章id不同
+     * 从展示的文章的列表（主页的那些文章列表）那里取消收藏文章
      * @param id 文章id
      * @return MessageBean
      */
@@ -111,8 +111,8 @@ public interface WanAndroidService {
 
     /**
      * 从个人收藏界面取消收藏
-     * @param id 文章id
-     * @param
+     * @param id 文章id，跟上面那个id不同，上面那个id对应的是收藏文章的originId
+     * @param originId 文章真实的id，对应uncollectArticleInList()方法要传入的id
      */
     @POST("lg/uncollect/{id}/json")
     @FormUrlEncoded

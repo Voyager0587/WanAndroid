@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
             });
         });
         signup.setOnClickListener(v -> {
-
+            //TODO 注册界面还没有编写★★★★★
 
         });
         password.addTextChangedListener(new TextWatcher() {

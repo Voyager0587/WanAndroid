@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * @className: ProjectCategoryAdapter
  * @author: Voyager
- * @description: 项目标题的适配器
+ * @description: 项目分裂的适配器
  * @date: 2023/6/30
  **/
 public class ProjectCategoryAdapter extends FragmentPagerAdapter {

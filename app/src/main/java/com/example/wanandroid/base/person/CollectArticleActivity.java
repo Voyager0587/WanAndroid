@@ -27,7 +27,7 @@ import retrofit2.Response;
 
 /**
  * @className CollectArticleActivity
- * @description 显示收藏的文章
+ * @description 个人收藏文章列表界面
  * @author Voyager
  * @date 2023/7/7
  */

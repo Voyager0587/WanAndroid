@@ -19,8 +19,12 @@ import com.example.wanandroid.R;
 
 
 /**
- * @author liukai
+ * @className SearchActivity
+ * @description 搜索界面
+ * @author Voyager
+ * @date
  */
+
 public class SearchActivity extends AppCompatActivity {
     FragmentManager fragmentManager;
 
@@ -56,6 +60,11 @@ public class SearchActivity extends AppCompatActivity {
                 .commit();
 
     }
+
+    /**
+     * 点击Fragment中的热词后会执行这里的代码实现热刺内容自动填充
+     * @param text 点击的热词内容
+     */
     public void onTextClicked(String text) {
         search_input.setText(text);
         input=text;

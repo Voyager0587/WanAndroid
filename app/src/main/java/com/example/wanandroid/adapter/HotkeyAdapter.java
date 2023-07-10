@@ -18,7 +18,7 @@ import java.util.zip.Inflater;
 /**
  * @className: HotkeyAdapter
  * @author: Voyager
- * @description:
+ * @description: 热词的适配器
  * @date: 2023/7/2
  **/
 public class HotkeyAdapter extends RecyclerView.Adapter<HotkeyAdapter.ViewHolder> {

@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * @className: BannerAdapter
  * @author: Voyager
- * @description:
+ * @description: Banner的适配器
  * @date: 2023/6/26
  **/
 public class BannerAdapter extends com.youth.banner.adapter.BannerAdapter<BannerBean.DataBean,BannerAdapter.BannerViewHolder> {

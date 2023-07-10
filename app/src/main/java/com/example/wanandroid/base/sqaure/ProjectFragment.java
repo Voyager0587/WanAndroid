@@ -31,14 +31,22 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * @author liukai
+ * @className ProjectFragment
+ * @description 项目界面
+ * @author Voyager
+ * @date 2023/7/10 17:04
  */
+
 public class ProjectFragment extends Fragment {
 
     RecyclerView projectRecyclerView;
     ProjectAdapter projectAdapter;
     SmartRefreshLayout refreshLayout;
     private LinearLayoutManager manager;
+    /**
+     * @param data 储存项目数据列表
+     * @param loadMoreData 储存加载的项目
+     */
     List<ProjectBean.DataBean.DatasBean> data=new ArrayList<>();
     List<ProjectBean.DataBean.DatasBean> loadMoreData=new ArrayList<>();
     /**

@@ -11,7 +11,7 @@ import retrofit2.http.POST;
 /**
  * @className: UserService
  * @author: Voyager
- * @description:
+ * @description: 跟用户相关的网络操作
  * @date: 2023/6/25
  **/
 public interface UserService {
