@@ -6,7 +6,7 @@ import java.util.List;
  * @version 1.0
  * @className: CollectArticleBean
  * @author: Voyager
- * @description: TODO
+ * @description: 收藏文章的数据类
  * @date: 2023/7/7 15:53
  **/
 public class CollectArticleBean {

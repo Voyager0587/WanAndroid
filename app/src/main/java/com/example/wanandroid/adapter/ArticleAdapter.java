@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +39,20 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     private List<ArticleBean> articleBeanList;
     private Context mContext;
 
+
+    /**
+     * 是否是收藏的文章
+     */
+    private int isCollectArticle=0;
+
+    public int getIsCollectArticle() {
+        return isCollectArticle;
+    }
+
+    public void setIsCollectArticle(int isCollectArticle) {
+        this.isCollectArticle = isCollectArticle;
+    }
+
     public Context getmContext() {
         return mContext;
     }
@@ -57,9 +73,11 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     public static class ArticleViewHolder extends RecyclerView.ViewHolder{
             TextView author,top_text,time,chapterName;
             HtmlTextView title;
-         RelativeLayout layout_article;
+            RelativeLayout layout_article;
+            Button like;
         public ArticleViewHolder(@NonNull View itemView) {
             super(itemView);
+            like=itemView.findViewById(R.id.like);
             author = itemView.findViewById(R.id.author);
             top_text = itemView.findViewById(R.id.top_text);
             title = itemView.findViewById(R.id.title);
@@ -93,6 +111,19 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         holder.time.setText(articleBean.getDate());
         holder.chapterName.setText(articleBean.getChapterName());
 
+//        if(1==isCollectArticle){
+//            holder.like.setVisibility(View.VISIBLE);
+//            holder.like.setSelected(true);
+//            holder.like.setOnClickListener(v -> {
+//                if(holder.like.isSelected()) {
+//
+//                    holder.like.setBackgroundResource(R.drawable.like_icon_selected);//在Call成功后设置自己
+//                }else {
+//
+//                    holder.like.setBackgroundResource(R.drawable.like_icon);
+//                }
+//            });
+//        }
 
         holder.title.setOnClickListener(v -> {
             if(articleBean.getUrl() != null) {
@@ -101,16 +132,22 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                 intent.putExtra("id",articleBean.getId());
                 intent.putExtra("title",articleBean.getTitle());
                 intent.putExtra("author",articleBean.getAuthor());
+                intent.putExtra("isCollectArticle",isCollectArticle);
+                intent.putExtra("originId",articleBean.getOriginId());
                 holder.itemView.getContext().startActivity(intent);
 
             }
         });
-        //TODO 点赞那个先别弄了，实在不行就把收藏写在AgentWebView里面，就在X旁边或者菜单里面★★★
+
         holder.itemView.setOnClickListener(v -> {
             if(articleBean.getUrl() != null) {
                 Intent intent = new Intent(mContext, WebActivity.class);
                 intent.putExtra("id",articleBean.getId());
                 intent.putExtra("url",articleBean.getUrl());
+                intent.putExtra("title",articleBean.getTitle());
+                intent.putExtra("author",articleBean.getAuthor());
+                intent.putExtra("isCollectArticle",isCollectArticle);
+                intent.putExtra("originId",articleBean.getOriginId());
                 holder.itemView.getContext().startActivity(intent);
 
             }

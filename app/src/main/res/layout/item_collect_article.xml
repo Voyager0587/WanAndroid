@@ -10,7 +10,7 @@
     <TextView
         android:id="@+id/chapterName"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_height="26dp"
         android:layout_marginLeft="10dp"
         android:gravity="center"
         android:text="官方"
@@ -59,15 +59,14 @@
         android:layout_marginStart="15dp"
         android:textColor="@color/black"
         android:text="郭霖" />
+<ImageView
+    android:id="@+id/like"
+    android:layout_width="40dp"
+    android:layout_height="40dp"
+    android:layout_alignParentEnd="true"
+    android:layout_alignParentBottom="true"
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/like"
 
-    <Button
-        android:id="@+id/like"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/like"
-        android:visibility="gone"
-        />
+    />
 </RelativeLayout>

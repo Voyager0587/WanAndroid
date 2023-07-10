@@ -45,6 +45,12 @@ public class ArticleBean implements Serializable {
      */
     private int id;
 
+    /**
+     * 收藏文章列表中储存文章原本id
+     */
+    private int originId;
+
+
     public ArticleBean(String author, String shareUser, String title, String url, String date, int type, String chapterName) {
         this.author = author;
         this.shareUser = shareUser;
@@ -56,6 +62,14 @@ public class ArticleBean implements Serializable {
     }
 
     public ArticleBean() {
+    }
+
+    public int getOriginId() {
+        return originId;
+    }
+
+    public void setOriginId(int originId) {
+        this.originId = originId;
     }
 
     public int getId() {

@@ -96,10 +96,6 @@ public class ProjectFragment extends Fragment {
                         // ②其次，要判断获取文章response为null时，是否是网络没了还是根本就是数据已经全部显示了（errorCode==0)也许能判断
                         // ③还要把banner的刷新加入刷新和加载
 
-
-                        //TODO 考虑二级分类界面，今天不管怎么着二级分类都要有个思路★★★★★
-
-
 //                        projectAdapter.notifyItemRangeInserted(data.size(),payload_articleBeanList.size());
 //                        manager.scrollToPositionWithOffset(position-3, 200);
                     }

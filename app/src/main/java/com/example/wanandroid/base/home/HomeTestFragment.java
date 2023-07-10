@@ -125,6 +125,7 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
         refreshLayout.setOnRefreshListener(refreshlayout -> {
             refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
             page = 0;
+            //TODO 下拉刷新还没有搞，记得根据不同文章分类界面进行刷新，相信难不倒你，其实就是articleList.clear然后getArticleByID★★★★★★
             initRecyclerView();
             articleAdapter.notifyDataSetChanged();
         });
@@ -214,6 +215,11 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
 
 
 
+     /**
+      * 通过chapter_id获取文章
+     * @param page 文章页数
+     * @param id 二级标题的id
+     */
     private void getArticleById(int page,String id) {
         int position=articleBeanList.size();
         if(id ==null){
