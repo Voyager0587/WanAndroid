@@ -89,6 +89,7 @@ public class CollectArticleActivity extends AppCompatActivity {
         collectArticleRecyclerView.setLayoutManager(manager);
         articleAdapter=new ArticleAdapter(collectArticleList);
         articleAdapter.setmContext(this);
+        articleAdapter.setIsCollectArticle(1);
         collectArticleRecyclerView.setAdapter(articleAdapter);
         articleAdapter.notifyDataSetChanged();
 
@@ -119,6 +120,7 @@ public class CollectArticleActivity extends AppCompatActivity {
                         articleBean.setChapterName(datasBeanList.get(i).getChapterName());
                         articleBean.setTitle(datasBeanList.get(i).getTitle());
                         articleBean.setId(datasBeanList.get(i).getId());
+                        articleBean.setOriginId(datasBeanList.get(i).getOriginId());
                         collectArticleList.add(articleBean);
                         if(page!=0){
                             loadCollectArticleList.add(articleBean);

@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         initView();
         initListener();
         HttpUtils.getInstance();
+        //TODO 开屏动画★
     }
 
 

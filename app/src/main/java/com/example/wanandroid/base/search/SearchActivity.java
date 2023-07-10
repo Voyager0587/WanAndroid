@@ -85,6 +85,7 @@ public class SearchActivity extends AppCompatActivity {
                 if(input.isEmpty()&&count!=0){
                     //TODO 这边都要改成Hide和show的方法★★★
                     //TODO Banner的点击事件还没加★★
+                    //TODO 搜素显示的文章的上拉加载和下拉刷新★★★★
                     getSupportFragmentManager()
                                 .beginTransaction()
                                 .setReorderingAllowed(true)

@@ -98,6 +98,7 @@ public interface WanAndroidService {
      * @return MessageBean
      */
     @POST("lg/collect/add/json")
+    @FormUrlEncoded
     Call<MessageBean> collectOutArticle(@Field("title") String title,@Field("author") String author,@Field("link") String link);
 
     /**
@@ -111,10 +112,13 @@ public interface WanAndroidService {
     /**
      * 从个人收藏界面取消收藏
      * @param id 文章id
-     * @param originId  originId 代表的是你收藏之前的那篇文章本身的id； 但是收藏支持主动添加，这种情况下，没有originId则为-1
+     * @param
      */
-    @POST("lg/uncollect/{id}}/json")
+    @POST("lg/uncollect/{id}/json")
+    @FormUrlEncoded
     Call<MessageBean> uncollectArticleInPerson(@Path("id") int id,@Field("originId") int originId);
+
+
 
 
     /**

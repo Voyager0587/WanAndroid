@@ -34,16 +34,16 @@ public class PersonFragment extends Fragment {
         collectArticle=view.findViewById(R.id.collectArticle);
         info_layout=view.findViewById(R.id.info_layout);
         logout_layout=view.findViewById(R.id.logout_layout);
-        //TODO 信息界面里面还可以加入软件分享链接或者二维码
+        //TODO 拓展：信息界面里面还可以加入软件分享链接或者二维码
         initListener();
         return view;
 
     }
-    //TODO 个人信息编辑界面的进入，就通过右上角，放一个"person_icon"
+    //TODO 个人信息编辑界面的进入，就通过右上角，放一个"person_icon"★★
     private void initListener() {
 
         collectArticle.setOnClickListener(v -> {
-            Snackbar.make(collectArticle,"进入收藏文章界面", Snackbar.LENGTH_SHORT).show();
+
             Intent intent = new Intent(requireActivity(), CollectArticleActivity.class);
             requireActivity().startActivity(intent);
         });
