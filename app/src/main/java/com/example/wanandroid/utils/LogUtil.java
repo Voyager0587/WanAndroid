@@ -5,7 +5,7 @@ import android.util.Log;
 /**
  * @className: LogUtils
  * @author: Voyager
- * @description:
+ * @description: 打印工具
  * @date: 2023/6/25
  **/
 public class LogUtil {

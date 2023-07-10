@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * @className: SuperChapterAdapter
  * @author: Voyager
- * @description: 分类标题chapterName的适配器
+ * @description: 一级分类标题 SuperChapterName的适配器
  * @date: 2023/7/4
  **/
 public class SuperChapterAdapter extends RecyclerView.Adapter<SuperChapterAdapter.ChapterViewHolder> {

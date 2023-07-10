@@ -35,8 +35,12 @@ import retrofit2.Response;
 
 
 /**
- * @author liukai
+ * @className HotkeyFragment
+ * @description 显示热词的界面
+ * @author Voyager
+ * @date
  */
+
 public class HotkeyFragment extends Fragment implements HotkeyAdapter.OnListener
 {
     RecyclerView hotkey_recyclerView;

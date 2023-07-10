@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * @className: PopularWebsiteBean
  * @author: Voyager
- * @description: 常用网站
+ * @description: 常用网站的数据类
  * @date: 2023/6/26
  **/
 public class PopularWebsiteBean {

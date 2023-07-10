@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * @className: ChapterAdapter
  * @author: Voyager
- * @description:
+ * @description: 二级分类标题chapterName的适配器
  * @date: 2023/7/5
  **/
 public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterViewHolder>{

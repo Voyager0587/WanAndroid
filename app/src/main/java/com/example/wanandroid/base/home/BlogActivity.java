@@ -22,8 +22,6 @@ import com.example.wanandroid.base.sqaure.SquareFragment;
  * @description 通过container包含博客，发现和个人三个界面
  * @author Voyager 
  */
-
-
 public class BlogActivity extends AppCompatActivity {
 
     Fragment homeFragment;

@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * @className: ArticleAdapter
  * @author: Voyager
- * @description:
+ * @description: 文章的通用适配器
  * @date: 2023/6/27
  **/
 public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder> {

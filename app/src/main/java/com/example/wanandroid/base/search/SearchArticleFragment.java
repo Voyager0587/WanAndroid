@@ -25,6 +25,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * @className SearchArticleFragment
+ * @description: 显示搜素的文章列表
+ * @author Voyager
+ * @date
+ */
 
 public class SearchArticleFragment extends Fragment {
 

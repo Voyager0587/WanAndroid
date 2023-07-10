@@ -42,9 +42,12 @@ import retrofit2.Response;
 
 
 /**
- * @author liukai
+ * @className HomeTestFragment
  * @description 主页界面的Fragment
+ * @author Voyager
+ * @date
  */
+
 public class HomeTestFragment extends Fragment implements SuperChapterAdapter.OnSuperItemClickListener, ChapterAdapter.OnItemClickListener {
 
     SuperChapterAdapter superChapterAdapter;

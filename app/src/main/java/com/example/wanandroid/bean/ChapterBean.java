@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * @className: ChapterBean
  * @author: Voyager
- * @description: 体系类，储存一级和二级标题
+ * @description: 文章体系的数据类，储存一级和二级标题
  * @date: 2023/7/4
  **/
 public class ChapterBean {

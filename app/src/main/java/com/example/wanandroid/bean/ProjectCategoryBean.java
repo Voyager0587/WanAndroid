@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * @className: ProjectCategoryBean
  * @author: Voyager
- * @description:
+ * @description: 项目种类的数据类
  * @date: 2023/6/30
  **/
 public class ProjectCategoryBean {

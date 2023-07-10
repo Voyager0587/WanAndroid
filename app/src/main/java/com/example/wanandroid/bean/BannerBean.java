@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * @className: BannerBean
  * @author: Voyager
- * @description:
+ * @description: Banner的数据类
  * @date: 2023/6/25
  **/
 public class BannerBean {

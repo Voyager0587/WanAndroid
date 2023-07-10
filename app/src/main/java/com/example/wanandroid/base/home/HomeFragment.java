@@ -39,7 +39,6 @@ import retrofit2.Response;
 
 
 /**
- * @author liukai
  * @description 本Fragment已弃用
  */
 public class HomeFragment extends Fragment {

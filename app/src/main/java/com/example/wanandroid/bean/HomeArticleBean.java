@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * @className: HomeArticleBean
  * @author: Voyager
- * @description: 主页文章
+ * @description: 主页文章的数据类
  * @date: 2023/6/25
  **/
 public class HomeArticleBean {

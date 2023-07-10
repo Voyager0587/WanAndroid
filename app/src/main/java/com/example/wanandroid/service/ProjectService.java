@@ -11,7 +11,7 @@ import retrofit2.http.Query;
 /**
  * @className: ProjectService
  * @author: Voyager
- * @description:
+ * @description: 跟项目相关的网络操作
  * @date: 2023/6/30
  **/
 public interface ProjectService {
