@@ -6,11 +6,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.wanandroid.R;
+import com.example.wanandroid.bean.MessageBean;
+import com.example.wanandroid.utils.HttpUtils;
 import com.google.android.material.snackbar.Snackbar;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -53,7 +61,20 @@ public class PersonFragment extends Fragment {
         });
 
         logout_layout.setOnClickListener(v -> {
+            Call<MessageBean> logout= HttpUtils.getUserService().logout();
+            logout.enqueue(new Callback<MessageBean>() {
+                @Override
+                public void onResponse(@NonNull Call<MessageBean> call, @NonNull Response<MessageBean> response) {
+                    if (response.isSuccessful()){
+                        //TODO 看看返回信息是否是注销成功
+                    }
+                }
 
+                @Override
+                public void onFailure(@NonNull Call<MessageBean> call, @NonNull Throwable t) {
+                    Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
         });
 
     }
