@@ -17,6 +17,13 @@
         android:theme="@style/Theme.WanAndroid"
         tools:targetApi="31">
         <activity
+            android:name=".base.SignUpActivity"
+            android:exported="true">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".base.person.CollectArticleActivity"
             android:exported="true">
             <meta-data

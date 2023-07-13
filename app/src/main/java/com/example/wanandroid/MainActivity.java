@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.wanandroid.base.SignUpActivity;
 import com.example.wanandroid.base.home.BlogActivity;
 import com.example.wanandroid.bean.MessageBean;
 import com.example.wanandroid.sharedPreference.SaveAcount;
@@ -29,25 +30,26 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
+ * @author Voyager
  * @className MainActivity
  * @description 登录界面
- * @author Voyager
  * @createTime
  */
 
 public class MainActivity extends AppCompatActivity {
-    MaterialButton login,signup;
-    EditText password,account;
-    String accountStr,passwordStr;
+    MaterialButton login, signup;
+    EditText password, account;
+    String accountStr, passwordStr;
     private Context context;
-    Map<String,String> map = new HashMap<String,String>();
+    Map<String, String> map = new HashMap<String, String>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        map= SaveAcount.getAccountInfo(this);
+        map = SaveAcount.getAccountInfo(this);
         Connector.getDatabase();
-        context=getBaseContext();
+        context = getBaseContext();
         initView();
         initListener();
         HttpUtils.getInstance();
@@ -55,37 +57,38 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void initListener(){
+    private void initListener() {
 
-        login.setOnClickListener(v -> {accountStr=account.getText().toString().trim();
-            passwordStr=password.getText().toString().trim();
-            if(TextUtils.isEmpty(accountStr)){
-                Toast.makeText(context,"请输入账号",Toast.LENGTH_SHORT).show();
+        login.setOnClickListener(v -> {
+            accountStr = account.getText().toString().trim();
+            passwordStr = password.getText().toString().trim();
+            if (TextUtils.isEmpty(accountStr)) {
+                Toast.makeText(context, "请输入账号", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if(TextUtils.isEmpty(passwordStr)){
-                Toast.makeText(context,"请输入密码",Toast.LENGTH_SHORT).show();
+            if (TextUtils.isEmpty(passwordStr)) {
+                Toast.makeText(context, "请输入密码", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            Call<MessageBean> call=HttpUtils.getUserService().login(accountStr,passwordStr);
+            Call<MessageBean> call = HttpUtils.getUserService().login(accountStr, passwordStr);
             call.enqueue(new Callback<MessageBean>() {
                 @Override
                 public void onResponse(@NonNull Call<MessageBean> call, @NonNull Response<MessageBean> response) {
                     assert response.body() != null;
-                    if(response.isSuccessful()){
-                    MessageBean message=response.body();
-                        if(0==message.getErrorCode()){
-                            Toast.makeText(context,"登录成功",Toast.LENGTH_SHORT).show();
-                            SaveAcount.saveAccountInfo(MainActivity.this,accountStr,passwordStr);
-                            Intent intent=new Intent(MainActivity.this, BlogActivity.class);
+                    if (response.isSuccessful()) {
+                        MessageBean message = response.body();
+                        if (0 == message.getErrorCode()) {
+                            Toast.makeText(context, "登录成功", Toast.LENGTH_SHORT).show();
+                            SaveAcount.saveAccountInfo(MainActivity.this, accountStr, passwordStr);
+                            Intent intent = new Intent(MainActivity.this, BlogActivity.class);
                             startActivity(intent);
                             finish();
-                        }else{
-                            Toast.makeText(context,"登录失败",Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(context, "登录失败", Toast.LENGTH_SHORT).show();
                         }
-                    }else{
-                        Toast.makeText(context,"登录失败",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, "登录失败", Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -96,8 +99,8 @@ public class MainActivity extends AppCompatActivity {
             });
         });
         signup.setOnClickListener(v -> {
-            //TODO 注册界面还没有编写★★★★★
-
+            Intent intent = new Intent(this, SignUpActivity.class);
+            startActivity(intent);
         });
         password.addTextChangedListener(new TextWatcher() {
             @Override
@@ -112,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                passwordStr=editable.toString().trim();
+                passwordStr = editable.toString().trim();
             }
         });
         account.addTextChangedListener(new TextWatcher() {
@@ -128,17 +131,17 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                accountStr=editable.toString().trim();
+                accountStr = editable.toString().trim();
             }
         });
 
     }
 
     private void initView() {
-        login=findViewById(R.id.login);
-        signup=findViewById(R.id.signup);
-        password=findViewById(R.id.password);
-        account=findViewById(R.id.account);
+        login = findViewById(R.id.login);
+        signup = findViewById(R.id.signup);
+        password = findViewById(R.id.password);
+        account = findViewById(R.id.account);
         account.setText(map.get("account"));
         password.setText(map.get("password"));
     }

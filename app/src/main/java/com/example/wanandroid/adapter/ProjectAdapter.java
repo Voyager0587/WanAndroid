@@ -81,6 +81,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
             if(datasBean.getLink() != null) {
                 Intent intent = new Intent(context, WebActivity.class);
                 intent.putExtra("url",datasBean.getLink());
+                intent.putExtra("tag",1);//告知WebActivity这是项目，让收藏键不可见
                 holder.itemView.getContext().startActivity(intent);
 
             }

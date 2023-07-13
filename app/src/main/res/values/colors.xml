@@ -29,4 +29,6 @@
     <color name="person_20">#335B37B7</color>
     <color name="person_30">#4D5B37B7</color>
     <color name="red_back">#EBACAC</color>
+
+    <color name="sign_up_bg">#C0E1F1</color>
 </resources>
