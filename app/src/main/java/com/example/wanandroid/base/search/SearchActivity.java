@@ -93,12 +93,11 @@ public class SearchActivity extends AppCompatActivity {
                 input=s.toString();
                 if(input.isEmpty()&&count!=0){
                     //TODO 这边都要改成Hide和show的方法★★★
-                    //TODO Banner的点击事件还没加★★
-                    //TODO 搜素显示的文章的上拉加载和下拉刷新★★★★
+                    //TODO 搜素显示的文章的上拉加载和下拉刷新功能待测验★★★★
                     getSupportFragmentManager()
                                 .beginTransaction()
                                 .setReorderingAllowed(true)
-                                .add(R.id.search_fragment_container,new HotkeyFragment())
+                                .replace(R.id.search_fragment_container,new HotkeyFragment())
                                 .commit();
                 }
             }
@@ -110,7 +109,7 @@ public class SearchActivity extends AppCompatActivity {
             count++;
 
             SearchArticleFragment searchArticleFragment=new SearchArticleFragment();
-            searchArticleFragment.setAuthor(input);
+            searchArticleFragment.setText(input);
             fragmentManager.beginTransaction()
                     .setReorderingAllowed(true)
                     .replace(R.id.search_fragment_container,searchArticleFragment)

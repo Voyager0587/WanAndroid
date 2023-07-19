@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import com.example.wanandroid.adapter.ArticleAdapter;
 import com.example.wanandroid.adapter.BannerAdapter;
 import com.example.wanandroid.adapter.ChapterAdapter;
 import com.example.wanandroid.adapter.SuperChapterAdapter;
+import com.example.wanandroid.base.WebActivity;
 import com.example.wanandroid.base.search.SearchActivity;
 import com.example.wanandroid.bean.ArticleBean;
 import com.example.wanandroid.bean.BannerBean;
@@ -32,6 +34,7 @@ import com.scwang.smart.refresh.layout.constant.SpinnerStyle;
 import com.youth.banner.Banner;
 import com.youth.banner.config.IndicatorConfig;
 import com.youth.banner.indicator.RectangleIndicator;
+import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +55,7 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
 
     SuperChapterAdapter superChapterAdapter;
     ChapterAdapter secondAdapter;
+    BannerAdapter bannerAdapter;
     private ArticleAdapter articleAdapter;
     private LinearLayoutManager manager;
     RecyclerView superChapter_recyclerview, chapter_recyclerview,article_recyclerview;
@@ -64,6 +68,7 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
     private Banner banner;
     private RefreshLayout refreshLayout;
     private RelativeLayout top_layout;
+    private LinearLayout blank_layout;
     private int chapterId=-100;
 
 
@@ -92,10 +97,9 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
         banner = view.findViewById(R.id.banner);
         refreshLayout = view.findViewById(R.id.refresh_layout);
         top_layout = view.findViewById(R.id.top_layout);
-        top_layout.setOnClickListener(v -> {
-            Intent intent = new Intent(requireActivity(), SearchActivity.class);
-            requireActivity().startActivity(intent);
-        });
+        blank_layout=view.findViewById(R.id.blank_layout);
+
+        initListener();
         initBannerData();
         getDefaultArticle();
         initChapter();
@@ -104,6 +108,16 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
         return view;
     }
 
+    /**
+     *初始化控件监听器
+     */
+    private void initListener() {
+
+        top_layout.setOnClickListener(v -> {
+            Intent intent = new Intent(requireActivity(), SearchActivity.class);
+            requireActivity().startActivity(intent);
+        });
+    }
     /**
      * 初始化分类列表
      */
@@ -126,7 +140,7 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
 //        refreshLayout.setRefreshHeader(new Head(requireActivity()));
         refreshLayout.setRefreshFooter(new BallPulseFooter(requireActivity()).setSpinnerStyle(SpinnerStyle.Scale));
         refreshLayout.setOnRefreshListener(refreshlayout -> {
-            refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
+            refreshlayout.finishRefresh(1500/*,false*/);//传入false表示刷新失败
             page = 0;
             //TODO 下拉刷新还没有搞，记得根据不同文章分类界面进行刷新，相信难不倒你，其实就是articleList.clear然后getArticleByID★★★★★★
             initRecyclerView();
@@ -266,6 +280,15 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
                                 articleAdapter.notifyItemRangeInserted(articleBeanList.size(), payload_articleBeanList.size());
                                 manager.scrollToPositionWithOffset(position - 3, 0);
 
+                            }
+                            if(page ==0&&articleBeanList.size()==0){
+                                requireActivity().runOnUiThread(() -> {
+                                    if(articleBeanList.size()==0){
+                                        blank_layout.setVisibility(View.VISIBLE);
+                                    }else {
+                                        blank_layout.setVisibility(View.GONE);
+                                    }
+                                });
                             }
                         }
                     }
@@ -465,7 +488,9 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
         requireActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                banner.setAdapter(new BannerAdapter(bannerData)).addBannerLifecycleObserver(getActivity())
+                bannerAdapter=new BannerAdapter(bannerData);
+                bannerAdapter.setContext(requireActivity());
+                banner.setAdapter(bannerAdapter).addBannerLifecycleObserver(getActivity())
                         .setBannerRound(10f) //圆角
                         .setIndicator(new RectangleIndicator(getActivity())) //线条指示器
                         .setIndicatorHeight(18)//设置indicator的高度

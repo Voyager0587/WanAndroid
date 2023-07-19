@@ -1,5 +1,7 @@
 package com.example.wanandroid.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.wanandroid.R;
+import com.example.wanandroid.base.WebActivity;
 import com.example.wanandroid.bean.BannerBean;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -25,10 +28,19 @@ import java.util.List;
 public class BannerAdapter extends com.youth.banner.adapter.BannerAdapter<BannerBean.DataBean,BannerAdapter.BannerViewHolder> {
 
     private List<BannerBean.DataBean> dataBeanList;
+    private Context context;
+
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
 
     public BannerAdapter(List<BannerBean.DataBean> dataBeanList) {
         super(dataBeanList);
-
+        this.dataBeanList=dataBeanList;
     }
 
     @Override
@@ -43,6 +55,11 @@ public class BannerAdapter extends com.youth.banner.adapter.BannerAdapter<Banner
     @Override
     public void onBindView(BannerViewHolder holder, BannerBean.DataBean data, int position, int size) {
         holder.textView.setText(data.getTitle());
+        holder.imageView.setOnClickListener(v -> {
+            Intent intent=new Intent(context, WebActivity.class);
+            intent.putExtra("url",dataBeanList.get(position).getUrl());
+           context.startActivity(intent);
+        });
         Glide.with(holder.imageView)
                 .load(data.getImagePath())
                 .thumbnail(Glide.with(holder.itemView).load(R.drawable.loading))

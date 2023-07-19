@@ -1,4 +1,4 @@
-package com.example.wanandroid.base.sqaure;
+package com.example.wanandroid.base.square;
 
 import android.os.Bundle;
 
@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+
 import com.example.wanandroid.R;
 import com.example.wanandroid.adapter.ProjectAdapter;
 import com.example.wanandroid.bean.ProjectBean;
@@ -42,6 +44,7 @@ public class ProjectFragment extends Fragment {
     RecyclerView projectRecyclerView;
     ProjectAdapter projectAdapter;
     SmartRefreshLayout refreshLayout;
+    LinearLayout blank_layout;
     private LinearLayoutManager manager;
     /**
      * @param data 储存项目数据列表
@@ -75,6 +78,7 @@ public class ProjectFragment extends Fragment {
         View view=inflater.inflate(R.layout.fragment_project, container, false);
         refreshLayout=view.findViewById(R.id.refresh_layout);
         projectRecyclerView=view.findViewById(R.id.project_recyclerView);
+        blank_layout=view.findViewById(R.id.blank_layout);
         page=1;
         initData();
         initRefreshLayout();
@@ -100,13 +104,20 @@ public class ProjectFragment extends Fragment {
 
                         //TODO 显示“已经没有数据可以来加载了呢”的逻辑★★
                         //TODO 暂时先弄网络那个吧★★★★
+                        //网络显示“网络问题”就再创建一个LinearLayout来显示
                         // ①如果没有网络的话要将page重新置1
                         // ②其次，要判断获取文章response为null时，是否是网络没了还是根本就是数据已经全部显示了（errorCode==0)也许能判断
                         // ③还要把banner的刷新加入刷新和加载
 
-//                        projectAdapter.notifyItemRangeInserted(data.size(),payload_articleBeanList.size());
-//                        manager.scrollToPositionWithOffset(position-3, 200);
+
                     }
+                    requireActivity().runOnUiThread(() -> {
+                        if(data.size()==0){
+                            blank_layout.setVisibility(View.VISIBLE);
+                        }else {
+                            blank_layout.setVisibility(View.GONE);
+                        }
+                    });
                 }
             }
             @Override

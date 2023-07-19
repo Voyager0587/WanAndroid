@@ -52,6 +52,7 @@ public class HotkeyFragment extends Fragment implements HotkeyAdapter.OnListener
 
     public HotkeyFragment() {
         // Required empty public constructor
+
     }
 
     @Override
@@ -60,8 +61,9 @@ public class HotkeyFragment extends Fragment implements HotkeyAdapter.OnListener
         View view=inflater.inflate(R.layout.fragment_hotkey, container, false);
         hotkey_recyclerView= view.findViewById(R.id.hotkey_recyclerView);
         refresh_layout=view.findViewById(R.id.refresh_layout);
-        //FIXME 热词的显示有问题，建议直接改成垂直列表或者你再修改？★★
+
         //TODO 拓展：添加搜索记录功能
+        //TODO 热词刷新有问题
         getHotkeyData();
         initListener();
         return view;

@@ -7,6 +7,8 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -39,6 +41,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
     MaterialButton login, signup;
     EditText password, account;
+    CheckBox auto_login;
     String accountStr, passwordStr;
     private Context context;
     Map<String, String> map = new HashMap<String, String>();
@@ -58,6 +61,12 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void initListener() {
+        auto_login.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+            }
+        });
 
         login.setOnClickListener(v -> {
             accountStr = account.getText().toString().trim();
@@ -144,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
         account = findViewById(R.id.account);
         account.setText(map.get("account"));
         password.setText(map.get("password"));
+        auto_login=findViewById(R.id.auto_login);
     }
 
 }

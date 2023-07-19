@@ -1,4 +1,4 @@
-package com.example.wanandroid.base.sqaure;
+package com.example.wanandroid.base.square;
 
 import android.os.Bundle;
 
