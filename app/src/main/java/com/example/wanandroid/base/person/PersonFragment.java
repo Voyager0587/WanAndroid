@@ -51,7 +51,6 @@ public class PersonFragment extends Fragment {
     private void initListener() {
 
         collectArticle.setOnClickListener(v -> {
-
             Intent intent = new Intent(requireActivity(), CollectArticleActivity.class);
             requireActivity().startActivity(intent);
         });
@@ -67,6 +66,9 @@ public class PersonFragment extends Fragment {
                 public void onResponse(@NonNull Call<MessageBean> call, @NonNull Response<MessageBean> response) {
                     if (response.isSuccessful()){
                         //TODO 看看返回信息是否是注销成功
+                        Toast.makeText(getContext(), "注销成功", Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(getContext(), "注销失败", Toast.LENGTH_SHORT).show();
                     }
                 }
 

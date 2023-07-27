@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.wanandroid.R;
 import com.example.wanandroid.adapter.ProjectAdapter;
@@ -44,7 +45,7 @@ public class ProjectFragment extends Fragment {
     RecyclerView projectRecyclerView;
     ProjectAdapter projectAdapter;
     SmartRefreshLayout refreshLayout;
-    LinearLayout blank_layout;
+    LinearLayout blank_layout,internet_error;
     private LinearLayoutManager manager;
     /**
      * @param data 储存项目数据列表
@@ -79,9 +80,11 @@ public class ProjectFragment extends Fragment {
         refreshLayout=view.findViewById(R.id.refresh_layout);
         projectRecyclerView=view.findViewById(R.id.project_recyclerView);
         blank_layout=view.findViewById(R.id.blank_layout);
+        internet_error=view.findViewById(R.id.internet_error);
         page=1;
         initData();
         initRefreshLayout();
+        initRecyclerView();
         return view;
     }
 
@@ -99,6 +102,7 @@ public class ProjectFragment extends Fragment {
                         data=projectBean.getData().getDatas();
                         projectAdapter=new ProjectAdapter(data);
                         requireActivity().runOnUiThread(() -> {
+                            blank_layout.setVisibility(View.GONE);
                             initRecyclerView();
                         });
 
@@ -114,15 +118,20 @@ public class ProjectFragment extends Fragment {
                     requireActivity().runOnUiThread(() -> {
                         if(data.size()==0){
                             blank_layout.setVisibility(View.VISIBLE);
-                        }else {
-                            blank_layout.setVisibility(View.GONE);
                         }
                     });
                 }
             }
             @Override
             public void onFailure(@NonNull Call<ProjectBean> call, Throwable t) {
-                Snackbar.make(refreshLayout,"error:网络问题!",Snackbar.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"error:网络问题",Toast.LENGTH_SHORT).show();
+                requireActivity().runOnUiThread(() -> {
+                    if(data.size()==0&&page==1){
+                        internet_error.setVisibility(View.VISIBLE);
+                    }else if(data.size()!=0){
+                        internet_error.setVisibility(View.GONE);
+                    }
+                });
             }
         });
     }
@@ -132,7 +141,6 @@ public class ProjectFragment extends Fragment {
      * @description 获取更多数据
      * @param pageGet 获取的数据所在的页数
      */
-
     public void loadMoreData(int pageGet){
         loadMoreData.clear();
         Call<ProjectBean> projectBeanCall=HttpUtils.getProjectService().getProjectList(pageGet,id);
@@ -164,9 +172,10 @@ public class ProjectFragment extends Fragment {
 
     }
     private void initRecyclerView(){
+        projectAdapter=new ProjectAdapter(data);
         manager = new LinearLayoutManager(getActivity());
         manager.setOrientation(RecyclerView.VERTICAL);
-        projectAdapter.setContext(requireContext());
+        projectAdapter.setContext(getContext());
         projectRecyclerView.setLayoutManager(manager);
         projectRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
         projectRecyclerView.setAdapter(projectAdapter);
@@ -191,7 +200,7 @@ public class ProjectFragment extends Fragment {
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshlayout) {
-                refreshlayout.finishLoadMore(2000/*,false*/);//传入false表示加载失败
+
                 page++;
                 loadMoreData(page);
                 refreshlayout.finishLoadMore(800);

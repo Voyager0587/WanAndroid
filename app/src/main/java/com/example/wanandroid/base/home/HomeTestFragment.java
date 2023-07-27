@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -74,6 +75,7 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
 
 
     //TODO 你既然记录了二级的，那一级的不是也会变吗？
+
     /**
      * @param page 当前分类下文章的页数
      * @param currentPosition 记录当前选择的二级分类
@@ -108,6 +110,7 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
         return view;
     }
 
+
     /**
      *初始化控件监听器
      */
@@ -118,6 +121,7 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
             requireActivity().startActivity(intent);
         });
     }
+
     /**
      * 初始化分类列表
      */
@@ -135,16 +139,20 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
      * 初始化refreshLayout,添加加载和刷新监听
      */
     private void initRefreshLayout() {
+
         refreshLayout.setRefreshHeader(new BezierRadarHeader(requireActivity()).setEnableHorizontalDrag(true));
         //设置 Footer 为 球脉冲 样式
-//        refreshLayout.setRefreshHeader(new Head(requireActivity()));
+        //refreshLayout.setRefreshHeader(new Head(requireActivity()));
         refreshLayout.setRefreshFooter(new BallPulseFooter(requireActivity()).setSpinnerStyle(SpinnerStyle.Scale));
         refreshLayout.setOnRefreshListener(refreshlayout -> {
             refreshlayout.finishRefresh(1500/*,false*/);//传入false表示刷新失败
             page = 0;
             //TODO 下拉刷新还没有搞，记得根据不同文章分类界面进行刷新，相信难不倒你，其实就是articleList.clear然后getArticleByID★★★★★★
             initRecyclerView();
+            articleBeanList.clear();
+            getArticleById(page,String.valueOf(chapterId));
             articleAdapter.notifyDataSetChanged();
+
         });
 
         refreshLayout.setOnLoadMoreListener(refreshlayout -> {
@@ -155,10 +163,12 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
             }else {
                 getArticleById(page,String.valueOf(chapterId));
             }
+
             refreshlayout.finishLoadMore();
 
         });
     }
+
     /**
      * 获取标题
      */
@@ -281,6 +291,9 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
                                 manager.scrollToPositionWithOffset(position - 3, 0);
 
                             }
+                            if(page !=0&&payload_articleBeanList.isEmpty()) {
+                                Toast.makeText(getContext(),"文章已经全部加载",Toast.LENGTH_SHORT).show();
+                            }
                             if(page ==0&&articleBeanList.size()==0){
                                 requireActivity().runOnUiThread(() -> {
                                     if(articleBeanList.size()==0){
@@ -288,6 +301,7 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
                                     }else {
                                         blank_layout.setVisibility(View.GONE);
                                     }
+
                                 });
                             }
                         }
