@@ -11,10 +11,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.wanandroid.MainActivity;
 import com.example.wanandroid.R;
 import com.example.wanandroid.bean.MessageBean;
+import com.example.wanandroid.sharedPreference.SaveAccount;
 import com.example.wanandroid.utils.HttpUtils;
-import com.google.android.material.snackbar.Snackbar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -22,14 +23,14 @@ import retrofit2.Response;
 
 
 /**
+ * @author Voyager
  * @className PersonFragment
  * @description 个人界面
- * @author Voyager
  * @createTime
  */
 
 public class PersonFragment extends Fragment {
-    RelativeLayout collectArticle,info_layout,logout_layout;
+    RelativeLayout collectArticle, info_layout, logout_layout;
 
     public PersonFragment() {
         // Required empty public constructor
@@ -38,20 +39,20 @@ public class PersonFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_person, container, false);
-        collectArticle=view.findViewById(R.id.collectArticle);
-        info_layout=view.findViewById(R.id.info_layout);
-        logout_layout=view.findViewById(R.id.logout_layout);
+        View view = inflater.inflate(R.layout.fragment_person, container, false);
+        collectArticle = view.findViewById(R.id.collectArticle);
+        info_layout = view.findViewById(R.id.info_layout);
+        logout_layout = view.findViewById(R.id.logout_layout);
         //TODO 拓展：信息界面里面还可以加入软件分享链接或者二维码
         initListener();
         return view;
 
     }
+
     //TODO 个人信息编辑界面的进入，就通过右上角，放一个"person_icon"★★
     private void initListener() {
 
         collectArticle.setOnClickListener(v -> {
-
             Intent intent = new Intent(requireActivity(), CollectArticleActivity.class);
             requireActivity().startActivity(intent);
         });
@@ -61,13 +62,18 @@ public class PersonFragment extends Fragment {
         });
 
         logout_layout.setOnClickListener(v -> {
-            Call<MessageBean> logout= HttpUtils.getUserService().logout();
+            Call<MessageBean> logout = HttpUtils.getUserService().logout();
             logout.enqueue(new Callback<MessageBean>() {
                 @Override
                 public void onResponse(@NonNull Call<MessageBean> call, @NonNull Response<MessageBean> response) {
-                    if (response.isSuccessful()){
-                        //TODO 看看返回信息是否是注销成功
+                    if (response.isSuccessful()) {
+                        if (response.body().getErrorCode() == 0) {
+                            Toast.makeText(getContext(), "注销成功", Toast.LENGTH_SHORT).show();
+//                            SaveAccount.clearUpUserData(MainActivity.class);
+                        }
+                        Toast.makeText(getContext(), "注销失败", Toast.LENGTH_SHORT).show();
                     }
+
                 }
 
                 @Override
@@ -75,7 +81,8 @@ public class PersonFragment extends Fragment {
                     Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
-        });
 
+        });
+        //TODO 注销完就应该直接退出主界面，然后进入登入界面，清理本地密码
     }
 }

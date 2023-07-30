@@ -44,6 +44,7 @@ public class WebActivity extends AppCompatActivity {
 
     /**
      * @param isCollectArticle 是否是收藏文章，只是用来标识是否是从个人收藏界面进入的WebActivity
+     *
      * @param judge 判断文章是否是收藏状态，便于实现在进入收藏文章界面后取消收藏，再点击收藏后可以收藏成功
      */
     int isCollectArticle,tag,judge=1;
@@ -64,7 +65,7 @@ public class WebActivity extends AppCompatActivity {
         originId=intent.getIntExtra("originId",-1);
         tag=intent.getIntExtra("tag",0);
         WebFragment webFragment = WebFragment.newInstance(url);
-        //TODO 接下来进行取消收藏功能编写★★★★★，project那里的WebFragment要让收藏不可见
+
         //为收藏界面的item.xml编写一个特殊的，加一个点亮的红色❤，点击后取消收藏，再点击相当于再次收藏
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_web, webFragment).commit();
         initListener();
@@ -138,7 +139,8 @@ public class WebActivity extends AppCompatActivity {
                     }
 
                 }
-            }else {//个人收藏文章列表进入进入WebActivity界面的监听逻辑
+            }else {
+                //个人收藏文章列表进入进入WebActivity界面的监听逻辑
                 if(judge==1){
                     Call<MessageBean> call=HttpUtils.getwAndroidService().uncollectArticleInPerson(id,-1);
                     call.enqueue(new Callback<MessageBean>() {
@@ -200,7 +202,6 @@ public class WebActivity extends AppCompatActivity {
                         }
 
                     }
-
 
                     judge=1;
                 }

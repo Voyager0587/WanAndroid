@@ -65,6 +65,15 @@
             android:textColor="@color/black"
             app:backgroundTint="@color/white"
             app:rippleColor="@color/login_blue_80" />
+
+        <CheckBox
+            android:id="@+id/auto_login"
+            android:layout_width="141dp"
+            android:layout_height="29dp"
+            android:layout_below="@id/password"
+            android:layout_marginLeft="5dp"
+            android:layout_alignLeft="@id/password"
+            android:text="自动登录" />
     </RelativeLayout>
 
     <TextView

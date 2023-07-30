@@ -22,6 +22,7 @@ import com.example.wanandroid.bean.ProjectBean;
 
 import org.sufficientlysecure.htmltextview.HtmlTextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -34,7 +35,7 @@ import java.util.List;
 public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHolder> {
 
     private Context context;
-    private List<ProjectBean.DataBean.DatasBean> projectBean;
+    private List<ProjectBean.DataBean.DatasBean> projectBean=new ArrayList<ProjectBean.DataBean.DatasBean>();
 
     public Context getContext() {
         return context;
@@ -73,6 +74,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
             if(datasBean.getLink() != null) {
                 Intent intent = new Intent(context, WebActivity.class);
                 intent.putExtra("url",datasBean.getLink());
+                intent.putExtra("tag",1);//告知WebActivity这是项目，让收藏键不可见
                 holder.itemView.getContext().startActivity(intent);
 
             }
@@ -99,7 +101,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
         private TextView chapterName,author,time;
         HtmlTextView title;
         private ImageView imageView;
-        private RelativeLayout relativeLayout;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             chapterName=itemView.findViewById(R.id.chapterName);
@@ -107,8 +109,6 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
             time=itemView.findViewById(R.id.time);
             title=itemView.findViewById(R.id.title);
             imageView=itemView.findViewById(R.id.imageView);
-
-
 
         }
     }

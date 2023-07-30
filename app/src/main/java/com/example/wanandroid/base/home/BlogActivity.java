@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.example.wanandroid.R;
 import com.example.wanandroid.base.person.PersonFragment;
-import com.example.wanandroid.base.sqaure.SquareFragment;
+import com.example.wanandroid.base.square.SquareFragment;
 
 /**
  * @className BlogActivity
@@ -45,7 +45,7 @@ public class BlogActivity extends AppCompatActivity {
         homeFragment = new HomeTestFragment();
         fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
-                .add(R.id.fragment_container, homeFragment, "HomeFragment")
+                .add(R.id.fragment_container, homeFragment, "HomeTestFragment")
                 .commit();
         iniView();
     }
@@ -74,12 +74,12 @@ public class BlogActivity extends AppCompatActivity {
 //                        .commit();
 
 
-                homeFragment = fragmentManager.findFragmentByTag("HomeFragment");
+                homeFragment = fragmentManager.findFragmentByTag("HomeTestFragment");
                 if (homeFragment == null) {
                     homeFragment = new HomeTestFragment();
                     fragmentManager.beginTransaction()
                                 .setReorderingAllowed(true)
-                                .add(R.id.fragment_container, homeFragment, "HomeFragment")
+                                .add(R.id.fragment_container, homeFragment, "HomeTestFragment")
                                 .commit();
                 } else {
                     if(personFragment!=null&&squareFragment==null){

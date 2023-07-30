@@ -41,7 +41,6 @@ public interface UserService {
      * 退出登录
      * @return MessageBean
      */
-    @FormUrlEncoded
     @GET("user/logout/json")
     Call<MessageBean> logout();
 

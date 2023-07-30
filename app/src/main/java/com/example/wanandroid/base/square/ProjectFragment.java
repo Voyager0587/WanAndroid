@@ -1,4 +1,4 @@
-package com.example.wanandroid.base.sqaure;
+package com.example.wanandroid.base.square;
 
 import android.os.Bundle;
 
@@ -10,6 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.Toast;
+
 import com.example.wanandroid.R;
 import com.example.wanandroid.adapter.ProjectAdapter;
 import com.example.wanandroid.bean.ProjectBean;
@@ -42,6 +45,7 @@ public class ProjectFragment extends Fragment {
     RecyclerView projectRecyclerView;
     ProjectAdapter projectAdapter;
     SmartRefreshLayout refreshLayout;
+    LinearLayout blank_layout,internet_error;
     private LinearLayoutManager manager;
     /**
      * @param data 储存项目数据列表
@@ -52,9 +56,8 @@ public class ProjectFragment extends Fragment {
     /**
      * @param id 分类id
      * @param page 文章获取的页数
-     * @param isLoadAll 是否全部加载
      */
-    int id,page,isLoadAll=-1;
+    int id,page;
     private static final String ARG_PARAM1 = "param1";
 
 
@@ -75,9 +78,12 @@ public class ProjectFragment extends Fragment {
         View view=inflater.inflate(R.layout.fragment_project, container, false);
         refreshLayout=view.findViewById(R.id.refresh_layout);
         projectRecyclerView=view.findViewById(R.id.project_recyclerView);
+        blank_layout=view.findViewById(R.id.blank_layout);
+        internet_error=view.findViewById(R.id.internet_error);
         page=1;
         initData();
         initRefreshLayout();
+        initRecyclerView();
         return view;
     }
 
@@ -90,28 +96,42 @@ public class ProjectFragment extends Fragment {
             @Override
             public void onResponse(@NonNull Call<ProjectBean> call, @NonNull Response<ProjectBean> response) {
                 if(response.isSuccessful()){
+                    internet_error.setVisibility(View.GONE);
                     ProjectBean projectBean=response.body();
                     if(projectBean!=null&&projectBean.getData()!=null){
                         data=projectBean.getData().getDatas();
                         projectAdapter=new ProjectAdapter(data);
                         requireActivity().runOnUiThread(() -> {
+                            blank_layout.setVisibility(View.GONE);
                             initRecyclerView();
                         });
 
-                        //TODO 显示“已经没有数据可以来加载了呢”的逻辑★★
+
                         //TODO 暂时先弄网络那个吧★★★★
+                        //网络显示“网络问题”就再创建一个LinearLayout来显示
                         // ①如果没有网络的话要将page重新置1
                         // ②其次，要判断获取文章response为null时，是否是网络没了还是根本就是数据已经全部显示了（errorCode==0)也许能判断
                         // ③还要把banner的刷新加入刷新和加载
 
-//                        projectAdapter.notifyItemRangeInserted(data.size(),payload_articleBeanList.size());
-//                        manager.scrollToPositionWithOffset(position-3, 200);
+
                     }
+                    requireActivity().runOnUiThread(() -> {
+                        if(data.size()==0){
+                            blank_layout.setVisibility(View.VISIBLE);
+                        }
+                    });
                 }
             }
             @Override
             public void onFailure(@NonNull Call<ProjectBean> call, Throwable t) {
-                Snackbar.make(refreshLayout,"error:网络问题!",Snackbar.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"error:网络问题",Toast.LENGTH_SHORT).show();
+                requireActivity().runOnUiThread(() -> {
+                    if(data.size()==0&&page==1){
+                        internet_error.setVisibility(View.VISIBLE);
+                    }else if(data.size()!=0){
+                        internet_error.setVisibility(View.GONE);
+                    }
+                });
             }
         });
     }
@@ -121,7 +141,6 @@ public class ProjectFragment extends Fragment {
      * @description 获取更多数据
      * @param pageGet 获取的数据所在的页数
      */
-
     public void loadMoreData(int pageGet){
         loadMoreData.clear();
         Call<ProjectBean> projectBeanCall=HttpUtils.getProjectService().getProjectList(pageGet,id);
@@ -133,7 +152,7 @@ public class ProjectFragment extends Fragment {
                     if(projectBean!=null&&projectBean.getData()!=null){
                         loadMoreData.addAll(projectBean.getData().getDatas());
                         if(loadMoreData.isEmpty()){
-                            isLoadAll=1;
+                            Snackbar.make(refreshLayout,"没有更多数据了",Snackbar.LENGTH_SHORT).show();
                         }
                         data.addAll(projectBean.getData().getDatas());
                         projectAdapter.notifyItemRangeInserted(data.size(),loadMoreData.size());
@@ -153,9 +172,10 @@ public class ProjectFragment extends Fragment {
 
     }
     private void initRecyclerView(){
+        projectAdapter=new ProjectAdapter(data);
         manager = new LinearLayoutManager(getActivity());
         manager.setOrientation(RecyclerView.VERTICAL);
-        projectAdapter.setContext(requireContext());
+        projectAdapter.setContext(getContext());
         projectRecyclerView.setLayoutManager(manager);
         projectRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
         projectRecyclerView.setAdapter(projectAdapter);
@@ -171,7 +191,7 @@ public class ProjectFragment extends Fragment {
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshlayout) {
-                refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
+                refreshlayout.finishRefresh(800/*,false*/);//传入false表示刷新失败
                 page=1;
                 initData();
                 projectAdapter.notifyDataSetChanged();
@@ -180,14 +200,12 @@ public class ProjectFragment extends Fragment {
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshlayout) {
-                refreshlayout.finishLoadMore(2000/*,false*/);//传入false表示加载失败
+
                 page++;
                 loadMoreData(page);
                 refreshlayout.finishLoadMore(800);
                 refreshlayout.finishLoadMore();
-                if(isLoadAll==1){
-                    Snackbar.make(refreshLayout,"没有更多数据了",Snackbar.LENGTH_SHORT).show();
-                }
+
             }
         });
     }

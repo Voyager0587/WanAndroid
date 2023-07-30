@@ -26,6 +26,7 @@ import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
 import org.sufficientlysecure.htmltextview.ClickableTableSpan;
 import org.sufficientlysecure.htmltextview.HtmlTextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,7 +37,7 @@ import java.util.List;
  **/
 public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder> {
 
-    private List<ArticleBean> articleBeanList;
+    private List<ArticleBean> articleBeanList=new ArrayList<ArticleBean>();
     private Context mContext;
 
 

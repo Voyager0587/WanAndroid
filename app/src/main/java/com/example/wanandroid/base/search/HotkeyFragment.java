@@ -52,6 +52,7 @@ public class HotkeyFragment extends Fragment implements HotkeyAdapter.OnListener
 
     public HotkeyFragment() {
         // Required empty public constructor
+
     }
 
     @Override
@@ -60,8 +61,15 @@ public class HotkeyFragment extends Fragment implements HotkeyAdapter.OnListener
         View view=inflater.inflate(R.layout.fragment_hotkey, container, false);
         hotkey_recyclerView= view.findViewById(R.id.hotkey_recyclerView);
         refresh_layout=view.findViewById(R.id.refresh_layout);
-        //FIXME 热词的显示有问题，建议直接改成垂直列表或者你再修改？★★
+
+
+        flexboxLayoutManager=new FlexboxLayoutManager(requireActivity());
+        hotkey_recyclerView.setLayoutManager(flexboxLayoutManager);
+        hotkey_recyclerView.addItemDecoration(new DividerItemDecoration(requireContext(),DividerItemDecoration.VERTICAL));
+        hotkey_recyclerView.setHasFixedSize(true);
+        hotkey_recyclerView.setNestedScrollingEnabled(false);
         //TODO 拓展：添加搜索记录功能
+        initRecyclerView();
         getHotkeyData();
         initListener();
         return view;
@@ -86,11 +94,7 @@ public class HotkeyFragment extends Fragment implements HotkeyAdapter.OnListener
      */
     private void initRecyclerView(){
 
-        flexboxLayoutManager=new FlexboxLayoutManager(requireActivity());
-        hotkey_recyclerView.setLayoutManager(flexboxLayoutManager);
-        hotkey_recyclerView.addItemDecoration(new DividerItemDecoration(requireContext(),DividerItemDecoration.VERTICAL));
-        hotkey_recyclerView.setHasFixedSize(true);
-        hotkey_recyclerView.setNestedScrollingEnabled(false);
+
         hotkeyAdapter=new HotkeyAdapter(dataBeanList);
         hotkey_recyclerView.setAdapter(hotkeyAdapter);
         hotkeyAdapter.setmListener(this);
@@ -102,7 +106,7 @@ public class HotkeyFragment extends Fragment implements HotkeyAdapter.OnListener
      * 获取搜索热词
      */
     private void getHotkeyData(){
-        dataBeanList.clear();
+
         Call<HotkeyBean> call = HttpUtils.getwAndroidService().getHotkeyData();
         call.enqueue(new Callback<HotkeyBean>() {
             @Override
@@ -110,6 +114,7 @@ public class HotkeyFragment extends Fragment implements HotkeyAdapter.OnListener
                 if (response.isSuccessful()){
                     HotkeyBean hotkeyBean=response.body();
                     if(hotkeyBean!=null){
+                        dataBeanList.clear();
                         dataBeanList=hotkeyBean.getData();
                         requireActivity().runOnUiThread(() -> {
                             initRecyclerView();

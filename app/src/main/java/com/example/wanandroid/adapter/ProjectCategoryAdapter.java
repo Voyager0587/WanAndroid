@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 
-import com.example.wanandroid.base.sqaure.ProjectFragment;
+import com.example.wanandroid.base.square.ProjectFragment;
 
 import java.util.List;
 

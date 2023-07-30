@@ -24,8 +24,7 @@
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/refresh"
-
+            android:src="@drawable/hotkey_refresh"
             />
         <TextView
             android:id="@+id/redresh"
@@ -42,7 +41,7 @@
         android:id="@+id/hotkey_recyclerView"
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         android:layout_below="@id/text"
         />
 

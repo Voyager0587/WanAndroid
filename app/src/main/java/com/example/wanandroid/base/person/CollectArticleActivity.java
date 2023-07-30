@@ -1,6 +1,9 @@
 package com.example.wanandroid.base.person;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,6 +43,7 @@ public class CollectArticleActivity extends AppCompatActivity {
     ArticleAdapter articleAdapter;
     LinearLayoutManager manager;
     SmartRefreshLayout refresh_layout;
+    LinearLayout internet_error,blank_layout;
     /**
      * 要获取的文章所在页数
      */
@@ -77,7 +81,8 @@ public class CollectArticleActivity extends AppCompatActivity {
 
     private void initView() {
         collectArticleRecyclerView=findViewById(R.id.collectArticleRecyclerView);
-
+        internet_error=findViewById(R.id.internet_error);
+        blank_layout=findViewById(R.id.blank_layout);
     }
 
 
@@ -105,11 +110,9 @@ public class CollectArticleActivity extends AppCompatActivity {
         getCollectArticleCall.enqueue(new Callback<CollectArticleBean>() {
             @Override
             public void onResponse(@NonNull Call<CollectArticleBean> call, @NonNull Response<CollectArticleBean> response) {
-                String mess=call.toString().trim();
                 assert response.body() != null;
-                String mess2=response.body().toString().trim();
-                int a;
                 if(response.isSuccessful()){
+                    internet_error.setVisibility(View.GONE);
                     CollectArticleBean collectArticleBean= response.body();
                     List<CollectArticleBean.DataBean.DatasBean> datasBeanList=collectArticleBean.getData().getDatas();
                     for (int i = 0; i < datasBeanList.size(); i++) {
@@ -124,15 +127,32 @@ public class CollectArticleActivity extends AppCompatActivity {
                         collectArticleList.add(articleBean);
                         if(page!=0){
                             loadCollectArticleList.add(articleBean);
-
                         }
-                        runOnUiThread(() -> initRecyclerView());
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(collectArticleList.size()==0){
+                                    blank_layout.setVisibility(View.VISIBLE);
+                                }else {
+                                    blank_layout.setVisibility(View.GONE);
+                                }
+                                initRecyclerView();
+                            }
+                        });
+
                     }
+                    if(loadCollectArticleList.size()==0){
+                        Toast.makeText(CollectArticleActivity.this,"文章已经全部加载",Toast.LENGTH_SHORT).show();
+                    }
+                  loadCollectArticleList.clear();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<CollectArticleBean> call, @NonNull Throwable t) {
+                if(collectArticleList.size()==0){
+                    internet_error.setVisibility(View.VISIBLE);
+                }
                 Snackbar.make(collectArticleRecyclerView,"获取收藏文章失败"+ t,Snackbar.LENGTH_SHORT).show();
             }
         });
