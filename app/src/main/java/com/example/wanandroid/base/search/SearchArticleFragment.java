@@ -94,18 +94,16 @@ public class SearchArticleFragment extends Fragment {
     private void initListener() {
         refresh_layout_search.setRefreshFooter(new BallPulseFooter(requireActivity()).setSpinnerStyle(SpinnerStyle.Scale));
         refresh_layout_search.setOnRefreshListener(refreshLayout -> {
-            refresh_layout_search.finishRefresh(1500);//传入false表示刷新失败
+            refresh_layout_search.finishRefresh(700);//传入false表示刷新失败
             articleBeanList.clear();
             page = 0;
             search(text, page);
         });
         refresh_layout_search.setOnLoadMoreListener(refreshLayout -> {
-            refresh_layout_search.finishLoadMore(2000/*,false*/);//传入false表示加载失败
+            refresh_layout_search.finishLoadMore(700/*,false*/);//传入false表示加载失败
             page++;
             search(text, page);
-            if (payload_articleBeanList.size() == 0) {
-                Toast.makeText(getContext(), "没有更多数据了", Toast.LENGTH_SHORT).show();
-            }
+
             refresh_layout_search.finishLoadMore();
         });
     }
@@ -118,7 +116,7 @@ public class SearchArticleFragment extends Fragment {
         articleAdapter.notifyDataSetChanged();
 
     }
-
+    //TODO 拓展：回到顶部
 
     /**
      * 通过作者名称搜索文章
@@ -153,9 +151,9 @@ public class SearchArticleFragment extends Fragment {
                         if (page != 0) {
                             articleAdapter.notifyItemRangeInserted(articleBeanList.size(), payload_articleBeanList.size());
                             manager.scrollToPositionWithOffset(position - 6, 0);
-
-
-
+                            if (payload_articleBeanList.size() == 0) {
+                                Toast.makeText(getContext(), "没有更多数据了", Toast.LENGTH_SHORT).show();
+                            }
                             payload_articleBeanList.clear();
                         }
                     }

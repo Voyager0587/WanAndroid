@@ -18,7 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.wanandroid.base.SignUpActivity;
 import com.example.wanandroid.base.home.BlogActivity;
 import com.example.wanandroid.bean.MessageBean;
-import com.example.wanandroid.sharedPreference.SaveAcount;
+import com.example.wanandroid.sharedPreference.SaveAccount;
 import com.example.wanandroid.utils.HttpUtils;
 import com.google.android.material.button.MaterialButton;
 
@@ -50,13 +50,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        map = SaveAcount.getAccountInfo(this);
-        Connector.getDatabase();
+        map = SaveAccount.getAccountInfo(this);
         context = getBaseContext();
+        Connector.getDatabase();
+        //TODO test自动登录
+        if(SaveAccount.getIsAutoLogin(MainActivity.this)==1){
+            Intent intent = new Intent(MainActivity.this, BlogActivity.class);
+            startActivity(intent);
+        }
         initView();
         initListener();
         HttpUtils.getInstance();
         //TODO 开屏动画★
+
     }
 
 
@@ -64,7 +70,11 @@ public class MainActivity extends AppCompatActivity {
         auto_login.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
+                if(isChecked){
+                    SaveAccount.openAutoLogin(MainActivity.this);
+                }else {
+                    SaveAccount.stopAutoLogin(MainActivity.this);
+                }
             }
         });
 
@@ -89,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                         MessageBean message = response.body();
                         if (0 == message.getErrorCode()) {
                             Toast.makeText(context, "登录成功", Toast.LENGTH_SHORT).show();
-                            SaveAcount.saveAccountInfo(MainActivity.this, accountStr, passwordStr);
+                            SaveAccount.saveAccountInfo(MainActivity.this, accountStr, passwordStr);
                             Intent intent = new Intent(MainActivity.this, BlogActivity.class);
                             startActivity(intent);
                             finish();

@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.wanandroid.R;
 import com.example.wanandroid.adapter.ProjectCategoryAdapter;
@@ -77,7 +78,7 @@ public class SquareFragment extends Fragment {
 //            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
 //                refreshLayout.finishRefresh(1000/*,false*/);//传入false表示刷新失败
 //
-//                //FIXME 下拉刷新有两个--嘶
+//
 //            }
 //        });
 
@@ -133,7 +134,8 @@ public class SquareFragment extends Fragment {
 
             @Override
             public void onFailure(@NonNull Call<ProjectCategoryBean> call, @NonNull Throwable t) {
-
+                Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+                refresh_button.setVisibility(View.VISIBLE);
             }
         });
 

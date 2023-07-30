@@ -69,7 +69,7 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
     private Banner banner;
     private RefreshLayout refreshLayout;
     private RelativeLayout top_layout;
-    private LinearLayout blank_layout;
+    private LinearLayout blank_layout,internet_error;
     private int chapterId=-100;
 
 
@@ -96,16 +96,17 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
         superChapter_recyclerview = view.findViewById(R.id.superChapter_recyclerview);
         chapter_recyclerview = view.findViewById(R.id.chapter_recyclerview);
         article_recyclerview=view.findViewById(R.id.recyclerView_article);
+        internet_error=view.findViewById(R.id.internet_error);
         banner = view.findViewById(R.id.banner);
         refreshLayout = view.findViewById(R.id.refresh_layout);
         top_layout = view.findViewById(R.id.top_layout);
         blank_layout=view.findViewById(R.id.blank_layout);
 
         initListener();
-        initBannerData();
-        getDefaultArticle();
         initChapter();
         getSuperChapterName();
+        getDefaultArticle();
+        initBannerData();
         initRefreshLayout();
         return view;
     }
@@ -145,9 +146,9 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
         //refreshLayout.setRefreshHeader(new Head(requireActivity()));
         refreshLayout.setRefreshFooter(new BallPulseFooter(requireActivity()).setSpinnerStyle(SpinnerStyle.Scale));
         refreshLayout.setOnRefreshListener(refreshlayout -> {
-            refreshlayout.finishRefresh(1500/*,false*/);//传入false表示刷新失败
+            refreshlayout.finishRefresh(700/*,false*/);//传入false表示刷新失败
             page = 0;
-            //TODO 下拉刷新还没有搞，记得根据不同文章分类界面进行刷新，相信难不倒你，其实就是articleList.clear然后getArticleByID★★★★★★
+
             initRecyclerView();
             articleBeanList.clear();
             getArticleById(page,String.valueOf(chapterId));
@@ -156,7 +157,7 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
         });
 
         refreshLayout.setOnLoadMoreListener(refreshlayout -> {
-            refreshlayout.finishLoadMore(2000/*,false*/);//传入false表示加载失败
+            refreshlayout.finishLoadMore(700/*,false*/);//传入false表示加载失败
             page++;
             if(chapterId==-100){
                 getHomeArticleBeanList(page);
@@ -182,6 +183,7 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
                     assert chapterBean != null;
                     data.addAll(chapterBean.getData());
                     requireActivity().runOnUiThread(()->{
+
                         initSuperRecyclerView();
                     });
                 }
@@ -264,6 +266,7 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
             @Override
             public void onResponse(@NonNull Call<HomeArticleBean> call, @NonNull Response<HomeArticleBean> response) {
                 if(response.isSuccessful()){
+                    internet_error.setVisibility(View.GONE);
                     HomeArticleBean homeArticleBean= response.body();
                     if(homeArticleBean!=null){
                         assert response.body() != null;
@@ -311,6 +314,9 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
 
             @Override
             public void onFailure(@NonNull Call<HomeArticleBean> call, @NonNull Throwable t) {
+                if(articleBeanList.size()==0){
+                    internet_error.setVisibility(View.VISIBLE);
+                }
                 Snackbar.make(article_recyclerview,"获取文章失败",Snackbar.LENGTH_SHORT).show();
             }
         });
@@ -363,6 +369,7 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
             @Override
             public void onFailure(@NonNull Call<TopArticleBean> call, @NonNull Throwable t) {
                 Snackbar.make(article_recyclerview, "获取置顶文章失败！", Snackbar.LENGTH_SHORT).show();
+
             }
         });
         page = 0;
@@ -379,7 +386,7 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
         if (pageGet != 0) {
             payload_articleBeanList.clear();
         }
-        //TODO 有些可以传入page_size(1~40)，但page_size可能!=page,page的范围是0~40★
+
         Call<HomeArticleBean> homeArticleBeanCall = HttpUtils.getwAndroidService().getHomeArticle(pageGet);
         homeArticleBeanCall.enqueue(new Callback<HomeArticleBean>() {
             @Override
@@ -401,11 +408,17 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
                             articleBeanList.add(articleBean);
                             payload_articleBeanList.add(articleBean);
                             requireActivity().runOnUiThread(() -> {
+                                if(articleBeanList.size()==0){
+                                    blank_layout.setVisibility(View.VISIBLE);
+                                }else {
+                                    blank_layout.setVisibility(View.GONE);
+                                }
                                 initRecyclerView();
                             });
                         }
                         if (page != 0) {
                             //TODO 接下来修改二级分类UI
+
                             articleAdapter.notifyItemRangeInserted(articleBeanList.size(), payload_articleBeanList.size());
                             manager.scrollToPositionWithOffset(position - 3,-30);
 
@@ -416,6 +429,9 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
 
             @Override
             public void onFailure(@NonNull Call<HomeArticleBean> call, @NonNull Throwable t) {
+                if(articleBeanList.size()==0){
+                    internet_error.setVisibility(View.VISIBLE);
+                }
                 Snackbar.make(article_recyclerview, "获取主页文章失败！", Snackbar.LENGTH_SHORT).show();
             }
         });

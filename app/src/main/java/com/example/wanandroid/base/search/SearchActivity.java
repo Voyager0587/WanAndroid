@@ -1,33 +1,28 @@
 package com.example.wanandroid.base.search;
 
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
-
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+
 import com.example.wanandroid.R;
 
 
-
 /**
+ * @author Voyager
  * @className SearchActivity
  * @description 搜索界面
- * @author Voyager
  * @date
  */
 
 public class SearchActivity extends AppCompatActivity {
     FragmentManager fragmentManager;
-
     EditText search_input;
     ImageView imageView;
     Button confirm_button;
@@ -40,12 +35,12 @@ public class SearchActivity extends AppCompatActivity {
     /**
      * 计数来判断是否在EditView中文本为空，在搜索过后清楚文本为空时展示热刺界面
      */
-    private static int count=0;
+    private static int count = 0;
 
     /**
      * 文章页数
      */
-    int page=0;
+    int page = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,26 +51,31 @@ public class SearchActivity extends AppCompatActivity {
         fragmentManager
                 .beginTransaction()
                 .setReorderingAllowed(true)
-                .replace(R.id.search_fragment_container,new HotkeyFragment())
+                .replace(R.id.search_fragment_container, new HotkeyFragment())
                 .commit();
+
 
     }
 
     /**
      * 点击Fragment中的热词后会执行这里的代码实现热刺内容自动填充
+     *
      * @param text 点击的热词内容
      */
     public void onTextClicked(String text) {
         search_input.setText(text);
-        input=text;
+        input = text;
     }
+
     /**
      * 初始化控件
      */
     private void initView() {
+
         search_input = findViewById(R.id.search_input);
-        imageView= findViewById(R.id.imageView);
+        imageView = findViewById(R.id.imageView);
         confirm_button = findViewById(R.id.confirm_button);
+
         search_input.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -90,15 +90,14 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                input=s.toString();
-                if(input.isEmpty()&&count!=0){
-                    //TODO 这边都要改成Hide和show的方法★★★
+                input = s.toString();
+                if (input.isEmpty() && count != 0) {
                     //TODO 搜素显示的文章的上拉加载和下拉刷新功能待测验★★★★
                     getSupportFragmentManager()
-                                .beginTransaction()
-                                .setReorderingAllowed(true)
-                                .replace(R.id.search_fragment_container,new HotkeyFragment())
-                                .commit();
+                            .beginTransaction()
+                            .setReorderingAllowed(true)
+                            .replace(R.id.search_fragment_container, new HotkeyFragment())
+                            .commit();
                 }
             }
         });
@@ -108,11 +107,11 @@ public class SearchActivity extends AppCompatActivity {
         confirm_button.setOnClickListener((v) -> {
             count++;
 
-            SearchArticleFragment searchArticleFragment=new SearchArticleFragment();
+            SearchArticleFragment searchArticleFragment = new SearchArticleFragment();
             searchArticleFragment.setText(input);
             fragmentManager.beginTransaction()
                     .setReorderingAllowed(true)
-                    .replace(R.id.search_fragment_container,searchArticleFragment)
+                    .replace(R.id.search_fragment_container, searchArticleFragment)
                     .commit();
 
         });

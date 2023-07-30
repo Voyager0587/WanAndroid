@@ -73,7 +73,7 @@
             android:layout_below="@id/password"
             android:layout_marginLeft="5dp"
             android:layout_alignLeft="@id/password"
-            android:text="CheckBox" />
+            android:text="自动登录" />
     </RelativeLayout>
 
     <TextView

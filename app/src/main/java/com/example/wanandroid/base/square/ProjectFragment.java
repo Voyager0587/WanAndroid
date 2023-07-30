@@ -56,9 +56,8 @@ public class ProjectFragment extends Fragment {
     /**
      * @param id 分类id
      * @param page 文章获取的页数
-     * @param isLoadAll 是否全部加载
      */
-    int id,page,isLoadAll=-1;
+    int id,page;
     private static final String ARG_PARAM1 = "param1";
 
 
@@ -97,6 +96,7 @@ public class ProjectFragment extends Fragment {
             @Override
             public void onResponse(@NonNull Call<ProjectBean> call, @NonNull Response<ProjectBean> response) {
                 if(response.isSuccessful()){
+                    internet_error.setVisibility(View.GONE);
                     ProjectBean projectBean=response.body();
                     if(projectBean!=null&&projectBean.getData()!=null){
                         data=projectBean.getData().getDatas();
@@ -106,7 +106,7 @@ public class ProjectFragment extends Fragment {
                             initRecyclerView();
                         });
 
-                        //TODO 显示“已经没有数据可以来加载了呢”的逻辑★★
+
                         //TODO 暂时先弄网络那个吧★★★★
                         //网络显示“网络问题”就再创建一个LinearLayout来显示
                         // ①如果没有网络的话要将page重新置1
@@ -152,7 +152,7 @@ public class ProjectFragment extends Fragment {
                     if(projectBean!=null&&projectBean.getData()!=null){
                         loadMoreData.addAll(projectBean.getData().getDatas());
                         if(loadMoreData.isEmpty()){
-                            isLoadAll=1;
+                            Snackbar.make(refreshLayout,"没有更多数据了",Snackbar.LENGTH_SHORT).show();
                         }
                         data.addAll(projectBean.getData().getDatas());
                         projectAdapter.notifyItemRangeInserted(data.size(),loadMoreData.size());
@@ -191,7 +191,7 @@ public class ProjectFragment extends Fragment {
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshlayout) {
-                refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
+                refreshlayout.finishRefresh(800/*,false*/);//传入false表示刷新失败
                 page=1;
                 initData();
                 projectAdapter.notifyDataSetChanged();
@@ -205,9 +205,7 @@ public class ProjectFragment extends Fragment {
                 loadMoreData(page);
                 refreshlayout.finishLoadMore(800);
                 refreshlayout.finishLoadMore();
-                if(isLoadAll==1){
-                    Snackbar.make(refreshLayout,"没有更多数据了",Snackbar.LENGTH_SHORT).show();
-                }
+
             }
         });
     }
