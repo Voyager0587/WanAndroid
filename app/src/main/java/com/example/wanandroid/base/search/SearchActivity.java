@@ -7,6 +7,7 @@ import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -25,7 +26,7 @@ public class SearchActivity extends AppCompatActivity {
     FragmentManager fragmentManager;
     EditText search_input;
     ImageView imageView;
-    Button confirm_button;
+    TextView confirm_button;
 
     /**
      * EditView中的文本

@@ -65,7 +65,6 @@ public class HotkeyFragment extends Fragment implements HotkeyAdapter.OnListener
 
         flexboxLayoutManager=new FlexboxLayoutManager(requireActivity());
         hotkey_recyclerView.setLayoutManager(flexboxLayoutManager);
-
         hotkey_recyclerView.setHasFixedSize(true);
         hotkey_recyclerView.setNestedScrollingEnabled(false);
         //TODO 拓展：添加搜索记录功能
@@ -93,8 +92,6 @@ public class HotkeyFragment extends Fragment implements HotkeyAdapter.OnListener
      * 初始化RecyclerView
      */
     private void initRecyclerView(){
-
-
         hotkeyAdapter=new HotkeyAdapter(dataBeanList);
         hotkey_recyclerView.setAdapter(hotkeyAdapter);
         hotkeyAdapter.setmListener(this);
@@ -117,7 +114,10 @@ public class HotkeyFragment extends Fragment implements HotkeyAdapter.OnListener
                         dataBeanList.clear();
                         dataBeanList=hotkeyBean.getData();
                         requireActivity().runOnUiThread(() -> {
-                            initRecyclerView();
+                            hotkeyAdapter=new HotkeyAdapter(dataBeanList);
+                            hotkey_recyclerView.setAdapter(hotkeyAdapter);
+                            hotkeyAdapter.setmListener(HotkeyFragment.this);
+                            hotkeyAdapter.notifyDataSetChanged();
                         });
                     }
 

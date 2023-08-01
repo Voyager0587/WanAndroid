@@ -107,12 +107,6 @@ public class ProjectFragment extends Fragment {
                             initRecyclerView();
                         });
 
-
-                        //TODO 暂时先弄网络那个吧★★★★
-                        // ②其次，要判断获取文章response为null时，是否是网络没了还是根本就是数据已经全部显示了（errorCode==0)也许能判断
-                        // ③还要把banner的刷新加入刷新和加载
-
-
                     }
                     requireActivity().runOnUiThread(() -> {
                         if(data.size()==0){
@@ -123,7 +117,8 @@ public class ProjectFragment extends Fragment {
             }
             @Override
             public void onFailure(@NonNull Call<ProjectBean> call, Throwable t) {
-                Toast.makeText(getContext(),"error:网络问题",Toast.LENGTH_SHORT).show();
+                Snackbar.make(refreshLayout,"error:网络问题",Snackbar.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(),"error:网络问题",Toast.LENGTH_SHORT).show();
                 requireActivity().runOnUiThread(() -> {
                     if(data.size()==0&&page==1){
                         internet_error.setVisibility(View.VISIBLE);

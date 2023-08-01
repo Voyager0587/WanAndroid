@@ -425,7 +425,6 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
                         }
                         if (pageGet != 0) {
                             //TODO 接下来修改二级分类UI
-                            //TODO 收藏文章界面还要优化
                             articleAdapter.notifyItemRangeInserted(articleBeanList.size(), payload_articleBeanList.size());
                             manager.scrollToPositionWithOffset(position - 3,-30);
 
