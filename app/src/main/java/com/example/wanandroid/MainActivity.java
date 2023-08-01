@@ -52,13 +52,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         HttpUtils.getInstance();
         map = SaveAccount.getAccountInfo(this);
-//        if(SaveAccount.getIsAutoLogin(MainActivity.this)==1){
-//            Intent intent = new Intent(MainActivity.this, BlogActivity.class);
-//            startActivity(intent);
-//            finish();
-////            autoLogin();
-//        }
-
         context = getBaseContext();
         Connector.getDatabase();
         initView();
@@ -68,9 +61,6 @@ public class MainActivity extends AppCompatActivity {
         //TODO 开屏动画★,
 
     }
-
-    //TODO 没有网络就不让自动登录，要不然HomeFragment界面的刷新不好搞
-
 
 
     private void initListener() {

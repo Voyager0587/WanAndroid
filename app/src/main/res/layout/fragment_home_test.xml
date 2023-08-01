@@ -9,7 +9,7 @@
     <RelativeLayout
         android:id="@+id/top_layout"
         android:layout_width="match_parent"
-        android:layout_height="53dp">
+        android:layout_height="45dp">
 
         <ImageView
             android:id="@+id/imageView"
@@ -88,8 +88,6 @@
                 android:layout_alignParentBottom="true" />
 
         </LinearLayout>
-
-
     </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
     <LinearLayout

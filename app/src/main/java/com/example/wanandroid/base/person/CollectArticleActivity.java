@@ -2,6 +2,7 @@ package com.example.wanandroid.base.person;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -45,6 +46,7 @@ public class CollectArticleActivity extends AppCompatActivity {
     LinearLayoutManager manager;
     SmartRefreshLayout refresh_layout;
     LinearLayout internet_error,blank_layout;
+    ImageButton cancel;
     /**
      * 要获取的文章所在页数
      */
@@ -64,7 +66,7 @@ public class CollectArticleActivity extends AppCompatActivity {
         refresh_layout.setRefreshHeader(new BezierRadarHeader(this).setEnableHorizontalDrag(true));
         refresh_layout.setRefreshFooter(new BallPulseFooter(this).setSpinnerStyle(SpinnerStyle.Scale));
         refresh_layout.setOnRefreshListener(refresh_layout -> {
-            refresh_layout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
+            refresh_layout.finishRefresh(500/*,false*/);//传入false表示刷新失败
             collectArticleList.clear();
             page = 0;
             getCollectArticle(0);
@@ -72,7 +74,7 @@ public class CollectArticleActivity extends AppCompatActivity {
         });
 
         refresh_layout.setOnLoadMoreListener(refresh_layout -> {
-            refresh_layout.finishLoadMore(2000/*,false*/);//传入false表示加载失败
+            refresh_layout.finishLoadMore(500/*,false*/);//传入false表示加载失败
             page++;
             getCollectArticle(page);
             refresh_layout.finishLoadMore();
@@ -83,9 +85,13 @@ public class CollectArticleActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        cancel=findViewById(R.id.cancel);
         collectArticleRecyclerView=findViewById(R.id.collectArticleRecyclerView);
         internet_error=findViewById(R.id.internet_error);
         blank_layout=findViewById(R.id.blank_layout);
+        cancel.setOnClickListener(v -> {
+            finish();
+        });
     }
 
 

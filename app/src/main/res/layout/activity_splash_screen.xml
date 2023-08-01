@@ -5,10 +5,54 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SplashScreen">
-<ImageView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/splash_screen"
+<com.hanks.htextview.typer.TyperTextView
+    android:id="@id/textView2"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="30dp"
+    android:text="-Learn and create your own blog"
+    android:textSize="30sp"
+    android:layout_centerHorizontal="true"
+    android:paddingHorizontal="10dp"
+    android:layout_below="@id/textView3"
+    app:charIncrease="3"
+    app:typerSpeed="90"
     />
 
+
+<ImageView
+    android:id="@+id/imageView"
+    android:layout_width="150dp"
+    android:layout_height="84dp"
+    android:background="@drawable/android_icon"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="150dp"
+    />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imageView"
+        android:layout_marginTop="100dp"
+        android:text="欢迎来到"
+        android:textSize="50sp"
+        android:textColor="@color/black"
+        android:layout_marginStart="15dp"
+
+        />
+
+    <com.hanks.htextview.line.LineTextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="WanAndroid"
+        android:textSize="60dp"
+        android:layout_below="@id/textView1"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="15dp"
+        app:animationDuration="3000"
+        app:lineColor="#1367bc"
+        app:lineWidth="4dp"
+        />
 </RelativeLayout>

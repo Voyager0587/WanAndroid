@@ -72,18 +72,6 @@ public class SquareFragment extends Fragment {
      * 初始化视图
      */
     private void initView() {
-//        refreshLayout.setRefreshHeader(new BezierRadarHeader(requireActivity()).setEnableHorizontalDrag(true));
-//        //设置 Footer 为 球脉冲 样式
-//        refreshLayout.setRefreshFooter(new BallPulseFooter(requireActivity()).setSpinnerStyle(SpinnerStyle.Scale));
-//        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-//            @Override
-//            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-//                refreshLayout.finishRefresh(1000/*,false*/);//传入false表示刷新失败
-//
-//
-//            }
-//        });
-
         refresh_button.setOnClickListener(v -> {
             initData();
         });

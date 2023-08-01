@@ -3,6 +3,7 @@ package com.example.wanandroid;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.animation.AlphaAnimation;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,9 @@ import com.example.wanandroid.base.home.BlogActivity;
 import com.example.wanandroid.bean.MessageBean;
 import com.example.wanandroid.sharedPreference.SaveAccount;
 import com.example.wanandroid.utils.HttpUtils;
+import com.hanks.htextview.fade.FadeTextView;
+import com.hanks.htextview.line.LineTextView;
+import com.hanks.htextview.typer.TyperTextView;
 
 import java.util.Map;
 
@@ -27,13 +31,18 @@ import retrofit2.Response;
  */
 public class SplashScreen extends AppCompatActivity {
 
-
+    TyperTextView textView2;
+    LineTextView textView3;
     int judge = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+        textView2=findViewById(R.id.textView2);
+        textView3=findViewById(R.id.textView3);
+        textView3.animateText("WanAndroid");
+        textView2.animateText("-Learn and create your own blog");
         HttpUtils.getInstance();
         int isAuto = SaveAccount.getIsAutoLogin(SplashScreen.this);
         if (1 == isAuto) {
