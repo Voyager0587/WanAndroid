@@ -30,6 +30,9 @@ android {
 
 dependencies {
 
+    implementation "com.hanks:htextview-base:0.1.6"
+    implementation "com.hanks:htextview-fade:0.1.6"        // optional
+    implementation "com.hanks:htextview-typer:0.1.6"       // optional
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.10.0"))
 
     // define any required OkHttp artifacts without version

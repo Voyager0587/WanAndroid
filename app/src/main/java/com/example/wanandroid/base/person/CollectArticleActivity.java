@@ -23,6 +23,7 @@ import com.scwang.smart.refresh.layout.constant.SpinnerStyle;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -75,7 +76,9 @@ public class CollectArticleActivity extends AppCompatActivity {
             page++;
             getCollectArticle(page);
             refresh_layout.finishLoadMore();
-
+            if(loadCollectArticleList.size() == 0){
+                page--;
+            }
         });
     }
 
@@ -105,7 +108,7 @@ public class CollectArticleActivity extends AppCompatActivity {
      * @param page 文章页数
      */
     private void getCollectArticle(int page) {
-
+        loadCollectArticleList.clear();
         Call<CollectArticleBean> getCollectArticleCall= HttpUtils.getwAndroidService().getCollectArticle(page);
         getCollectArticleCall.enqueue(new Callback<CollectArticleBean>() {
             @Override
@@ -114,6 +117,9 @@ public class CollectArticleActivity extends AppCompatActivity {
                 if(response.isSuccessful()){
                     internet_error.setVisibility(View.GONE);
                     CollectArticleBean collectArticleBean= response.body();
+                    if (collectArticleBean.getData().getDatas().size() == 0&& Objects.requireNonNull(response.body()).getErrorCode()==0) {
+                        Snackbar.make(blank_layout,"没有更多数据了",Snackbar.LENGTH_SHORT).show();
+                    }
                     List<CollectArticleBean.DataBean.DatasBean> datasBeanList=collectArticleBean.getData().getDatas();
                     for (int i = 0; i < datasBeanList.size(); i++) {
                         ArticleBean articleBean=new ArticleBean();
@@ -141,10 +147,7 @@ public class CollectArticleActivity extends AppCompatActivity {
                         });
 
                     }
-                    if(loadCollectArticleList.size()==0){
-                        Toast.makeText(CollectArticleActivity.this,"文章已经全部加载",Toast.LENGTH_SHORT).show();
-                    }
-                  loadCollectArticleList.clear();
+
                 }
             }
 

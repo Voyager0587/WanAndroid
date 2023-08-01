@@ -27,6 +27,7 @@ import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -103,7 +104,6 @@ public class SearchArticleFragment extends Fragment {
             refresh_layout_search.finishLoadMore(700/*,false*/);//传入false表示加载失败
             page++;
             search(text, page);
-
             refresh_layout_search.finishLoadMore();
         });
     }
@@ -130,6 +130,9 @@ public class SearchArticleFragment extends Fragment {
             @Override
             public void onResponse(@NonNull Call<HomeArticleBean> call, @NonNull Response<HomeArticleBean> response) {
                 HomeArticleBean homeArticleBean = response.body();
+                if (homeArticleBean.getData().getDatas().size() == 0&&Objects.requireNonNull(response.body()).getErrorCode()==0) {
+                    Toast.makeText(getContext(), "没有更多数据了", Toast.LENGTH_SHORT).show();
+                }
                 if (homeArticleBean != null) {
                     homeArticleBeanList = homeArticleBean.getData().getDatas();
                     for (int i = 0; i < homeArticleBeanList.size(); i++) {
@@ -151,9 +154,6 @@ public class SearchArticleFragment extends Fragment {
                         if (page != 0) {
                             articleAdapter.notifyItemRangeInserted(articleBeanList.size(), payload_articleBeanList.size());
                             manager.scrollToPositionWithOffset(position - 6, 0);
-                            if (payload_articleBeanList.size() == 0) {
-                                Toast.makeText(getContext(), "没有更多数据了", Toast.LENGTH_SHORT).show();
-                            }
                             payload_articleBeanList.clear();
                         }
                     }

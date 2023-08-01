@@ -65,7 +65,7 @@ public class HotkeyFragment extends Fragment implements HotkeyAdapter.OnListener
 
         flexboxLayoutManager=new FlexboxLayoutManager(requireActivity());
         hotkey_recyclerView.setLayoutManager(flexboxLayoutManager);
-        hotkey_recyclerView.addItemDecoration(new DividerItemDecoration(requireContext(),DividerItemDecoration.VERTICAL));
+
         hotkey_recyclerView.setHasFixedSize(true);
         hotkey_recyclerView.setNestedScrollingEnabled(false);
         //TODO 拓展：添加搜索记录功能
@@ -135,7 +135,7 @@ public class HotkeyFragment extends Fragment implements HotkeyAdapter.OnListener
     /**
      * RecyclerView的item点击事件
      * @param view
-     * @param position
+     * @param position 点击的item位置
      */
     @Override
     public void onItemClick(View view, int position) {

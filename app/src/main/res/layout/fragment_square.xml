@@ -2,9 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/squareLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".base.square.SquareFragment">
+    android:background="@drawable/square_background"
+
+>
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewPager_container"
@@ -12,8 +15,6 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/tab_layout"
             android:orientation="horizontal" >
-
-
         </androidx.viewpager.widget.ViewPager>
 
 
@@ -54,6 +55,7 @@
             android:textColor="#2c2c2c" />
 
     </LinearLayout>
+
     <TextView
         android:id="@+id/title"
         android:text="发现"
@@ -62,18 +64,19 @@
         android:textSize="24sp"
         android:layout_width="match_parent"
         android:layout_height="47dp"
+
  />
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="47dp"
-        android:background="#FFF"
-        app:tabIndicatorColor="#00FF00"
+        android:background="@color/square_30"
+        app:tabIndicatorColor="@color/square"
         app:tabIndicatorFullWidth="false"
         app:tabMode="scrollable"
         app:tabRippleColor="#00000000"
-        app:tabSelectedTextColor="#00FF00"
+        app:tabSelectedTextColor="@color/square"
         app:tabTextColor="#000" />
 
 

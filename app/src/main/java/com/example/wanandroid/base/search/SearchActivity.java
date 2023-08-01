@@ -92,7 +92,6 @@ public class SearchActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 input = s.toString();
                 if (input.isEmpty() && count != 0) {
-                    //TODO 搜素显示的文章的上拉加载和下拉刷新功能待测验★★★★
                     getSupportFragmentManager()
                             .beginTransaction()
                             .setReorderingAllowed(true)

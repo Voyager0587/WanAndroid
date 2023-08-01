@@ -17,6 +17,8 @@ import com.example.wanandroid.bean.MessageBean;
 import com.example.wanandroid.sharedPreference.SaveAccount;
 import com.example.wanandroid.utils.HttpUtils;
 
+import java.util.Objects;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,8 +55,9 @@ public class PersonFragment extends Fragment {
     private void initListener() {
 
         collectArticle.setOnClickListener(v -> {
+
             Intent intent = new Intent(requireActivity(), CollectArticleActivity.class);
-            requireActivity().startActivity(intent);
+           requireActivity().startActivity(intent);
         });
 
         info_layout.setOnClickListener(v -> {
@@ -67,9 +70,13 @@ public class PersonFragment extends Fragment {
                 @Override
                 public void onResponse(@NonNull Call<MessageBean> call, @NonNull Response<MessageBean> response) {
                     if (response.isSuccessful()) {
+                        assert response.body() != null;
                         if (response.body().getErrorCode() == 0) {
                             Toast.makeText(getContext(), "注销成功", Toast.LENGTH_SHORT).show();
-//                            SaveAccount.clearUpUserData(MainActivity.class);
+                            SaveAccount.clearUpUserData(requireContext());
+                            Intent intent=new Intent(getContext(), MainActivity.class);
+                           requireContext().startActivity(intent);
+                           requireActivity().finish();
                         }
                         Toast.makeText(getContext(), "注销失败", Toast.LENGTH_SHORT).show();
                     }
@@ -83,6 +90,6 @@ public class PersonFragment extends Fragment {
             });
 
         });
-        //TODO 注销完就应该直接退出主界面，然后进入登入界面，清理本地密码
+
     }
 }

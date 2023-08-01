@@ -1,5 +1,6 @@
 package com.example.wanandroid.base;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageButton;
 
+import com.example.wanandroid.MainActivity;
 import com.example.wanandroid.R;
 import com.example.wanandroid.bean.MessageBean;
 import com.example.wanandroid.utils.HttpUtils;
@@ -106,8 +108,13 @@ public class SignUpActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(@NonNull Call<MessageBean> call, @NonNull Response<MessageBean> response) {
                         if (response.isSuccessful()) {
-                            //TODO 检查返回的信息是否是已经注册
-                            //如果注册成功就自动登录（可以加一个勾选框，“注册成功后自动登录”）
+                            if(response.body().getErrorCode()==0){
+                                Intent intent=new Intent(SignUpActivity.this, MainActivity.class);
+                                startActivity(intent);
+
+                            }
+                            Toast.makeText(SignUpActivity.this,response.body().getErrorMsg(),Toast.LENGTH_SHORT).show();
+
                         }
                     }
 

@@ -23,7 +23,6 @@ import java.util.zip.Inflater;
  **/
 public class HotkeyAdapter extends RecyclerView.Adapter<HotkeyAdapter.ViewHolder> {
     private  List<HotkeyBean.DataBean> hotkeyBeanList;
-    //监听器，便于在Fragment中操作item的监听事件
     private OnListener mListener;
 
 

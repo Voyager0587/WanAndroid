@@ -28,6 +28,7 @@ import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -108,8 +109,6 @@ public class ProjectFragment extends Fragment {
 
 
                         //TODO 暂时先弄网络那个吧★★★★
-                        //网络显示“网络问题”就再创建一个LinearLayout来显示
-                        // ①如果没有网络的话要将page重新置1
                         // ②其次，要判断获取文章response为null时，是否是网络没了还是根本就是数据已经全部显示了（errorCode==0)也许能判断
                         // ③还要把banner的刷新加入刷新和加载
 
@@ -149,11 +148,11 @@ public class ProjectFragment extends Fragment {
             public void onResponse(@NonNull Call<ProjectBean> call, @NonNull Response<ProjectBean> response) {
                 if(response.isSuccessful()){
                     ProjectBean projectBean=response.body();
+                    if (projectBean.getData().getDatas().size() == 0&& Objects.requireNonNull(response.body()).getErrorCode()==0) {
+                        Snackbar.make(refreshLayout,"没有更多数据了",Snackbar.LENGTH_SHORT).show();
+                    }
                     if(projectBean!=null&&projectBean.getData()!=null){
                         loadMoreData.addAll(projectBean.getData().getDatas());
-                        if(loadMoreData.isEmpty()){
-                            Snackbar.make(refreshLayout,"没有更多数据了",Snackbar.LENGTH_SHORT).show();
-                        }
                         data.addAll(projectBean.getData().getDatas());
                         projectAdapter.notifyItemRangeInserted(data.size(),loadMoreData.size());
                         manager.scrollToPositionWithOffset(data.size(), 200);
@@ -205,6 +204,10 @@ public class ProjectFragment extends Fragment {
                 loadMoreData(page);
                 refreshlayout.finishLoadMore(800);
                 refreshlayout.finishLoadMore();
+                //数据已经加载完了或者在无网状态下点击加载，page不变
+                if(loadMoreData.size()==0){
+                    page--;
+                }
 
             }
         });

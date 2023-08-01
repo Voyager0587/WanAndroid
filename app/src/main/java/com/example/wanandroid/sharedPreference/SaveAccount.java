@@ -91,11 +91,9 @@ public class SaveAccount {
      */
     public static boolean clearUpUserData(Context context){
         SharedPreferences sharedPreferences = context.getSharedPreferences("data", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
+        sharedPreferences.edit().clear().apply();
         sharedPreferences = context.getSharedPreferences("isAutoLogin", Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
-        editor.clear();
+        sharedPreferences.edit().clear().apply();
         return true;
     }
 }
