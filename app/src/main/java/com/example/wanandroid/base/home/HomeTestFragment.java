@@ -152,7 +152,11 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
             initRecyclerView();
             articleBeanList.clear();
             bannerData.clear();
-            getArticleById(page,String.valueOf(chapterId));
+            if(chapterId==-100){
+                getDefaultArticle();
+            }else {
+                getArticleById(page,String.valueOf(chapterId));
+            }
             initBannerData();
             articleAdapter.notifyDataSetChanged();
 
@@ -189,7 +193,6 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
                     assert chapterBean != null;
                     data.addAll(chapterBean.getData());
                     requireActivity().runOnUiThread(()->{
-
                         initSuperRecyclerView();
                     });
                 }
@@ -298,10 +301,8 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
                                 });
                             }
                             if (page != 0) {
-
                                 articleAdapter.notifyItemRangeInserted(articleBeanList.size(), payload_articleBeanList.size());
                                 manager.scrollToPositionWithOffset(position - 3, 0);
-
                             }
                             if(page ==0&&articleBeanList.size()==0){
                                 requireActivity().runOnUiThread(() -> {
@@ -422,9 +423,9 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
                                 initRecyclerView();
                             });
                         }
-                        if (page != 0) {
+                        if (pageGet != 0) {
                             //TODO 接下来修改二级分类UI
-
+                            //TODO 收藏文章界面还要优化
                             articleAdapter.notifyItemRangeInserted(articleBeanList.size(), payload_articleBeanList.size());
                             manager.scrollToPositionWithOffset(position - 3,-30);
 

@@ -52,13 +52,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         HttpUtils.getInstance();
         map = SaveAccount.getAccountInfo(this);
-        if(SaveAccount.getIsAutoLogin(MainActivity.this)==1){
-            Intent intent = new Intent(MainActivity.this, BlogActivity.class);
-            startActivity(intent);
-            finish();
-//            autoLogin();
-        }
-        //TODO 自动登录比较慢，可以加一个转圈的加载,放在开屏动画那判断，成功就直接到BlogActivity，不成功就去MainActivity
+//        if(SaveAccount.getIsAutoLogin(MainActivity.this)==1){
+//            Intent intent = new Intent(MainActivity.this, BlogActivity.class);
+//            startActivity(intent);
+//            finish();
+////            autoLogin();
+//        }
+
         context = getBaseContext();
         Connector.getDatabase();
         initView();
@@ -70,32 +70,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //TODO 没有网络就不让自动登录，要不然HomeFragment界面的刷新不好搞
-    /**
-     * 自动登录请求
-     */
-    private void autoLogin(){
-        Call<MessageBean> call = HttpUtils.getUserService().login(map.get("account"), map.get("password"));
-        call.enqueue(new Callback<MessageBean>() {
-            @Override
-            public void onResponse(@NonNull Call<MessageBean> call, @NonNull Response<MessageBean> response) {
-                if (response.isSuccessful()){
-                    assert response.body() != null;
-                    if (response.body().getErrorCode()==0){
-                        Intent intent = new Intent(MainActivity.this, BlogActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }else {
-                        Toast.makeText(MainActivity.this,response.body().getErrorMsg(),Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
 
-            @Override
-            public void onFailure(@NonNull Call<MessageBean> call, @NonNull Throwable t) {
 
-            }
-        });
-    }
 
     private void initListener() {
         auto_login.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
