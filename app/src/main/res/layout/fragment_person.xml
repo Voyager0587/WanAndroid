@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EEEEEE"
+    android:background="#FAF9F9"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
 >
@@ -95,8 +95,8 @@
     <RelativeLayout
         android:id="@+id/collectArticle"
         android:layout_width="0dp"
-        android:layout_height="54dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="8dp"
         android:background="@color/color_gray_light_plus"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -112,7 +112,7 @@
             android:layout_height="40dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/arrow" />
+            android:src="@drawable/arrow_right" />
 
         <TextView
             android:id="@+id/like_textView"
@@ -127,8 +127,8 @@
 
         <ImageView
             android:id="@+id/like_imageView"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
             android:src="@drawable/like" />
@@ -139,8 +139,8 @@
     <RelativeLayout
         android:id="@+id/info_layout"
         android:layout_width="0dp"
-        android:layout_height="54dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="8dp"
         android:background="@color/color_gray_light_plus"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -156,7 +156,7 @@
             android:layout_height="40dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/arrow" />
+            android:src="@drawable/arrow_right" />
 
         <TextView
             android:id="@+id/share_textView"
@@ -172,8 +172,8 @@
 
         <ImageView
             android:id="@+id/share_imageView"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
             android:src="@drawable/more_info" />
@@ -184,8 +184,8 @@
     <RelativeLayout
         android:id="@+id/logout_layout"
         android:layout_width="0dp"
-        android:layout_height="54dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="8dp"
         android:background="@color/color_gray_light_plus"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -201,7 +201,7 @@
             android:layout_height="40dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/arrow" />
+            android:src="@drawable/arrow_right" />
 
         <TextView
             android:id="@+id/logout_textView"
@@ -217,8 +217,8 @@
 
         <ImageView
             android:id="@+id/logout_imageView"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
             android:src="@drawable/logout_1" />

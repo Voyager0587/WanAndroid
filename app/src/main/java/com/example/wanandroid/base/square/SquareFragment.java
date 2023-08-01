@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.wanandroid.R;
@@ -61,6 +62,7 @@ public class SquareFragment extends Fragment {
         internet_error=view.findViewById(R.id.internet_error);
         refreshLayout=view.findViewById(R.id.refresh_layout);
         refresh_button=view.findViewById(R.id.refresh_button);
+
         initData();
         initView();
         return view;
@@ -103,14 +105,16 @@ public class SquareFragment extends Fragment {
                         List<String> titles=new ArrayList<>();
                         List<ProjectFragment> fragments=new ArrayList<>();
                         if(data!=null&&data.size()>0){
-                            requireActivity().runOnUiThread(() -> {
-                                for(int i=0;i<data.size();i++){
-                                    ProjectCategoryBean.DataBean dataBean=data.get(i);
-                                    titles.add(dataBean.getName());
-                                    ProjectFragment projectFragment=new ProjectFragment(dataBean.getId());
-                                    fragments.add(projectFragment);
+                            for(int i=0;i<data.size();i++){
+                                ProjectCategoryBean.DataBean dataBean=data.get(i);
+                                titles.add(dataBean.getName());
+                                ProjectFragment projectFragment=new ProjectFragment(dataBean.getId());
+                                fragments.add(projectFragment);
 
-                                }
+                        }
+
+                            requireActivity().runOnUiThread(() -> {
+
                                 viewPager.setAdapter(new ProjectCategoryAdapter(getChildFragmentManager(),fragments,titles));
                                 tabLayout.setupWithViewPager(viewPager);
                                 internet_error.setVisibility(View.GONE);
@@ -136,6 +140,7 @@ public class SquareFragment extends Fragment {
             public void onFailure(@NonNull Call<ProjectCategoryBean> call, @NonNull Throwable t) {
                 Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
                 refresh_button.setVisibility(View.VISIBLE);
+                internet_error.setVisibility(View.VISIBLE);
             }
         });
 

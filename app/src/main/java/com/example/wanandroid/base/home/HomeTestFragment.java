@@ -39,6 +39,7 @@ import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -63,7 +64,7 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
     List<ChapterBean.DataBean> data = new ArrayList<>();
     List<ChapterBean.DataBean.ChildrenBean> childrenBeanList= new ArrayList<>();
     private List<ArticleBean> articleBeanList=new ArrayList<>();
-    private List<BannerBean.DataBean> bannerData;
+    private List<BannerBean.DataBean> bannerData=new ArrayList<>();
     //上拉加载的文章
     private List<ArticleBean> payload_articleBeanList=new ArrayList<>();
     private Banner banner;
@@ -74,7 +75,6 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
 
 
 
-    //TODO 你既然记录了二级的，那一级的不是也会变吗？
 
     /**
      * @param page 当前分类下文章的页数
@@ -151,7 +151,9 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
 
             initRecyclerView();
             articleBeanList.clear();
+            bannerData.clear();
             getArticleById(page,String.valueOf(chapterId));
+            initBannerData();
             articleAdapter.notifyDataSetChanged();
 
         });
@@ -159,12 +161,16 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
         refreshLayout.setOnLoadMoreListener(refreshlayout -> {
             refreshlayout.finishLoadMore(700/*,false*/);//传入false表示加载失败
             page++;
+            payload_articleBeanList.clear();
             if(chapterId==-100){
                 getHomeArticleBeanList(page);
             }else {
                 getArticleById(page,String.valueOf(chapterId));
             }
 
+            if(payload_articleBeanList.size()==0){
+                page--;
+            }
             refreshlayout.finishLoadMore();
 
         });
@@ -269,6 +275,9 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
                     internet_error.setVisibility(View.GONE);
                     HomeArticleBean homeArticleBean= response.body();
                     if(homeArticleBean!=null){
+                        if (homeArticleBean.getData().getDatas().size() == 0&& Objects.requireNonNull(response.body()).getErrorCode()==0) {
+                            Snackbar.make(blank_layout,"没有更多数据了",Snackbar.LENGTH_SHORT).show();
+                        }
                         assert response.body() != null;
                         List<HomeArticleBean.DataBean.DatasBean> homeArticleBeanList = response.body().getData().getDatas();
                         if (homeArticleBeanList.size() > 0) {
@@ -293,9 +302,6 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
                                 articleAdapter.notifyItemRangeInserted(articleBeanList.size(), payload_articleBeanList.size());
                                 manager.scrollToPositionWithOffset(position - 3, 0);
 
-                            }
-                            if(page !=0&&payload_articleBeanList.isEmpty()) {
-                                Toast.makeText(getContext(),"文章已经全部加载",Toast.LENGTH_SHORT).show();
                             }
                             if(page ==0&&articleBeanList.size()==0){
                                 requireActivity().runOnUiThread(() -> {
