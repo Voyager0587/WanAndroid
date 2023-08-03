@@ -106,7 +106,6 @@ public class SearchActivity extends AppCompatActivity {
         });
         confirm_button.setOnClickListener((v) -> {
             count++;
-
             SearchArticleFragment searchArticleFragment = new SearchArticleFragment();
             searchArticleFragment.setText(input);
             fragmentManager.beginTransaction()

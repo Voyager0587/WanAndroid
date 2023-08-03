@@ -17,8 +17,6 @@ import com.example.wanandroid.bean.MessageBean;
 import com.example.wanandroid.sharedPreference.SaveAccount;
 import com.example.wanandroid.utils.HttpUtils;
 
-import java.util.Objects;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,7 +28,6 @@ import retrofit2.Response;
  * @description 个人界面
  * @createTime
  */
-
 public class PersonFragment extends Fragment {
     RelativeLayout collectArticle, info_layout, logout_layout;
 
@@ -55,13 +52,12 @@ public class PersonFragment extends Fragment {
     private void initListener() {
 
         collectArticle.setOnClickListener(v -> {
-
             Intent intent = new Intent(requireActivity(), CollectArticleActivity.class);
-           requireActivity().startActivity(intent);
+            requireActivity().startActivity(intent);
         });
 
         info_layout.setOnClickListener(v -> {
-
+            Toast.makeText(getContext(), "学习并创建属于你自己的博客！", Toast.LENGTH_SHORT).show();
         });
 
         logout_layout.setOnClickListener(v -> {
@@ -74,11 +70,12 @@ public class PersonFragment extends Fragment {
                         if (response.body().getErrorCode() == 0) {
                             Toast.makeText(getContext(), "注销成功", Toast.LENGTH_SHORT).show();
                             SaveAccount.clearUpUserData(requireContext());
-                            Intent intent=new Intent(getContext(), MainActivity.class);
-                           requireContext().startActivity(intent);
-                           requireActivity().finish();
+                            Intent intent = new Intent(getContext(), MainActivity.class);
+                            requireContext().startActivity(intent);
+                            requireActivity().finish();
+                        } else {
+                            Toast.makeText(getContext(), "注销失败", Toast.LENGTH_SHORT).show();
                         }
-                        Toast.makeText(getContext(), "注销失败", Toast.LENGTH_SHORT).show();
                     }
 
                 }

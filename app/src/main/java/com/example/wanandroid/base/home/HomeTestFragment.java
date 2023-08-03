@@ -142,11 +142,8 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
     private void initRefreshLayout() {
 
         refreshLayout.setRefreshHeader(new BezierRadarHeader(requireActivity()).setEnableHorizontalDrag(true));
-        //设置 Footer 为 球脉冲 样式
-        //refreshLayout.setRefreshHeader(new Head(requireActivity()));
         refreshLayout.setRefreshFooter(new BallPulseFooter(requireActivity()).setSpinnerStyle(SpinnerStyle.Scale));
         refreshLayout.setOnRefreshListener(refreshlayout -> {
-            refreshlayout.finishRefresh(700/*,false*/);//传入false表示刷新失败
             page = 0;
 
             initRecyclerView();
@@ -159,21 +156,16 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
             }
             initBannerData();
             articleAdapter.notifyDataSetChanged();
-
+            refreshlayout.finishRefresh();
         });
 
         refreshLayout.setOnLoadMoreListener(refreshlayout -> {
-            refreshlayout.finishLoadMore(700/*,false*/);//传入false表示加载失败
             page++;
             payload_articleBeanList.clear();
             if(chapterId==-100){
                 getHomeArticleBeanList(page);
             }else {
                 getArticleById(page,String.valueOf(chapterId));
-            }
-
-            if(payload_articleBeanList.size()==0){
-                page--;
             }
             refreshlayout.finishLoadMore();
 
@@ -255,22 +247,21 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
 
      /**
       * 通过chapter_id获取文章
-     * @param page 文章页数
+     * @param pageGet 文章页数
      * @param id 二级标题的id
      */
-    private void getArticleById(int page,String id) {
+    private void getArticleById(int pageGet,String id) {
         int position=articleBeanList.size();
         if(id ==null){
             //getHomeArticle();
             return;
         }
-
         if(Integer.parseInt(id)!=currentId){
             articleBeanList.clear();
         }
 
         currentId= Integer.parseInt(id);
-        Call<HomeArticleBean> call=HttpUtils.getwAndroidService().getArticleById(page,id);
+        Call<HomeArticleBean> call=HttpUtils.getwAndroidService().getArticleById(pageGet,id);
         call.enqueue(new Callback<HomeArticleBean>() {
             @Override
             public void onResponse(@NonNull Call<HomeArticleBean> call, @NonNull Response<HomeArticleBean> response) {
@@ -300,11 +291,11 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
                                 initRecyclerView();
                                 });
                             }
-                            if (page != 0) {
+                            if (pageGet != 0) {
                                 articleAdapter.notifyItemRangeInserted(articleBeanList.size(), payload_articleBeanList.size());
                                 manager.scrollToPositionWithOffset(position - 3, 0);
                             }
-                            if(page ==0&&articleBeanList.size()==0){
+                            if(pageGet ==0&&articleBeanList.size()==0){
                                 requireActivity().runOnUiThread(() -> {
                                     if(articleBeanList.size()==0){
                                         blank_layout.setVisibility(View.VISIBLE);
@@ -316,6 +307,9 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
                             }
                         }
                     }
+                    if(payload_articleBeanList.size()==0&&pageGet!=0){
+                        page--;
+                    }
                 }
             }
 
@@ -323,6 +317,9 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
             public void onFailure(@NonNull Call<HomeArticleBean> call, @NonNull Throwable t) {
                 if(articleBeanList.size()==0){
                     internet_error.setVisibility(View.VISIBLE);
+                }
+                if(payload_articleBeanList.size()==0&&pageGet!=0){
+                    page--;
                 }
                 Snackbar.make(article_recyclerview,"获取文章失败",Snackbar.LENGTH_SHORT).show();
             }
@@ -430,6 +427,9 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
 
                         }
                     }
+                    if(payload_articleBeanList.size()==0){
+                        page--;
+                    }
                 }
             }
 
@@ -437,6 +437,9 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
             public void onFailure(@NonNull Call<HomeArticleBean> call, @NonNull Throwable t) {
                 if(articleBeanList.size()==0){
                     internet_error.setVisibility(View.VISIBLE);
+                }
+                if(payload_articleBeanList.size()==0){
+                    page--;
                 }
                 Snackbar.make(article_recyclerview, "获取主页文章失败！", Snackbar.LENGTH_SHORT).show();
             }
@@ -512,7 +515,7 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
 
             @Override
             public void onFailure(@NonNull Call<BannerBean> call, @NonNull Throwable t) {
-                Snackbar.make(banner, "！！！！", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(banner, "网络问题", Snackbar.LENGTH_SHORT).show();
             }
         });
     }

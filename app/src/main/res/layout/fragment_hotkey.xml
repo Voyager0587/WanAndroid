@@ -11,7 +11,7 @@
         android:id="@+id/text"
         android:layout_width="315dp"
         android:layout_height="wrap_content"
-        android:text="热搜"
+        android:text="热搜🔥"
         android:textSize="26sp" />
 
     <LinearLayout

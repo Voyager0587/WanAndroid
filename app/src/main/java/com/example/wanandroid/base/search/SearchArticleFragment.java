@@ -17,6 +17,7 @@ import com.example.wanandroid.adapter.ArticleAdapter;
 import com.example.wanandroid.bean.ArticleBean;
 import com.example.wanandroid.bean.HomeArticleBean;
 import com.example.wanandroid.utils.HttpUtils;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.scwang.smart.refresh.footer.BallPulseFooter;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
@@ -40,7 +41,7 @@ import retrofit2.Response;
  * @date
  */
 
-public class SearchArticleFragment extends Fragment {
+public class SearchArticleFragment extends Fragment implements ArticleAdapter.BackToTopListener {
 
     private static final String ARG_PARAM1 = "param1";
     List<HomeArticleBean.DataBean.DatasBean> homeArticleBeanList = new ArrayList<>();
@@ -50,7 +51,8 @@ public class SearchArticleFragment extends Fragment {
     RecyclerView recyclerView;
     ArticleAdapter articleAdapter;
     SmartRefreshLayout refresh_layout_search;
-    private LinearLayoutManager manager;
+    FloatingActionButton backToTop;
+    LinearLayoutManager manager;
     //页数
     int page = 0;
     private String text;
@@ -87,6 +89,8 @@ public class SearchArticleFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView_search);
         refresh_layout_search = view.findViewById(R.id.refresh_layout_search);
         blank_layout=view.findViewById(R.id.blank_layout);
+        backToTop=view.findViewById(R.id.backToTop);
+        initRecyclerView();
         search(text, page);
         initListener();
         return view;
@@ -95,21 +99,25 @@ public class SearchArticleFragment extends Fragment {
     private void initListener() {
         refresh_layout_search.setRefreshFooter(new BallPulseFooter(requireActivity()).setSpinnerStyle(SpinnerStyle.Scale));
         refresh_layout_search.setOnRefreshListener(refreshLayout -> {
-            refresh_layout_search.finishRefresh(700);//传入false表示刷新失败
             articleBeanList.clear();
             page = 0;
             search(text, page);
+
         });
         refresh_layout_search.setOnLoadMoreListener(refreshLayout -> {
-            refresh_layout_search.finishLoadMore(700/*,false*/);//传入false表示加载失败
             page++;
             search(text, page);
             refresh_layout_search.finishLoadMore();
+        });
+        backToTop.setOnClickListener(v -> {
+            manager.scrollToPosition(0);
+
         });
     }
 
     private void initRecyclerView() {
         articleAdapter = new ArticleAdapter(getContext(), articleBeanList);
+        articleAdapter.setBackToTopListener(this);
         manager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(articleAdapter);
@@ -123,9 +131,10 @@ public class SearchArticleFragment extends Fragment {
      *
      * @param text 搜索的内容
      */
-    private void search(String text, int page) {
+    private void search(String text, int pageGet) {
+        payload_articleBeanList.clear();
         int position = articleBeanList.size();
-        Call<HomeArticleBean> call = HttpUtils.getwAndroidService().getHomeArticle(page, text);
+        Call<HomeArticleBean> call = HttpUtils.getwAndroidService().getHomeArticle(pageGet, text);
         call.enqueue(new Callback<HomeArticleBean>() {
             @Override
             public void onResponse(@NonNull Call<HomeArticleBean> call, @NonNull Response<HomeArticleBean> response) {
@@ -148,14 +157,18 @@ public class SearchArticleFragment extends Fragment {
                         articleBeanList.add(articleBean);
 
                         payload_articleBeanList.add(articleBean);
-                        requireActivity().runOnUiThread(() -> {
-                            initRecyclerView();
-                        });
-                        if (page != 0) {
+
+                        articleAdapter.setArticleBeanList(articleBeanList);
+                        articleAdapter.notifyDataSetChanged();
+                        refresh_layout_search.finishRefresh();
+                        if (pageGet != 0) {
                             articleAdapter.notifyItemRangeInserted(articleBeanList.size(), payload_articleBeanList.size());
                             manager.scrollToPositionWithOffset(position - 6, 0);
-                            payload_articleBeanList.clear();
+
                         }
+                    }
+                    if(payload_articleBeanList.size()==0&&pageGet!=0){
+                        page--;
                     }
                 }
                 requireActivity().runOnUiThread(() -> {
@@ -169,10 +182,23 @@ public class SearchArticleFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(@NonNull Call<HomeArticleBean> call, Throwable t) {
+            public void onFailure(@NonNull Call<HomeArticleBean> call, @NonNull Throwable t) {
+                if(payload_articleBeanList.size()==0&&pageGet!=0){
+                    page--;
+                }
+                refresh_layout_search.finishRefresh();
                 Snackbar.make(recyclerView, "获取文章失败", Snackbar.LENGTH_SHORT).show();
             }
         });
 
+    }
+
+    @Override
+    public void onBackToTop(int position) {
+        if(position>=9){
+            backToTop.setVisibility(View.VISIBLE);
+        }else {
+            backToTop.setVisibility(View.GONE);
+        }
     }
 }

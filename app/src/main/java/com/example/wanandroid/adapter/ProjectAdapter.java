@@ -37,6 +37,16 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
     private Context context;
     private List<ProjectBean.DataBean.DatasBean> projectBean=new ArrayList<ProjectBean.DataBean.DatasBean>();
 
+    private ArticleAdapter.BackToTopListener backToTopListener;
+
+    public ArticleAdapter.BackToTopListener getBackToTopListener() {
+        return backToTopListener;
+    }
+
+    public void setBackToTopListener(ArticleAdapter.BackToTopListener backToTopListener) {
+        this.backToTopListener = backToTopListener;
+    }
+
     public Context getContext() {
         return context;
     }
@@ -89,6 +99,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
             }
 
         });
+        backToTopListener.onBackToTop(holder.getAdapterPosition());
     }
 
     @Override
@@ -114,4 +125,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
     }
 
 
+    public interface backToTopListener{
+        void backToTop();
+    }
 }
