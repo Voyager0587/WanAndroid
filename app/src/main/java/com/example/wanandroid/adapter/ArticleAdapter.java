@@ -39,7 +39,20 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
 
     private List<ArticleBean> articleBeanList=new ArrayList<ArticleBean>();
     private Context mContext;
+    private BackToTopListener backToTopListener;
 
+
+    public void setArticleBeanList(List<ArticleBean> articleBeanList) {
+        this.articleBeanList = articleBeanList;
+    }
+
+    public BackToTopListener getBackToTopListener() {
+        return backToTopListener;
+    }
+
+    public void setBackToTopListener(BackToTopListener backToTopListener) {
+        this.backToTopListener = backToTopListener;
+    }
 
     /**
      * 是否是收藏的文章
@@ -112,19 +125,6 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         holder.time.setText(articleBean.getDate());
         holder.chapterName.setText(articleBean.getChapterName());
 
-//        if(1==isCollectArticle){
-//            holder.like.setVisibility(View.VISIBLE);
-//            holder.like.setSelected(true);
-//            holder.like.setOnClickListener(v -> {
-//                if(holder.like.isSelected()) {
-//
-//                    holder.like.setBackgroundResource(R.drawable.like_icon_selected);//在Call成功后设置自己
-//                }else {
-//
-//                    holder.like.setBackgroundResource(R.drawable.like_icon);
-//                }
-//            });
-//        }
 
         holder.title.setOnClickListener(v -> {
             if(articleBean.getUrl() != null) {
@@ -154,6 +154,12 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
             }
 
         });
+        //如果不是搜索界面的文章才执行
+        if(backToTopListener!=null) {
+            backToTopListener.onBackToTop(holder.getAdapterPosition());
+        }
+
+
     }
 
 
@@ -163,7 +169,9 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
 
         return articleBeanList.size();
     }
-    public void refreshData(){
-        notifyDataSetChanged();
+
+    public interface BackToTopListener {
+        void onBackToTop(int position);
+
     }
 }

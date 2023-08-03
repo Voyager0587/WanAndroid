@@ -3,6 +3,6 @@
     <string name="password">请输入密码</string>
     <string name="rePassword">请再次输入密码</string>
     <string name="aacount">请输入账号</string>
-
+    <integer name="position">6</integer>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

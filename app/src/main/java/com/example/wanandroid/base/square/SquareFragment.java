@@ -107,7 +107,7 @@ public class SquareFragment extends Fragment {
                                 tabLayout.setupWithViewPager(viewPager);
                                 internet_error.setVisibility(View.GONE);
                                 refresh_button.setVisibility(View.GONE);
-                                //FIXME 进入发现界面前断网不会显示网络问题；
+
                             });
 
                         }else {
@@ -126,7 +126,7 @@ public class SquareFragment extends Fragment {
 
             @Override
             public void onFailure(@NonNull Call<ProjectCategoryBean> call, @NonNull Throwable t) {
-                Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Error：网络问题", Toast.LENGTH_SHORT).show();
                 refresh_button.setVisibility(View.VISIBLE);
                 internet_error.setVisibility(View.VISIBLE);
             }

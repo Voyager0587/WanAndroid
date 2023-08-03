@@ -58,8 +58,6 @@ public class MainActivity extends AppCompatActivity {
         initListener();
 
 
-        //TODO 开屏动画★,
-
     }
 
 
@@ -67,9 +65,9 @@ public class MainActivity extends AppCompatActivity {
         auto_login.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
                     SaveAccount.openAutoLogin(MainActivity.this);
-                }else {
+                } else {
                     SaveAccount.stopAutoLogin(MainActivity.this);
                 }
             }
@@ -160,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
         account = findViewById(R.id.account);
         account.setText(map.get("account"));
         password.setText(map.get("password"));
-        auto_login=findViewById(R.id.auto_login);
+        auto_login = findViewById(R.id.auto_login);
     }
 
 }

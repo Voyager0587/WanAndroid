@@ -9,13 +9,13 @@
     android:id="@id/textView2"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="30dp"
-    android:text="-Learn and create your own blog"
+    android:layout_below="@id/textView3"
+    android:layout_marginTop="80dp"
+    android:text="-Learn and create your own blog "
     android:textSize="30sp"
     android:layout_centerHorizontal="true"
     android:paddingHorizontal="10dp"
-    android:layout_below="@id/textView3"
-    app:charIncrease="3"
+    app:charIncrease="2"
     app:typerSpeed="90"
     />
 
@@ -26,21 +26,9 @@
     android:layout_height="84dp"
     android:background="@drawable/android_icon"
     android:layout_centerHorizontal="true"
-    android:layout_marginTop="150dp"
+    android:layout_marginTop="170dp"
     />
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/imageView"
-        android:layout_marginTop="100dp"
-        android:text="欢迎来到"
-        android:textSize="50sp"
-        android:textColor="@color/black"
-        android:layout_marginStart="15dp"
-
-        />
 
     <com.hanks.htextview.line.LineTextView
         android:id="@+id/textView3"
@@ -48,11 +36,11 @@
         android:layout_height="wrap_content"
         android:text="WanAndroid"
         android:textSize="60dp"
-        android:layout_below="@id/textView1"
-        android:layout_marginTop="5dp"
-        android:layout_marginStart="15dp"
+        android:layout_marginTop="80dp"
+        android:layout_below="@id/imageView"
+        android:layout_centerHorizontal="true"
         app:animationDuration="3000"
-        app:lineColor="#1367bc"
+        app:lineColor="#FF0057"
         app:lineWidth="4dp"
         />
 </RelativeLayout>

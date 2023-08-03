@@ -20,7 +20,9 @@ import com.google.android.material.snackbar.Snackbar;
 import com.scwang.smart.refresh.footer.BallPulseFooter;
 import com.scwang.smart.refresh.header.BezierRadarHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.constant.SpinnerStyle;
+import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,22 +68,21 @@ public class CollectArticleActivity extends AppCompatActivity {
         refresh_layout.setRefreshHeader(new BezierRadarHeader(this).setEnableHorizontalDrag(true));
         refresh_layout.setRefreshFooter(new BallPulseFooter(this).setSpinnerStyle(SpinnerStyle.Scale));
         refresh_layout.setOnRefreshListener(refresh_layout -> {
-            refresh_layout.finishRefresh(500/*,false*/);//传入false表示刷新失败
             collectArticleList.clear();
             page = 0;
             getCollectArticle(0);
             articleAdapter.notifyDataSetChanged();
-        });
 
-        refresh_layout.setOnLoadMoreListener(refresh_layout -> {
-            refresh_layout.finishLoadMore(500/*,false*/);//传入false表示加载失败
-            page++;
-            getCollectArticle(page);
-            refresh_layout.finishLoadMore();
-            if(loadCollectArticleList.size() == 0){
-                page--;
+        });
+        refresh_layout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                page++;
+                getCollectArticle(page);
+                refresh_layout.finishLoadMore();
             }
         });
+
     }
 
     private void initView() {
@@ -111,9 +112,9 @@ public class CollectArticleActivity extends AppCompatActivity {
 
     /**
      * 获取收藏文章列表
-     * @param page 文章页数
+     * @param pageGet 文章页数
      */
-    private void getCollectArticle(int page) {
+    private void getCollectArticle(int pageGet) {
         loadCollectArticleList.clear();
         Call<CollectArticleBean> getCollectArticleCall= HttpUtils.getwAndroidService().getCollectArticle(page);
         getCollectArticleCall.enqueue(new Callback<CollectArticleBean>() {
@@ -137,23 +138,23 @@ public class CollectArticleActivity extends AppCompatActivity {
                         articleBean.setId(datasBeanList.get(i).getId());
                         articleBean.setOriginId(datasBeanList.get(i).getOriginId());
                         collectArticleList.add(articleBean);
-                        if(page!=0){
+                        if(pageGet!=0){
                             loadCollectArticleList.add(articleBean);
                         }
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if(collectArticleList.size()==0){
-                                    blank_layout.setVisibility(View.VISIBLE);
-                                }else {
-                                    blank_layout.setVisibility(View.GONE);
-                                }
-                                initRecyclerView();
+                        runOnUiThread(() -> {
+                            if(collectArticleList.size()==0){
+                                blank_layout.setVisibility(View.VISIBLE);
+                            }else {
+                                blank_layout.setVisibility(View.GONE);
                             }
+                            initRecyclerView();
+                            refresh_layout.finishRefresh();
                         });
 
                     }
-
+                    if(loadCollectArticleList.size() == 0&&pageGet!=0){
+                        page--;
+                    }
                 }
             }
 
@@ -162,6 +163,10 @@ public class CollectArticleActivity extends AppCompatActivity {
                 if(collectArticleList.size()==0){
                     internet_error.setVisibility(View.VISIBLE);
                 }
+                if(loadCollectArticleList.size() == 0&&pageGet!=0){
+                    page--;
+                }
+                refresh_layout.finishRefresh();
                 Snackbar.make(collectArticleRecyclerView,"获取收藏文章失败"+ t,Snackbar.LENGTH_SHORT).show();
             }
         });
