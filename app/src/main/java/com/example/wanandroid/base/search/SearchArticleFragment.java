@@ -124,7 +124,7 @@ public class SearchArticleFragment extends Fragment implements ArticleAdapter.Ba
         articleAdapter.notifyDataSetChanged();
 
     }
-    //TODO 拓展：回到顶部
+
 
     /**
      * 通过作者名称搜索文章

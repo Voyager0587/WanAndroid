@@ -58,6 +58,7 @@ public class CollectArticleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collect_article);
         initView();
+        initRecyclerView();
         initRefreshLayout();
         getCollectArticle(0);
 
@@ -106,8 +107,6 @@ public class CollectArticleActivity extends AppCompatActivity {
         articleAdapter.setmContext(this);
         articleAdapter.setIsCollectArticle(1);
         collectArticleRecyclerView.setAdapter(articleAdapter);
-        articleAdapter.notifyDataSetChanged();
-
     }
 
     /**
@@ -148,6 +147,7 @@ public class CollectArticleActivity extends AppCompatActivity {
                                 blank_layout.setVisibility(View.GONE);
                             }
                             initRecyclerView();
+                            articleAdapter.notifyDataSetChanged();
                             refresh_layout.finishRefresh();
                         });
 
@@ -167,7 +167,7 @@ public class CollectArticleActivity extends AppCompatActivity {
                     page--;
                 }
                 refresh_layout.finishRefresh();
-                Snackbar.make(collectArticleRecyclerView,"获取收藏文章失败"+ t,Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(collectArticleRecyclerView,"网络问题",Snackbar.LENGTH_SHORT).show();
             }
         });
     }

@@ -166,8 +166,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
 
     @Override
     public int getItemCount() {
-
-        return articleBeanList.size();
+        return articleBeanList!=null?articleBeanList.size():0;
     }
 
     public interface BackToTopListener {

@@ -48,7 +48,7 @@ public class PersonFragment extends Fragment {
 
     }
 
-    //TODO 个人信息编辑界面的进入，就通过右上角，放一个"person_icon"★★
+
     private void initListener() {
 
         collectArticle.setOnClickListener(v -> {
