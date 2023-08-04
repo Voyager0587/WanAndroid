@@ -190,7 +190,7 @@ public class ProjectFragment extends Fragment implements ArticleAdapter.BackToTo
         projectAdapter.setBackToTopListener(this);
         projectAdapter.setContext(getContext());
         projectRecyclerView.setLayoutManager(manager);
-        projectRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+//        projectRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         projectRecyclerView.setAdapter(projectAdapter);
         projectAdapter.notifyDataSetChanged();
     }
