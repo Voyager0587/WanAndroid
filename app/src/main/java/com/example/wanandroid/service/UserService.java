@@ -18,27 +18,30 @@ public interface UserService {
 
     /**
      * 登录请求
-     *@param passwordStr 储存数据的数据对象
-     * @param usernameStr  储存数据的数据对象
+     *
+     * @param passwordStr 储存数据的数据对象
+     * @param usernameStr 储存数据的数据对象
      * @return MessageBean
      */
     @FormUrlEncoded
     @POST("user/login")
-    Call<MessageBean> login(@Field("username") String usernameStr,@Field("password") String passwordStr);
+    Call<MessageBean> login(@Field("username") String usernameStr, @Field("password") String passwordStr);
 
     /**
      * 注册请求
-     * @param usernameStr 用户名
+     *
+     * @param usernameStr      用户名
      * @param rePasswordString 第二次密码
-     * @param passwordStr 密码
+     * @param passwordStr      密码
      * @return MessageBean
      */
     @FormUrlEncoded
     @POST("user/register")
-    Call<MessageBean> register(@Field("username") String usernameStr,@Field("password") String passwordStr,@Field("repassword") String rePasswordString);
+    Call<MessageBean> register(@Field("username") String usernameStr, @Field("password") String passwordStr, @Field("repassword") String rePasswordString);
 
     /**
      * 退出登录
+     *
      * @return MessageBean
      */
     @GET("user/logout/json")

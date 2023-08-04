@@ -11,9 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.wanandroid.R;
 import com.example.wanandroid.bean.HotkeyBean;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.zip.Inflater;
 
 /**
  * @className: HotkeyAdapter
@@ -22,7 +20,7 @@ import java.util.zip.Inflater;
  * @date: 2023/7/2
  **/
 public class HotkeyAdapter extends RecyclerView.Adapter<HotkeyAdapter.ViewHolder> {
-    private  List<HotkeyBean.DataBean> hotkeyBeanList;
+    private List<HotkeyBean.DataBean> hotkeyBeanList;
     private OnListener mListener;
 
 
@@ -31,17 +29,17 @@ public class HotkeyAdapter extends RecyclerView.Adapter<HotkeyAdapter.ViewHolder
     }
 
     public HotkeyAdapter(List<HotkeyBean.DataBean> hotkeyBeanList) {
-        this.hotkeyBeanList=hotkeyBeanList;
+        this.hotkeyBeanList = hotkeyBeanList;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_hotkey,parent,false);
-        ViewHolder holder=new ViewHolder(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_hotkey, parent, false);
+        ViewHolder holder = new ViewHolder(view);
         holder.itemView.setOnClickListener(v -> {
-            if(mListener!=null){
-                mListener.onItemClick(v,holder.getAdapterPosition());
+            if (mListener != null) {
+                mListener.onItemClick(v, holder.getAdapterPosition());
             }
         });
         return holder;
@@ -61,9 +59,10 @@ public class HotkeyAdapter extends RecyclerView.Adapter<HotkeyAdapter.ViewHolder
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView title;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            title=itemView.findViewById(R.id.hotkey);
+            title = itemView.findViewById(R.id.hotkey);
 
         }
     }

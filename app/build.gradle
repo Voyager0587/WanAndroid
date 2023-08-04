@@ -29,6 +29,7 @@ android {
 }
 
 dependencies {
+
     implementation "com.hanks:htextview-line:0.1.6"
     implementation "com.hanks:htextview-base:0.1.6"
     implementation "com.hanks:htextview-fade:0.1.6"        // optional

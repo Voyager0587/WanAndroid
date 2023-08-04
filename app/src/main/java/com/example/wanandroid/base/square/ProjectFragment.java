@@ -8,7 +8,6 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,10 +21,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.scwang.smart.refresh.footer.BallPulseFooter;
 import com.scwang.smart.refresh.header.BezierRadarHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
-import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.constant.SpinnerStyle;
-import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
-import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +80,7 @@ public class ProjectFragment extends Fragment implements ArticleAdapter.BackToTo
         projectRecyclerView = view.findViewById(R.id.project_recyclerView);
         blank_layout = view.findViewById(R.id.blank_layout);
         internet_error = view.findViewById(R.id.internet_error);
-        backToTop=view.findViewById(R.id.backToTop);
+        backToTop = view.findViewById(R.id.backToTop);
         page = 1;
         initData();
         initRefreshLayout();
@@ -94,7 +90,7 @@ public class ProjectFragment extends Fragment implements ArticleAdapter.BackToTo
     }
 
 
-    private  void initListener(){
+    private void initListener() {
         backToTop.setOnClickListener(v -> {
             manager.scrollToPosition(0);
         });
@@ -104,7 +100,7 @@ public class ProjectFragment extends Fragment implements ArticleAdapter.BackToTo
      * 初始化数据
      */
     private void initData() {
-        data.clear();
+
         Call<ProjectBean> projectBeanCall = HttpUtils.getProjectService().getProjectList(page, id);
         projectBeanCall.enqueue(new Callback<ProjectBean>() {
             @Override
@@ -118,14 +114,14 @@ public class ProjectFragment extends Fragment implements ArticleAdapter.BackToTo
                         requireActivity().runOnUiThread(() -> {
                             blank_layout.setVisibility(View.GONE);
                             initRecyclerView();
+                            projectAdapter.notifyDataSetChanged();
+                            if (data.size() == 0) {
+                                blank_layout.setVisibility(View.VISIBLE);
+                            }
                         });
 
                     }
-                    requireActivity().runOnUiThread(() -> {
-                        if (data.size() == 0) {
-                            blank_layout.setVisibility(View.VISIBLE);
-                        }
-                    });
+
                 }
             }
 
@@ -163,10 +159,10 @@ public class ProjectFragment extends Fragment implements ArticleAdapter.BackToTo
                         loadMoreData.addAll(projectBean.getData().getDatas());
                         data.addAll(projectBean.getData().getDatas());
                         projectAdapter.notifyItemRangeInserted(data.size(), loadMoreData.size());
-                        manager.scrollToPositionWithOffset(data.size(), 200);
+
 
                     }
-                    if(loadMoreData.size()==0&&pageGet!=0){
+                    if (loadMoreData.size() == 0 && pageGet != 0) {
                         page--;
                     }
                 }
@@ -174,7 +170,7 @@ public class ProjectFragment extends Fragment implements ArticleAdapter.BackToTo
 
             @Override
             public void onFailure(@NonNull Call<ProjectBean> call, @NonNull Throwable t) {
-                if(loadMoreData.size()==0&&pageGet!=0){
+                if (loadMoreData.size() == 0 && pageGet != 0) {
                     page--;
                 }
                 Snackbar.make(refreshLayout, "error:获取数据失败! ", Snackbar.LENGTH_SHORT).show();
@@ -190,9 +186,8 @@ public class ProjectFragment extends Fragment implements ArticleAdapter.BackToTo
         projectAdapter.setBackToTopListener(this);
         projectAdapter.setContext(getContext());
         projectRecyclerView.setLayoutManager(manager);
-//        projectRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         projectRecyclerView.setAdapter(projectAdapter);
-        projectAdapter.notifyDataSetChanged();
+
     }
 
     /**
@@ -204,7 +199,6 @@ public class ProjectFragment extends Fragment implements ArticleAdapter.BackToTo
         refreshLayout.setOnRefreshListener(refreshlayout1 -> {
             page = 1;
             initData();
-            projectAdapter.notifyDataSetChanged();
             refreshlayout1.finishRefresh();
         });
         refreshLayout.setOnLoadMoreListener(refreshlayout1 -> {
@@ -216,9 +210,9 @@ public class ProjectFragment extends Fragment implements ArticleAdapter.BackToTo
 
     @Override
     public void onBackToTop(int position) {
-        if(position>=8){
+        if (position >= 8) {
             backToTop.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             backToTop.setVisibility(View.GONE);
         }
     }

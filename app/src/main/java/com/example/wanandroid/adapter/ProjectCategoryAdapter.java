@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-
 import com.example.wanandroid.base.square.ProjectFragment;
 
 import java.util.List;
@@ -21,6 +20,7 @@ import java.util.List;
 public class ProjectCategoryAdapter extends FragmentPagerAdapter {
     private List<ProjectFragment> fragmentList;
     private List<String> titles;
+
     public ProjectCategoryAdapter(FragmentManager manager, List<ProjectFragment> fragments, List<String> titles) {
         super(manager);
         this.fragmentList = fragments;
@@ -35,8 +35,9 @@ public class ProjectCategoryAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return fragmentList!= null? fragmentList.size() : 0;
+        return fragmentList != null ? fragmentList.size() : 0;
     }
+
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {

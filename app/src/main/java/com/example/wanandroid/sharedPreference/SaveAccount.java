@@ -16,9 +16,10 @@ public class SaveAccount {
 
 
     /**
-     *储存密码到本地
-     * @param context 上下文
-     * @param account 账号
+     * 储存密码到本地
+     *
+     * @param context  上下文
+     * @param account  账号
      * @param password 密码
      * @return boolean 是否成功
      */
@@ -34,6 +35,7 @@ public class SaveAccount {
 
     /**
      * 获取账号和密码
+     *
      * @param context 上下文
      * @return Map<String, String> 储存着账号密码
      */
@@ -49,6 +51,7 @@ public class SaveAccount {
 
     /**
      * 打开自动登录
+     *
      * @param context 上下文
      * @return boolean
      */
@@ -62,6 +65,7 @@ public class SaveAccount {
 
     /**
      * 关闭自动登录
+     *
      * @param context 上下文
      * @return boolean
      */
@@ -75,6 +79,7 @@ public class SaveAccount {
 
     /**
      * 获取是否开启了自动登录
+     *
      * @param context 上下文
      * @return int
      */
@@ -86,10 +91,11 @@ public class SaveAccount {
 
     /**
      * 清楚本地保存的用户数据
+     *
      * @param context 上下文
      * @return boolean 是否成功
      */
-    public static boolean clearUpUserData(Context context){
+    public static boolean clearUpUserData(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("data", Context.MODE_PRIVATE);
         sharedPreferences.edit().clear().apply();
         sharedPreferences = context.getSharedPreferences("isAutoLogin", Context.MODE_PRIVATE);

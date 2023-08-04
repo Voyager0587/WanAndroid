@@ -25,7 +25,7 @@ import java.util.List;
  * @description: Banner的适配器
  * @date: 2023/6/26
  **/
-public class BannerAdapter extends com.youth.banner.adapter.BannerAdapter<BannerBean.DataBean,BannerAdapter.BannerViewHolder> {
+public class BannerAdapter extends com.youth.banner.adapter.BannerAdapter<BannerBean.DataBean, BannerAdapter.BannerViewHolder> {
 
     private List<BannerBean.DataBean> dataBeanList;
     private Context context;
@@ -40,14 +40,14 @@ public class BannerAdapter extends com.youth.banner.adapter.BannerAdapter<Banner
 
     public BannerAdapter(List<BannerBean.DataBean> dataBeanList) {
         super(dataBeanList);
-        this.dataBeanList=dataBeanList;
+        this.dataBeanList = dataBeanList;
     }
 
     @Override
     public BannerViewHolder onCreateHolder(ViewGroup parent, int viewType) {
-        final BannerViewHolder holder=new BannerViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_banner,parent,false));
+        final BannerViewHolder holder = new BannerViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_banner, parent, false));
         holder.itemView.setOnClickListener(v -> {
-            Snackbar.make(holder.itemView,"点击",Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(holder.itemView, "点击", Snackbar.LENGTH_SHORT).show();
         });
         return holder;
     }
@@ -56,9 +56,9 @@ public class BannerAdapter extends com.youth.banner.adapter.BannerAdapter<Banner
     public void onBindView(BannerViewHolder holder, BannerBean.DataBean data, int position, int size) {
         holder.textView.setText(data.getTitle());
         holder.imageView.setOnClickListener(v -> {
-            Intent intent=new Intent(context, WebActivity.class);
-            intent.putExtra("url",dataBeanList.get(position).getUrl());
-           context.startActivity(intent);
+            Intent intent = new Intent(context, WebActivity.class);
+            intent.putExtra("url", dataBeanList.get(position).getUrl());
+            context.startActivity(intent);
         });
         Glide.with(holder.imageView)
                 .load(data.getImagePath())
@@ -68,14 +68,14 @@ public class BannerAdapter extends com.youth.banner.adapter.BannerAdapter<Banner
     }
 
 
-
     public static class BannerViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageView;
         private TextView textView;
+
         public BannerViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView=itemView.findViewById(R.id.banner_imageView);
-            textView=itemView.findViewById(R.id.banner_title);
+            imageView = itemView.findViewById(R.id.banner_imageView);
+            textView = itemView.findViewById(R.id.banner_title);
         }
     }
 

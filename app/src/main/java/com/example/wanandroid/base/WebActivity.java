@@ -18,9 +18,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
+ * @author Voyager
  * @className WebActivity
  * @description 用网页展示文章的WebFragment的容器，负责收藏文章的逻辑
- * @author Voyager
  * @date 2023/7/8 17:45
  */
 
@@ -32,7 +32,7 @@ public class WebActivity extends AppCompatActivity {
      * @param id 文章id,从正常的文章列表传入的是文章原本的id，从收藏页面传入的是另一个，只是便于寻找文章所在位置的id
      * @param originId 文章原本的id，便于进行收藏相关操作
      */
-    int id,originId;
+    int id, originId;
 
     /**
      * @description 便于进行站外文章收藏
@@ -44,10 +44,9 @@ public class WebActivity extends AppCompatActivity {
 
     /**
      * @param isCollectArticle 是否是收藏文章，只是用来标识是否是从个人收藏界面进入的WebActivity
-     *
      * @param judge 判断文章是否是收藏状态，便于实现在进入收藏文章界面后取消收藏，再点击收藏后可以收藏成功
      */
-    int isCollectArticle,tag,judge=1;
+    int isCollectArticle, tag, judge = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +60,9 @@ public class WebActivity extends AppCompatActivity {
         id = intent.getIntExtra("id", -1);
         title = intent.getStringExtra("title");
         author = intent.getStringExtra("author");
-        isCollectArticle=intent.getIntExtra("isCollectArticle",0);
-        originId=intent.getIntExtra("originId",-1);
-        tag=intent.getIntExtra("tag",0);
+        isCollectArticle = intent.getIntExtra("isCollectArticle", 0);
+        originId = intent.getIntExtra("originId", -1);
+        tag = intent.getIntExtra("tag", 0);
         WebFragment webFragment = WebFragment.newInstance(url);
 
         //为收藏界面的item.xml编写一个特殊的，加一个点亮的红色❤，点击后取消收藏，再点击相当于再次收藏
@@ -77,10 +76,10 @@ public class WebActivity extends AppCompatActivity {
      * 初始化控件状态
      */
     private void initView() {
-        if(isCollectArticle==1){
+        if (isCollectArticle == 1) {
             like.setBackgroundResource(R.drawable.like_icon_selected);
         }
-        if(tag==1){
+        if (tag == 1) {
             like.setVisibility(View.GONE);
         }
     }
@@ -95,7 +94,7 @@ public class WebActivity extends AppCompatActivity {
 
         like.setOnClickListener(v -> {
             //收藏站内文章
-            if(isCollectArticle==0){//普通文章列表（比如首页文章列表）进入WebActivity的的监听逻辑
+            if (isCollectArticle == 0) {//普通文章列表（比如首页文章列表）进入WebActivity的的监听逻辑
                 if (url.contains("wanandroid") && url.indexOf("wanandroid") < 22) {
                     if (id != -1) {
                         Call<MessageBean> collectInnerCall = HttpUtils.getwAndroidService().collectInnerArticle(id);
@@ -139,26 +138,26 @@ public class WebActivity extends AppCompatActivity {
                     }
 
                 }
-            }else {
+            } else {
                 //个人收藏文章列表进入进入WebActivity界面的监听逻辑
-                if(judge==1){
-                    Call<MessageBean> call=HttpUtils.getwAndroidService().uncollectArticleInPerson(id,-1);
+                if (judge == 1) {
+                    Call<MessageBean> call = HttpUtils.getwAndroidService().uncollectArticleInPerson(id, -1);
                     call.enqueue(new Callback<MessageBean>() {
                         @Override
                         public void onResponse(@NonNull Call<MessageBean> call, @NonNull Response<MessageBean> response) {
-                            if(response.isSuccessful()){
+                            if (response.isSuccessful()) {
                                 Snackbar.make(like, "取消收藏成功", Snackbar.LENGTH_SHORT).show();
                                 like.setBackgroundResource(R.drawable.like_icon);
-                                judge=0;
+                                judge = 0;
                             }
                         }
 
                         @Override
                         public void onFailure(@NonNull Call<MessageBean> call, @NonNull Throwable t) {
-                            Snackbar.make(like,"取消收藏失败",Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(like, "取消收藏失败", Snackbar.LENGTH_SHORT).show();
                         }
                     });
-                }else {
+                } else {
                     if (url.contains("wanandroid") && url.indexOf("wanandroid") < 22) {
                         if (id != -1) {
                             Call<MessageBean> collectInnerCall = HttpUtils.getwAndroidService().collectInnerArticle(originId);
@@ -203,7 +202,7 @@ public class WebActivity extends AppCompatActivity {
 
                     }
 
-                    judge=1;
+                    judge = 1;
                 }
 
 

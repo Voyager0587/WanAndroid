@@ -18,6 +18,7 @@ public interface ProjectService {
 
     /**
      * 获取项目分类列表
+     *
      * @return ProjectCategoryBean
      */
     @GET("project/tree/json")
@@ -26,8 +27,9 @@ public interface ProjectService {
 
     /**
      * 获取项目某一分类di下的项目
+     *
      * @param page 页数
-     * @param cid 分类id
+     * @param cid  分类id
      * @return ProjectBean
      */
     @GET("project/list/{page}/json")
