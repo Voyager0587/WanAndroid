@@ -20,22 +20,22 @@ import java.util.List;
  * @description: 二级分类标题chapterName的适配器
  * @date: 2023/7/5
  **/
-public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterViewHolder>{
+public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterViewHolder> {
 
     public static int superPosition = 0;
-    public static int secondPosition=0;
+    public static int secondPosition = 0;
 
     /**
      * 只会在点击二级分类后，通过外部进行改变
      * 持久化缓存点击二级分类后的一级和二级分类的位置，以达到点击二级分类的item后，再点击其他一级分类的item，再点击回之前的一级·分类的item，被选中状态仍然存在
      */
-    private static String superJudge="0";
-    private static String secondJudge="0";
+    private static String superJudge = "0";
+    private static String secondJudge = "0";
 
     List<ChapterBean.DataBean.ChildrenBean> childrenBeanList;
     private OnItemClickListener onItemClickListener;
 
-    public interface OnItemClickListener{
+    public interface OnItemClickListener {
         void onItemClick(View view, int position);
     }
 
@@ -76,8 +76,8 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
     @NonNull
     @Override
     public ChapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chapter_name,parent,false);
-        ChapterViewHolder holder=new ChapterViewHolder(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chapter_name, parent, false);
+        ChapterViewHolder holder = new ChapterViewHolder(view);
         holder.itemView.setTag(holder);
         return holder;
     }
@@ -93,9 +93,9 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
          * 本逻辑在点击一级标题或二级标题后会执行
          * 判断是否为点击二级分类后触发的刷新：notifyItemChanged,如果现在的item的一级和二级跟点击二级item后记录的一级和二级位置相同，就设置为选中状态
          */
-        if(superPosition==Integer.parseInt(superJudge)&&position==Integer.parseInt(secondJudge)){
+        if (superPosition == Integer.parseInt(superJudge) && position == Integer.parseInt(secondJudge)) {
             holder.itemView.setBackgroundResource(holder.bgBlue);
-        }else {
+        } else {
             holder.itemView.setBackgroundResource(holder.bgWhite);
         }
         holder.textView.setOnClickListener(v -> {
@@ -114,16 +114,17 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
         return childrenBeanList.size();
     }
 
-    public static class ChapterViewHolder extends RecyclerView.ViewHolder{
+    public static class ChapterViewHolder extends RecyclerView.ViewHolder {
         int bgBlue, bgWhite;
         TextView textView;
         RelativeLayout chapter_layout;
+
         public ChapterViewHolder(@NonNull View itemView) {
             super(itemView);
-            textView=itemView.findViewById(R.id.chapterName);
-            chapter_layout=itemView.findViewById(R.id.recyclerView_search);
-            bgWhite=R.drawable.item_chapter;
-            bgBlue=R.drawable.home_round_100;
+            textView = itemView.findViewById(R.id.chapterName);
+            chapter_layout = itemView.findViewById(R.id.recyclerView_search);
+            bgWhite = R.drawable.item_chapter;
+            bgBlue = R.drawable.home_round_100;
         }
     }
 

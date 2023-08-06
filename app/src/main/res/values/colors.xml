@@ -13,10 +13,21 @@
     <color name="login_blue">#2196F3</color>
     <color name="login_blue_80">#CC2196F3</color>
     <color name="blue_dark">#1494FA</color>
+
     <color name="color_gray">#CC979B9D</color>
-    <color name="color_gray_dark">#CC343434</color>
+
+    <color name="color_gray_dark">#CC828282</color>
+    <color name="color_gray_dark_plus">#CC747373</color>
+    <color name="color_gray_dark_plus_plus">#CC474646</color>
+
     <color name="color_gray_light">#C2BDBD</color>
+    <color name="color_gray_light_dark">#e4e4e4</color>
     <color name="color_gray_light_plus">#FAF6F6</color>
+    <color name="website_layout">#F3F5FA</color>
+    <color name="color_gray_light_plus_dark">#F2EFEF</color>
+
+    <color name="color_search">#F1F0F0</color>
+
     <color name="home">#1194AA</color>
     <color name="square">#FFBF00</color>
     <color name="notification">#AE7E0F</color>
@@ -29,7 +40,7 @@
     <color name="notification_20">#33AE7E0F</color>
     <color name="person_20">#335B37B7</color>
     <color name="person_30">#4D5B37B7</color>
-    <color name="red_back">#EBACAC</color>
+    <color name="red_back">#EBB3B3</color>
 
     <color name="sign_up_bg">#C0E1F1</color>
 </resources>

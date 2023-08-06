@@ -2,15 +2,12 @@ package com.example.wanandroid.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,11 +16,6 @@ import com.example.wanandroid.R;
 import com.example.wanandroid.base.WebActivity;
 import com.example.wanandroid.bean.ArticleBean;
 
-import com.google.android.material.snackbar.Snackbar;
-import com.sackcentury.shinebuttonlib.ShineButton;
-import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
-
-import org.sufficientlysecure.htmltextview.ClickableTableSpan;
 import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import java.util.ArrayList;
@@ -37,7 +29,7 @@ import java.util.List;
  **/
 public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder> {
 
-    private List<ArticleBean> articleBeanList=new ArrayList<ArticleBean>();
+    private List<ArticleBean> articleBeanList = new ArrayList<ArticleBean>();
     private Context mContext;
     private BackToTopListener backToTopListener;
 
@@ -57,7 +49,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     /**
      * 是否是收藏的文章
      */
-    private int isCollectArticle=0;
+    private int isCollectArticle = 0;
 
     public int getIsCollectArticle() {
         return isCollectArticle;
@@ -79,46 +71,50 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         this.articleBeanList = articleBeanList;
     }
 
-    public ArticleAdapter( Context mContext,List<ArticleBean> articleBeanList) {
+    public ArticleAdapter(Context mContext, List<ArticleBean> articleBeanList) {
         this.articleBeanList = articleBeanList;
         this.mContext = mContext;
     }
 
-    public static class ArticleViewHolder extends RecyclerView.ViewHolder{
-            TextView author,top_text,time,chapterName;
-            HtmlTextView title;
-            RelativeLayout layout_article;
-            Button like;
+    public static class ArticleViewHolder extends RecyclerView.ViewHolder {
+        TextView author, top_text, time, chapterName;
+        HtmlTextView title;
+        RelativeLayout layout_article;
+        Button like;
+
         public ArticleViewHolder(@NonNull View itemView) {
             super(itemView);
-            like=itemView.findViewById(R.id.like);
+            like = itemView.findViewById(R.id.like);
             author = itemView.findViewById(R.id.author);
             top_text = itemView.findViewById(R.id.top_text);
             title = itemView.findViewById(R.id.title);
-            layout_article=itemView.findViewById(R.id.layout_article);
+            layout_article = itemView.findViewById(R.id.layout_article);
             time = itemView.findViewById(R.id.time);
             chapterName = itemView.findViewById(R.id.chapterName);
 
 
         }
     }
+
     @NonNull
     @Override
     public ArticleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_article,parent,false);
-        ArticleViewHolder holder=new ArticleViewHolder(view);
-
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_article, parent, false);
+        ArticleViewHolder holder = new ArticleViewHolder(view);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ArticleViewHolder holder, int position) {
         ArticleBean articleBean = articleBeanList.get(position);
-        holder.author.setText(articleBean.getAuthor());
-        int type = articleBean.getType();
-        if(articleBean.getType()==1) {
+        if (!articleBean.getAuthor().isEmpty()) {
+            holder.author.setText(articleBean.getAuthor());
+        } else {
+            holder.author.setText(articleBean.getShareUser());
+        }
+        if (articleBean.getType() == 1) {
             holder.top_text.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             holder.top_text.setVisibility(View.GONE);
         }
         holder.title.setHtml(articleBean.getTitle());
@@ -127,35 +123,36 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
 
 
         holder.title.setOnClickListener(v -> {
-            if(articleBean.getUrl() != null) {
+            if (articleBean.getUrl() != null) {
                 Intent intent = new Intent(mContext, WebActivity.class);
-                intent.putExtra("url",articleBean.getUrl());
-                intent.putExtra("id",articleBean.getId());
-                intent.putExtra("title",articleBean.getTitle());
-                intent.putExtra("author",articleBean.getAuthor());
-                intent.putExtra("isCollectArticle",isCollectArticle);
-                intent.putExtra("originId",articleBean.getOriginId());
+                intent.putExtra("url", articleBean.getUrl());
+                intent.putExtra("id", articleBean.getId());
+                intent.putExtra("title", articleBean.getTitle());
+                intent.putExtra("author", articleBean.getAuthor());
+                intent.putExtra("isCollectArticle", isCollectArticle);
+                intent.putExtra("originId", articleBean.getOriginId());
+                intent.putExtra("shareUser",articleBean.getShareUser());
                 holder.itemView.getContext().startActivity(intent);
 
             }
         });
 
         holder.itemView.setOnClickListener(v -> {
-            if(articleBean.getUrl() != null) {
+            if (articleBean.getUrl() != null) {
                 Intent intent = new Intent(mContext, WebActivity.class);
-                intent.putExtra("id",articleBean.getId());
-                intent.putExtra("url",articleBean.getUrl());
-                intent.putExtra("title",articleBean.getTitle());
-                intent.putExtra("author",articleBean.getAuthor());
-                intent.putExtra("isCollectArticle",isCollectArticle);
-                intent.putExtra("originId",articleBean.getOriginId());
+                intent.putExtra("id", articleBean.getId());
+                intent.putExtra("url", articleBean.getUrl());
+                intent.putExtra("title", articleBean.getTitle());
+                intent.putExtra("author", articleBean.getAuthor());
+                intent.putExtra("isCollectArticle", isCollectArticle);
+                intent.putExtra("originId", articleBean.getOriginId());
                 holder.itemView.getContext().startActivity(intent);
 
             }
 
         });
         //如果不是搜索界面的文章才执行
-        if(backToTopListener!=null) {
+        if (backToTopListener != null) {
             backToTopListener.onBackToTop(holder.getAdapterPosition());
         }
 
@@ -163,10 +160,9 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     }
 
 
-
     @Override
     public int getItemCount() {
-        return articleBeanList!=null?articleBeanList.size():0;
+        return articleBeanList != null ? articleBeanList.size() : 0;
     }
 
     public interface BackToTopListener {

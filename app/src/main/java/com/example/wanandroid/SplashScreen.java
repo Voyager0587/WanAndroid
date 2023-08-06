@@ -3,7 +3,6 @@ package com.example.wanandroid;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.animation.AlphaAnimation;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -13,7 +12,6 @@ import com.example.wanandroid.base.home.BlogActivity;
 import com.example.wanandroid.bean.MessageBean;
 import com.example.wanandroid.sharedPreference.SaveAccount;
 import com.example.wanandroid.utils.HttpUtils;
-import com.hanks.htextview.fade.FadeTextView;
 import com.hanks.htextview.line.LineTextView;
 import com.hanks.htextview.typer.TyperTextView;
 
@@ -24,9 +22,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
+ * @author Voyager
  * @className SplashScreen
  * @description 开屏动画界面
- * @author Voyager
  * @date 2023/8/1
  */
 public class SplashScreen extends AppCompatActivity {
@@ -34,13 +32,13 @@ public class SplashScreen extends AppCompatActivity {
     TyperTextView textView2;
     LineTextView textView3;
     int judge = -1;
-
+    //TODO 科协一年学习新的
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-        textView2=findViewById(R.id.textView2);
-        textView3=findViewById(R.id.textView3);
+        textView2 = findViewById(R.id.textView2);
+        textView3 = findViewById(R.id.textView3);
         textView3.animateText("WanAndroid");
         textView2.animateText("——学习并分享自己的知识");
         HttpUtils.getInstance();
@@ -54,6 +52,7 @@ public class SplashScreen extends AppCompatActivity {
 
     /**
      * 开屏动画
+     *
      * @param time 持续时间
      */
     private void setTimeout(int time) {
@@ -77,7 +76,7 @@ public class SplashScreen extends AppCompatActivity {
      * 自动登录请求
      */
     private void autoLogin() {
-        Map<String, String> map=SaveAccount.getAccountInfo(SplashScreen.this);
+        Map<String, String> map = SaveAccount.getAccountInfo(SplashScreen.this);
         Call<MessageBean> call = HttpUtils.getUserService().login(map.get("account"), map.get("password"));
         call.enqueue(new Callback<MessageBean>() {
             @Override
@@ -89,13 +88,13 @@ public class SplashScreen extends AppCompatActivity {
                     } else {
                         Toast.makeText(SplashScreen.this, response.body().getErrorMsg(), Toast.LENGTH_SHORT).show();
                     }
-
+            //TODO 开屏引导界面，搜索按照掘金app来做
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<MessageBean> call, @NonNull Throwable t) {
-                Toast.makeText(SplashScreen.this,"网络问题", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SplashScreen.this, "网络问题", Toast.LENGTH_SHORT).show();
 
             }
         });

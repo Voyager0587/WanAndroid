@@ -1,10 +1,5 @@
 package com.example.wanandroid.base.home;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentContainerView;
-import androidx.fragment.app.FragmentManager;
-
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
@@ -13,14 +8,20 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainerView;
+import androidx.fragment.app.FragmentManager;
+
 import com.example.wanandroid.R;
 import com.example.wanandroid.base.person.PersonFragment;
 import com.example.wanandroid.base.square.SquareFragment;
 
+
 /**
+ * @author Voyager
  * @className BlogActivity
  * @description 通过container包含博客，发现和个人三个界面
- * @author Voyager 
  */
 public class BlogActivity extends AppCompatActivity {
 
@@ -31,11 +32,12 @@ public class BlogActivity extends AppCompatActivity {
     /**
      * 被选中的按钮的序号
      */
-    private int selectedTab =1;
+    private int selectedTab = 1;
     FragmentContainerView fragmentContainerView;
-    LinearLayout homeLayout,squareLayout,personLayout;
-    ImageView homeImageView,personImageView,squareImageView;
-    TextView homeTextView,personTextView,squareTextView;
+    LinearLayout homeLayout, squareLayout, personLayout;
+    ImageView homeImageView, personImageView, squareImageView;
+    TextView homeTextView, personTextView, squareTextView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +66,7 @@ public class BlogActivity extends AppCompatActivity {
 
         homeLayout.setOnClickListener(v -> {
             //检查是否被选中
-            if (selectedTab!=1){
+            if (selectedTab != 1) {
 
                 //设置界面为HomeFragment
 //                getSupportFragmentManager().beginTransaction()
@@ -78,24 +80,24 @@ public class BlogActivity extends AppCompatActivity {
                 if (homeFragment == null) {
                     homeFragment = new HomeTestFragment();
                     fragmentManager.beginTransaction()
-                                .setReorderingAllowed(true)
-                                .add(R.id.fragment_container, homeFragment, "HomeTestFragment")
-                                .commit();
+                            .setReorderingAllowed(true)
+                            .add(R.id.fragment_container, homeFragment, "HomeTestFragment")
+                            .commit();
                 } else {
-                    if(personFragment!=null&&squareFragment==null){
+                    if (personFragment != null && squareFragment == null) {
                         fragmentManager.beginTransaction()
                                 .setReorderingAllowed(true)
                                 .hide(personFragment)
                                 .show(homeFragment)
                                 .commit();
-                    }    else if(squareFragment!=null&&personFragment!=null){
+                    } else if (squareFragment != null && personFragment != null) {
                         fragmentManager.beginTransaction()
                                 .setReorderingAllowed(true)
                                 .hide(squareFragment)
                                 .hide(personFragment)
                                 .show(homeFragment)
                                 .commit();
-                    }else {
+                    } else {
                         fragmentManager.beginTransaction()
                                 .setReorderingAllowed(true)
                                 .hide(squareFragment)
@@ -123,31 +125,31 @@ public class BlogActivity extends AppCompatActivity {
                 homeLayout.setBackgroundResource(R.drawable.home_round_100);
 
                 //添加动画
-                ScaleAnimation scaleAnimation=new ScaleAnimation(0.8f,1.0f,1f,1f, Animation.RELATIVE_TO_SELF,0.0f,Animation.RELATIVE_TO_SELF,0.0f);
+                ScaleAnimation scaleAnimation = new ScaleAnimation(0.8f, 1.0f, 1f, 1f, Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f);
                 scaleAnimation.setDuration(200);
                 scaleAnimation.setFillAfter(true);
                 homeLayout.startAnimation(scaleAnimation);
 
-                selectedTab=1;
+                selectedTab = 1;
             }
         });
         squareLayout.setOnClickListener(v -> {
             //检查是否被选中
-            if (selectedTab!=2){
+            if (selectedTab != 2) {
 
                 //设置界面为LikeFragment
 
                 squareFragment = fragmentManager.findFragmentByTag("SquareFragment");
                 if (squareFragment == null) {
                     squareFragment = new SquareFragment();
-                    if(personFragment!=null){
+                    if (personFragment != null) {
                         fragmentManager.beginTransaction()
                                 .setReorderingAllowed(true)
                                 .hide(homeFragment)
                                 .hide(personFragment)
                                 .add(R.id.fragment_container, squareFragment, "SquareFragment")
                                 .commit();
-                    }else {
+                    } else {
                         fragmentManager.beginTransaction()
                                 .setReorderingAllowed(true)
                                 .hide(homeFragment)
@@ -155,14 +157,14 @@ public class BlogActivity extends AppCompatActivity {
                                 .commit();
                     }
                 } else {
-                    if(personFragment!=null){
+                    if (personFragment != null) {
                         fragmentManager.beginTransaction()
                                 .setReorderingAllowed(true)
                                 .hide(homeFragment)
                                 .hide(personFragment)
                                 .show(squareFragment)
                                 .commit();
-                    }else {
+                    } else {
                         fragmentManager.beginTransaction()
                                 .setReorderingAllowed(true)
                                 .hide(homeFragment)
@@ -205,21 +207,21 @@ public class BlogActivity extends AppCompatActivity {
         });
         personLayout.setOnClickListener(v -> {
             //检查是否被选中
-            if (selectedTab!=3){
+            if (selectedTab != 3) {
 
                 //设置界面为LikeFragment
 
                 personFragment = fragmentManager.findFragmentByTag("personFragment");
                 if (personFragment == null) {
                     personFragment = new PersonFragment();
-                    if(squareFragment!=null){
+                    if (squareFragment != null) {
                         fragmentManager.beginTransaction()
                                 .setReorderingAllowed(true)
                                 .hide(homeFragment)
                                 .hide(squareFragment)
                                 .add(R.id.fragment_container, personFragment, "personFragment")
                                 .commit();
-                    }else {
+                    } else {
                         fragmentManager.beginTransaction()
                                 .setReorderingAllowed(true)
                                 .hide(homeFragment)
@@ -228,14 +230,14 @@ public class BlogActivity extends AppCompatActivity {
                     }
 
                 } else {
-                    if(squareFragment!=null){
+                    if (squareFragment != null) {
                         fragmentManager.beginTransaction()
                                 .setReorderingAllowed(true)
                                 .hide(homeFragment)
                                 .hide(squareFragment)
                                 .show(personFragment)
                                 .commit();
-                    }else {
+                    } else {
                         fragmentManager.beginTransaction()
                                 .setReorderingAllowed(true)
                                 .hide(homeFragment)

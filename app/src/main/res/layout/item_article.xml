@@ -9,12 +9,16 @@
     <TextView
         android:id="@+id/chapterName"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/chapter_name"
         android:gravity="center"
         android:text="官方"
-        android:textSize="13sp"
-        android:textColor="@color/black" />
+        android:paddingVertical="2dp"
+        android:paddingHorizontal="7dp"
+        android:textColor="@color/color_gray_dark_plus"
+        android:textSize="13sp" />
 
     <TextView
         android:id="@+id/time"
@@ -24,17 +28,20 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="40dp"
         android:text="2023-06-07 21:01"
-        android:textColor="@color/black" />
+        android:textColor="@color/color_gray_dark" />
+
+
     <org.sufficientlysecure.htmltextview.HtmlTextView
         android:id="@+id/title"
         android:layout_width="314dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/chapterName"
-        android:layout_marginLeft="10dp"
-        android:textSize="18sp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="8dp"
         android:text="Android 14 之返回界面升级：预览目标界面 + 全新返回箭头fasfsfswffsffsa"
-        android:textColor="@color/black" />
-
+        android:textColor="@color/black"
+        android:textSize="18sp"
+ />
 
     <TextView
         android:id="@+id/top_text"
@@ -54,10 +61,10 @@
         android:id="@+id/author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/title"
+        android:layout_above="@id/view"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="5dp"
-        android:textColor="@color/black"
+        android:layout_marginBottom="4dp"
+        android:textColor="@color/color_gray_dark_plus_plus"
         android:text="郭霖" />
 
     <Button
@@ -71,9 +78,10 @@
         android:visibility="gone"
         />
     <View
+        android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="10dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/color_gray_light_plus"
+        android:background="@color/color_search"
         />
 </RelativeLayout>

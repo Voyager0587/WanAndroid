@@ -1,6 +1,5 @@
 package com.example.wanandroid.adapter;
 
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +23,7 @@ public class SuperChapterAdapter extends RecyclerView.Adapter<SuperChapterAdapte
     List<ChapterBean.DataBean> data;
     private OnSuperItemClickListener onItemClickListener;
     private int selectedPosition = 0;
+
     public void setOnItemClickListener(OnSuperItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
@@ -35,22 +35,22 @@ public class SuperChapterAdapter extends RecyclerView.Adapter<SuperChapterAdapte
     @NonNull
     @Override
     public ChapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chapter_name,parent,false);
-        ChapterViewHolder holder=new ChapterViewHolder(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chapter_name, parent, false);
+        ChapterViewHolder holder = new ChapterViewHolder(view);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ChapterViewHolder holder, int position) {
         holder.textView.setText(data.get(position).getName());
-        if(selectedPosition== holder.getAdapterPosition()){
+        if (selectedPosition == holder.getAdapterPosition()) {
             holder.itemView.setBackgroundResource(holder.bgBlue);
-        }else {
+        } else {
             holder.itemView.setBackgroundResource(holder.bgWhite);
         }
 //        holder.itemView.setBackgroundColor(selectedPosition == holder.getAdapterPosition() ? holder.bgBlue : holder.bgWhite);
         holder.textView.setOnClickListener(v -> {
-            selectedPosition=holder.getAdapterPosition();
+            selectedPosition = holder.getAdapterPosition();
             onItemClickListener.onSuperItemClick(v, holder.getAdapterPosition());
 
         });
@@ -65,19 +65,20 @@ public class SuperChapterAdapter extends RecyclerView.Adapter<SuperChapterAdapte
         return data.size();
     }
 
-    public static class ChapterViewHolder extends RecyclerView.ViewHolder{
+    public static class ChapterViewHolder extends RecyclerView.ViewHolder {
         int bgBlue, bgWhite;
         TextView textView;
+
         public ChapterViewHolder(@NonNull View itemView) {
             super(itemView);
-            textView=itemView.findViewById(R.id.chapterName);
-            bgWhite=R.drawable.item_chapter;
-            bgBlue=R.drawable.home_round_100;
+            textView = itemView.findViewById(R.id.chapterName);
+            bgWhite = R.drawable.item_chapter;
+            bgBlue = R.drawable.home_round_100;
         }
     }
 
-    public interface OnSuperItemClickListener{
-        void onSuperItemClick(View view,int position);
+    public interface OnSuperItemClickListener {
+        void onSuperItemClick(View view, int position);
     }
 
 }

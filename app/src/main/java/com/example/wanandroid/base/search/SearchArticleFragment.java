@@ -21,10 +21,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.scwang.smart.refresh.footer.BallPulseFooter;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
-import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.constant.SpinnerStyle;
-import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
-import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,8 +85,8 @@ public class SearchArticleFragment extends Fragment implements ArticleAdapter.Ba
         View view = inflater.inflate(R.layout.fragment_search_article, container, false);
         recyclerView = view.findViewById(R.id.recyclerView_search);
         refresh_layout_search = view.findViewById(R.id.refresh_layout_search);
-        blank_layout=view.findViewById(R.id.blank_layout);
-        backToTop=view.findViewById(R.id.backToTop);
+        blank_layout = view.findViewById(R.id.blank_layout);
+        backToTop = view.findViewById(R.id.backToTop);
         initRecyclerView();
         search(text, page);
         initListener();
@@ -139,7 +136,7 @@ public class SearchArticleFragment extends Fragment implements ArticleAdapter.Ba
             @Override
             public void onResponse(@NonNull Call<HomeArticleBean> call, @NonNull Response<HomeArticleBean> response) {
                 HomeArticleBean homeArticleBean = response.body();
-                if (homeArticleBean.getData().getDatas().size() == 0&&Objects.requireNonNull(response.body()).getErrorCode()==0) {
+                if (homeArticleBean.getData().getDatas().size() == 0 && Objects.requireNonNull(response.body()).getErrorCode() == 0) {
                     Toast.makeText(getContext(), "没有更多数据了", Toast.LENGTH_SHORT).show();
                 }
                 if (homeArticleBean != null) {
@@ -167,14 +164,14 @@ public class SearchArticleFragment extends Fragment implements ArticleAdapter.Ba
 
                         }
                     }
-                    if(payload_articleBeanList.size()==0&&pageGet!=0){
+                    if (payload_articleBeanList.size() == 0 && pageGet != 0) {
                         page--;
                     }
                 }
                 requireActivity().runOnUiThread(() -> {
-                    if(articleBeanList.size()==0){
+                    if (articleBeanList.size() == 0) {
                         blank_layout.setVisibility(View.VISIBLE);
-                    }else {
+                    } else {
                         blank_layout.setVisibility(View.GONE);
                     }
                 });
@@ -183,7 +180,7 @@ public class SearchArticleFragment extends Fragment implements ArticleAdapter.Ba
 
             @Override
             public void onFailure(@NonNull Call<HomeArticleBean> call, @NonNull Throwable t) {
-                if(payload_articleBeanList.size()==0&&pageGet!=0){
+                if (payload_articleBeanList.size() == 0 && pageGet != 0) {
                     page--;
                 }
                 refresh_layout_search.finishRefresh();
@@ -195,9 +192,9 @@ public class SearchArticleFragment extends Fragment implements ArticleAdapter.Ba
 
     @Override
     public void onBackToTop(int position) {
-        if(position>=9){
+        if (position >= 9) {
             backToTop.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             backToTop.setVisibility(View.GONE);
         }
     }

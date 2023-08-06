@@ -108,12 +108,12 @@ public class SignUpActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(@NonNull Call<MessageBean> call, @NonNull Response<MessageBean> response) {
                         if (response.isSuccessful()) {
-                            if(response.body().getErrorCode()==0){
-                                Intent intent=new Intent(SignUpActivity.this, MainActivity.class);
+                            if (response.body().getErrorCode() == 0) {
+                                Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                                 startActivity(intent);
 
                             }
-                            Toast.makeText(SignUpActivity.this,response.body().getErrorMsg(),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignUpActivity.this, response.body().getErrorMsg(), Toast.LENGTH_SHORT).show();
 
                         }
                     }
