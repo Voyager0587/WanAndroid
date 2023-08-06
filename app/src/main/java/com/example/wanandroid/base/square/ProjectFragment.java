@@ -173,7 +173,7 @@ public class ProjectFragment extends Fragment implements ArticleAdapter.BackToTo
                 if (loadMoreData.size() == 0 && pageGet != 0) {
                     page--;
                 }
-                Snackbar.make(refreshLayout, "error:获取数据失败! ", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(projectRecyclerView, "error:获取数据失败! ", Snackbar.LENGTH_SHORT).show();
             }
         });
 

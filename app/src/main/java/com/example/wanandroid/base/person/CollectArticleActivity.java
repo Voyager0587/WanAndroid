@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -158,6 +159,7 @@ public class CollectArticleActivity extends AppCompatActivity {
                     if (loadCollectArticleList.size() == 0 && pageGet != 0) {
                         page--;
                     }
+                    refresh_layout.finishRefresh();
                 }
             }
 
@@ -170,7 +172,7 @@ public class CollectArticleActivity extends AppCompatActivity {
                     page--;
                 }
                 refresh_layout.finishRefresh();
-                Snackbar.make(collectArticleRecyclerView, "网络问题", Snackbar.LENGTH_SHORT).show();
+                Toast.makeText(CollectArticleActivity.this,"网络问题",Toast.LENGTH_SHORT).show();
             }
         });
     }

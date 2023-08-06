@@ -32,7 +32,7 @@ public class SplashScreen extends AppCompatActivity {
     TyperTextView textView2;
     LineTextView textView3;
     int judge = -1;
-
+    //TODO 科协一年学习新的
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +88,7 @@ public class SplashScreen extends AppCompatActivity {
                     } else {
                         Toast.makeText(SplashScreen.this, response.body().getErrorMsg(), Toast.LENGTH_SHORT).show();
                     }
-
+            //TODO 开屏引导界面，搜索按照掘金app来做
                 }
             }
 

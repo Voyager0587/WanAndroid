@@ -7,6 +7,7 @@ import com.example.wanandroid.bean.HomeArticleBean;
 import com.example.wanandroid.bean.HotkeyBean;
 import com.example.wanandroid.bean.MessageBean;
 import com.example.wanandroid.bean.TopArticleBean;
+import com.example.wanandroid.bean.WebsiteBean;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -140,5 +141,13 @@ public interface WanAndroidService {
     @GET("lg/collect/list/{page}/json")
     Call<CollectArticleBean> getCollectArticle(@Path("page") int page);
 
+
+    /**
+     * 获取常用网站
+     *
+     * @return WebsiteBean
+     */
+    @GET("friend/json")
+    Call<WebsiteBean> getWebsiteData();
 
 }

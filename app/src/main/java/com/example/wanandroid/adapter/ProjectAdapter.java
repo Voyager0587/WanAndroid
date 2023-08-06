@@ -73,7 +73,11 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
         holder.title.setHtml(datasBean.getTitle());
         holder.chapterName.setText(datasBean.getChapterName());
         holder.time.setText(datasBean.getNiceDate());
-        holder.author.setText(datasBean.getAuthor());
+        if (datasBean.getAuthor() != null) {
+            holder.author.setText(datasBean.getAuthor());
+        } else {
+            holder.author.setText(datasBean.getShareUser());
+        }
         Glide.with(holder.itemView.getContext())
                 .load(datasBean.getEnvelopePic())
                 .thumbnail(0.1f)

@@ -39,8 +39,9 @@ public class WebActivity extends AppCompatActivity {
      * @param url 文章链接
      * @param title 文章标题
      * @param author 文章作者
+     * @param shareUser 文章分享人（转载）
      */
-    String url, title, author;
+    String url, title, author,shareUser;
 
     /**
      * @param isCollectArticle 是否是收藏文章，只是用来标识是否是从个人收藏界面进入的WebActivity
@@ -63,6 +64,7 @@ public class WebActivity extends AppCompatActivity {
         isCollectArticle = intent.getIntExtra("isCollectArticle", 0);
         originId = intent.getIntExtra("originId", -1);
         tag = intent.getIntExtra("tag", 0);
+        shareUser=intent.getStringExtra("shareUser");
         WebFragment webFragment = WebFragment.newInstance(url);
 
         //为收藏界面的item.xml编写一个特殊的，加一个点亮的红色❤，点击后取消收藏，再点击相当于再次收藏

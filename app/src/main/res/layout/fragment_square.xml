@@ -77,10 +77,6 @@
         app:tabMode="scrollable"
         app:tabRippleColor="#00000000"
         app:tabSelectedTextColor="@color/square"
-        app:tabTextColor="#000" />
-
-
-
-
+        app:tabTextColor="@color/color_gray" />
 
 </RelativeLayout>

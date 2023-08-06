@@ -101,15 +101,17 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     public ArticleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_article, parent, false);
         ArticleViewHolder holder = new ArticleViewHolder(view);
-
         return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ArticleViewHolder holder, int position) {
         ArticleBean articleBean = articleBeanList.get(position);
-        holder.author.setText(articleBean.getAuthor());
-        int type = articleBean.getType();
+        if (!articleBean.getAuthor().isEmpty()) {
+            holder.author.setText(articleBean.getAuthor());
+        } else {
+            holder.author.setText(articleBean.getShareUser());
+        }
         if (articleBean.getType() == 1) {
             holder.top_text.setVisibility(View.VISIBLE);
         } else {
@@ -129,6 +131,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                 intent.putExtra("author", articleBean.getAuthor());
                 intent.putExtra("isCollectArticle", isCollectArticle);
                 intent.putExtra("originId", articleBean.getOriginId());
+                intent.putExtra("shareUser",articleBean.getShareUser());
                 holder.itemView.getContext().startActivity(intent);
 
             }

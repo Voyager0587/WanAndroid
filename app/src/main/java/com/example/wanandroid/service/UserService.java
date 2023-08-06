@@ -1,6 +1,7 @@
 package com.example.wanandroid.service;
 
 import com.example.wanandroid.bean.MessageBean;
+import com.example.wanandroid.bean.UserDataBean;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -47,5 +48,12 @@ public interface UserService {
     @GET("user/logout/json")
     Call<MessageBean> logout();
 
+    /**
+     * 获取用户信息
+     *
+     * @return UserDataBean
+     */
+    @GET("/user/lg/userinfo/json")
+    Call<UserDataBean> getUserData();
 
 }
