@@ -1,10 +1,13 @@
 package com.example.wanandroid.base.person;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +21,7 @@ import com.example.wanandroid.bean.MessageBean;
 import com.example.wanandroid.bean.UserDataBean;
 import com.example.wanandroid.sharedPreference.SaveAccount;
 import com.example.wanandroid.utils.HttpUtils;
+import com.example.wanandroid.utils.ImageFilter;
 
 import org.w3c.dom.Text;
 
@@ -33,18 +37,24 @@ import retrofit2.Response;
  * @createTime
  */
 public class PersonFragment extends Fragment {
-    RelativeLayout collectArticle, info_layout, logout_layout,website_layout;
+    RelativeLayout info_layout, logout_layout,website_layout;
+    ImageView iv_bg,collectArticle;
     TextView coinCount,rank,publicName;
 
     public PersonFragment() {
         // Required empty public constructor
     }
+//TODO 消息外面显示多少未读，里面的话先加载未读消息再加载已读消息，记住UI模仿
+//TODO 登出要添加“是否确定注销”对话框
+//TODO 为了保证UI的协调性，排名和积分建议改成CSDN形式
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_person, container, false);
         collectArticle = view.findViewById(R.id.collectArticle);
+        iv_bg=view.findViewById(R.id.iv_bg);
         info_layout = view.findViewById(R.id.info_layout);
         logout_layout = view.findViewById(R.id.logout_layout);
         coinCount=view.findViewById(R.id.coinCount);
@@ -55,8 +65,17 @@ public class PersonFragment extends Fragment {
         //TODO 拓展：信息界面里面还可以加入软件分享链接或者二维码
         initListener();
         initUserData();
+        initView();
         return view;
 
+    }
+
+    private void initView() {
+        //拿到初始图
+        Bitmap bmp= BitmapFactory.decodeResource(getResources(), R.drawable.img1);
+        //处理得到模糊效果的图
+        Bitmap blurBitmap = ImageFilter.blurBitmap(getContext(), bmp, 25f);
+        iv_bg.setImageBitmap(blurBitmap);
     }
 
     private  void initUserData(){
