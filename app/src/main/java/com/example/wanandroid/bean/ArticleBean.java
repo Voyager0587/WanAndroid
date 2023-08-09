@@ -50,6 +50,10 @@ public class ArticleBean implements Serializable {
      */
     private int originId;
 
+    /**
+     * 是否收藏
+     */
+    private boolean collect;
 
     public ArticleBean(String author, String shareUser, String title, String url, String date, int type, String chapterName) {
         this.author = author;
@@ -62,6 +66,14 @@ public class ArticleBean implements Serializable {
     }
 
     public ArticleBean() {
+    }
+
+    public boolean isCollect() {
+        return collect;
+    }
+
+    public void setCollect(boolean collect) {
+        this.collect = collect;
     }
 
     public int getOriginId() {

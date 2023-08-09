@@ -4,7 +4,7 @@ package com.example.wanandroid.utils;
  * @version 1.0
  * @className: ImageFilter
  * @author: Voyager
- * @description: TODO
+ * @description: 图像模糊
  * @date: 2023/8/8 12:01
  **/
 

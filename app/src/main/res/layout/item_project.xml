@@ -10,12 +10,16 @@
     <TextView
         android:id="@+id/chapterName"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/chapter_name"
         android:gravity="center"
-        android:text="跨平台应用"
-        android:textSize="13sp"
-        android:textColor="@color/black" />
+        android:text="项目"
+        android:paddingVertical="2dp"
+        android:paddingHorizontal="7dp"
+        android:textColor="@color/color_gray_dark_plus"
+        android:textSize="13sp" />
 
     <TextView
         android:id="@+id/time"
@@ -25,7 +29,7 @@
         android:layout_marginEnd="10dp"
         android:text="2023-06-07 21:01"
         android:layout_alignParentEnd="true"
-        android:textColor="@color/black" />
+        android:textColor="@color/color_gray_dark"/>
 
     <org.sufficientlysecure.htmltextview.HtmlTextView
         android:id="@+id/title"
@@ -33,6 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/chapterName"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="8dp"
         android:ellipsize="end"
         android:ems="7"
         android:maxLines="2"
@@ -45,11 +50,11 @@
         android:id="@+id/author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/title"
-        android:layout_marginTop="5dp"
+        android:layout_above="@+id/view"
         android:layout_marginStart="15dp"
-        android:textColor="@color/black"
-        android:text="ZuYun" />
+        android:layout_marginBottom="4dp"
+        android:textColor="@color/color_gray_dark_plus_plus"
+        android:text="郭霖" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -61,6 +66,7 @@
         android:layout_marginEnd="31dp"
         tools:srcCompat="@color/black" />
 <View
+    android:id="@+id/view"
     android:layout_width="match_parent"
     android:layout_height="10dp"
     android:layout_alignParentBottom="true"
