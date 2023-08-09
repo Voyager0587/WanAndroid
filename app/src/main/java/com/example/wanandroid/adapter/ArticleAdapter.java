@@ -100,8 +100,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     @Override
     public ArticleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_article, parent, false);
-        ArticleViewHolder holder = new ArticleViewHolder(view);
-        return holder;
+        return new ArticleViewHolder(view);
     }
 
     @Override
@@ -119,11 +118,18 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         }
         holder.title.setHtml(articleBean.getTitle());
         holder.time.setText(articleBean.getDate());
-        holder.chapterName.setText(articleBean.getChapterName());
-
-
+        if(articleBean.getChapterName().isEmpty()){
+            holder.chapterName.setText("站外文章");
+        }else {
+            holder.chapterName.setText(articleBean.getChapterName());
+        }
         holder.title.setOnClickListener(v -> {
             if (articleBean.getUrl() != null) {
+                if(articleBean.isCollect()) {
+                    isCollectArticle=1;
+                }else {
+                    isCollectArticle=0;
+                }
                 Intent intent = new Intent(mContext, WebActivity.class);
                 intent.putExtra("url", articleBean.getUrl());
                 intent.putExtra("id", articleBean.getId());
@@ -139,6 +145,11 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
 
         holder.itemView.setOnClickListener(v -> {
             if (articleBean.getUrl() != null) {
+                if(articleBean.isCollect()) {
+                    isCollectArticle=1;
+                }else {
+                    isCollectArticle=0;
+                }
                 Intent intent = new Intent(mContext, WebActivity.class);
                 intent.putExtra("id", articleBean.getId());
                 intent.putExtra("url", articleBean.getUrl());

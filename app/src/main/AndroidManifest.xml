@@ -4,6 +4,11 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- 网络权限 -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 相机权限 -->
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- 读写文件权限 -->
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".utils.App"
@@ -16,6 +21,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WanAndroid"
         tools:targetApi="31">
+        <activity
+            android:name=".base.person.MessageActivity"
+            android:exported="true">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".base.person.WebsiteActivity"
             android:exported="true">

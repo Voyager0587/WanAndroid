@@ -3,6 +3,8 @@ package com.example.wanandroid.service;
 import com.example.wanandroid.bean.BannerBean;
 import com.example.wanandroid.bean.ChapterBean;
 import com.example.wanandroid.bean.CollectArticleBean;
+import com.example.wanandroid.bean.CommentBean;
+import com.example.wanandroid.bean.CommentCount;
 import com.example.wanandroid.bean.HomeArticleBean;
 import com.example.wanandroid.bean.HotkeyBean;
 import com.example.wanandroid.bean.MessageBean;
@@ -13,7 +15,6 @@ import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -120,15 +121,17 @@ public interface WanAndroidService {
     @POST("lg/uncollect_originId/{id}/json")
     Call<MessageBean> uncollectArticleInList(@Path("id") int id);
 
+    //TODO 有一些Service没用上
     /**
      * 从个人收藏界面取消收藏
      *
      * @param id       文章id，跟上面那个id不同，上面那个id对应的是收藏文章的originId
      * @param originId 文章真实的id，对应uncollectArticleInList()方法要传入的id
+     * @return MessageBean
      */
     @POST("lg/uncollect/{id}/json")
     @FormUrlEncoded
-    Call<MessageBean> uncollectArticleInPerson(@Path("id") int id, @Field("originId") int originId);
+    Call<MessageBean> unCollectArticleInPerson(@Path("id") int id, @Field("originId") int originId);
 
 
     /**
@@ -149,5 +152,36 @@ public interface WanAndroidService {
      */
     @GET("friend/json")
     Call<WebsiteBean> getWebsiteData();
+
+
+    /**
+     * 获取未读消息数量
+     *
+     * @return MessageBean
+     */
+    @GET("message/lg/count_unread/json")
+    Call<CommentCount> getUnreadCommentsCount();
+
+
+    /**
+     * 获取未读消息列表
+     *
+     * @param page 页码 从1开始
+     * @return CommentBean
+     */
+    @GET("message/lg/unread_list/{page}/json")
+    Call<CommentBean> getUnreadComments(@Path("page") int page);
+
+    /**
+     * 获取已读消息列表
+     *
+     * @param page 页码 从1开始
+     * @return CommentBean
+     */
+    @GET("message/lg/readed_list/{page}/json")
+    Call<CommentBean> getReadComments(@Path("page") int page);
+
+
+
 
 }

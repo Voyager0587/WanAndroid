@@ -123,11 +123,14 @@ public class CollectArticleActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<CollectArticleBean> call, @NonNull Response<CollectArticleBean> response) {
                 assert response.body() != null;
                 if (response.isSuccessful()) {
-                    collectArticleList.clear();
+                    if(refresh_layout.isRefreshing()) {
+                        collectArticleList.clear();
+                    }
                     internet_error.setVisibility(View.GONE);
                     CollectArticleBean collectArticleBean = response.body();
                     if (collectArticleBean.getData().getDatas().size() == 0 && Objects.requireNonNull(response.body()).getErrorCode() == 0) {
                         Snackbar.make(blank_layout, "没有更多数据了", Snackbar.LENGTH_SHORT).show();
+                        return;
                     }
                     List<CollectArticleBean.DataBean.DatasBean> datasBeanList = collectArticleBean.getData().getDatas();
 
@@ -139,6 +142,7 @@ public class CollectArticleActivity extends AppCompatActivity {
                         articleBean.setChapterName(datasBeanList.get(i).getChapterName());
                         articleBean.setTitle(datasBeanList.get(i).getTitle());
                         articleBean.setId(datasBeanList.get(i).getId());
+                        articleBean.setCollect(true);
                         articleBean.setOriginId(datasBeanList.get(i).getOriginId());
                         collectArticleList.add(articleBean);
                         if (pageGet != 0) {
@@ -152,7 +156,6 @@ public class CollectArticleActivity extends AppCompatActivity {
                             }
                             initRecyclerView();
                             articleAdapter.notifyDataSetChanged();
-                            refresh_layout.finishRefresh();
                         });
 
                     }

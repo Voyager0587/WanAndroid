@@ -36,7 +36,9 @@
       android:drawablePadding="6dp"
       android:hint="请输入搜索内容"
       android:paddingLeft="10dp"
-      android:textCursorDrawable="@color/login_blue" />
+      android:textCursorDrawable="@color/login_blue"
+      android:transitionName="search_transition"
+      />
 
   <TextView
       android:id="@+id/confirm_button"

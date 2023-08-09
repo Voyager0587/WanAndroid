@@ -45,7 +45,7 @@ public class WebActivity extends AppCompatActivity {
 
     /**
      * @param isCollectArticle 是否是收藏文章，只是用来标识是否是从个人收藏界面进入的WebActivity
-     * @param judge 判断文章是否是收藏状态，便于实现在进入收藏文章界面后取消收藏，再点击收藏后可以收藏成功
+     * @param judge 判断文章是否是收藏状态，便于实现在进入收藏文章界面后取消收藏，再点击收藏后可以收藏成功，其实是没看到文章JSON有collect这个属性呜呜呜
      */
     int isCollectArticle, tag, judge = 1;
 
@@ -56,7 +56,7 @@ public class WebActivity extends AppCompatActivity {
         cancel = findViewById(R.id.cancel);
         like = findViewById(R.id.like);
         Intent intent = getIntent();
-
+        //TODO 可以考虑在最上面加一个文章标题，然后实现共享元素转场
         url = intent.getStringExtra("url");
         id = intent.getIntExtra("id", -1);
         title = intent.getStringExtra("title");
@@ -143,7 +143,7 @@ public class WebActivity extends AppCompatActivity {
             } else {
                 //个人收藏文章列表进入进入WebActivity界面的监听逻辑
                 if (judge == 1) {
-                    Call<MessageBean> call = HttpUtils.getwAndroidService().uncollectArticleInPerson(id, -1);
+                    Call<MessageBean> call = HttpUtils.getwAndroidService().unCollectArticleInPerson(id, -1);
                     call.enqueue(new Callback<MessageBean>() {
                         @Override
                         public void onResponse(@NonNull Call<MessageBean> call, @NonNull Response<MessageBean> response) {

@@ -1,14 +1,18 @@
 package com.example.wanandroid.base.home;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -66,10 +70,10 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
     private List<ArticleBean> payload_articleBeanList = new ArrayList<>();
     private Banner banner;
     private RefreshLayout refreshLayout;
-    private RelativeLayout top_layout;
+    private EditText search_input;
     private LinearLayout blank_layout, internet_error;
     private int chapterId = -100;
-
+    private  Context context;
 
     /**
      * @param page 当前分类下文章的页数
@@ -80,8 +84,12 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
      */
     int page = 0, currentPosition, currentId, superPosition, temSecondaryPosition = 0;
 
-    public HomeTestFragment() {
+    public HomeTestFragment(Context context) {
+        this.context = context;
+    }
 
+    public HomeTestFragment() {
+        requireActivity().getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
     }
 
 
@@ -95,7 +103,7 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
         internet_error = view.findViewById(R.id.internet_error);
         banner = view.findViewById(R.id.banner);
         refreshLayout = view.findViewById(R.id.refresh_layout);
-        top_layout = view.findViewById(R.id.top_layout);
+        search_input = view.findViewById(R.id.search_input);
         blank_layout = view.findViewById(R.id.blank_layout);
 
         initListener();
@@ -112,10 +120,15 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
      * 初始化控件监听器
      */
     private void initListener() {
-
-        top_layout.setOnClickListener(v -> {
+        search_input.setCursorVisible(false);
+        search_input.setFocusable(false);
+        search_input.setFocusableInTouchMode(false);
+        search_input.setOnClickListener(v -> {
             Intent intent = new Intent(requireActivity(), SearchActivity.class);
-            requireActivity().startActivity(intent);
+            ActivityOptionsCompat options1 = ActivityOptionsCompat.
+                    makeSceneTransitionAnimation(getActivity(), search_input, "search_transition");
+            startActivity(intent, options1.toBundle());
+
         });
     }
 
@@ -279,6 +292,7 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
                                 articleBean.setChapterName(homeArticleBeanList.get(i).getChapterName());
                                 articleBean.setShareUser(homeArticleBeanList.get(i).getShareUser());
                                 articleBean.setId(homeArticleBeanList.get(i).getId());
+                                articleBean.setCollect(homeArticleBeanList.get(i).isCollect());
                                 articleBean.setType(0);
                                 articleBean.setUrl(homeArticleBeanList.get(i).getLink());
                                 articleBean.setDate(homeArticleBeanList.get(i).getNiceDate());
@@ -360,6 +374,7 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
                                 articleBean.setChapterName(data.get(i).getChapterName());
                                 articleBean.setId(data.get(i).getId());
                                 articleBean.setShareUser(data.get(i).getShareUser());
+                                articleBean.setCollect(data.get(i).isCollect());
                                 articleBean.setType(1);
                                 articleBean.setUrl(data.get(i).getLink());
                                 articleBean.setDate(data.get(i).getNiceDate());
@@ -408,6 +423,7 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
                             articleBean.setShareUser(homeArticleBeanList.get(i).getShareUser());
                             articleBean.setId(homeArticleBeanList.get(i).getId());
                             articleBean.setType(0);
+                            articleBean.setCollect(homeArticleBeanList.get(i).isCollect());
                             articleBean.setUrl(homeArticleBeanList.get(i).getLink());
                             articleBean.setDate(homeArticleBeanList.get(i).getNiceDate());
                             articleBeanList.add(articleBean);

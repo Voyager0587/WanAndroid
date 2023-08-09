@@ -14,7 +14,7 @@
         android:layout_marginTop="5dp"
         android:background="@drawable/chapter_name"
         android:gravity="center"
-        android:text="官方"
+        android:text="站外文章"
         android:paddingVertical="2dp"
         android:paddingHorizontal="7dp"
         android:textColor="@color/color_gray_dark_plus"

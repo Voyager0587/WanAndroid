@@ -101,7 +101,7 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
         imageView.setOnClickListener((v) -> {
-            finish();
+            onBackPressed();
         });
         confirm_button.setOnClickListener((v) -> {
             count++;

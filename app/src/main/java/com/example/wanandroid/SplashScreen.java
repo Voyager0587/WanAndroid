@@ -89,6 +89,7 @@ public class SplashScreen extends AppCompatActivity {
                         Toast.makeText(SplashScreen.this, response.body().getErrorMsg(), Toast.LENGTH_SHORT).show();
                     }
             //TODO 开屏引导界面，搜索按照掘金app来做
+
                 }
             }
 
