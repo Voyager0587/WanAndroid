@@ -5,8 +5,9 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginStart="5dp"
-
+    android:background="@drawable/item_chapter2"
     >
+
     <TextView
         android:id="@+id/chapterName"
         android:layout_width="wrap_content"

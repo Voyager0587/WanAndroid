@@ -1,5 +1,10 @@
 package com.example.wanandroid.adapter;
 
+
+
+
+
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,8 +100,10 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
          */
         if (superPosition == Integer.parseInt(superJudge) && position == Integer.parseInt(secondJudge)) {
             holder.itemView.setBackgroundResource(holder.bgBlue);
+            holder.textView.setTextColor(Color.parseColor("#1194AA"));
         } else {
             holder.itemView.setBackgroundResource(holder.bgWhite);
+            holder.textView.setTextColor(Color.parseColor("#FF000000"));
         }
         holder.textView.setOnClickListener(v -> {
 
@@ -123,8 +130,8 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
             super(itemView);
             textView = itemView.findViewById(R.id.chapterName);
             chapter_layout = itemView.findViewById(R.id.recyclerView_search);
-            bgWhite = R.drawable.item_chapter;
-            bgBlue = R.drawable.home_round_100;
+            bgWhite = R.drawable.item_chapter2;
+            bgBlue = R.drawable.item_chapter_selected;
         }
     }
 
