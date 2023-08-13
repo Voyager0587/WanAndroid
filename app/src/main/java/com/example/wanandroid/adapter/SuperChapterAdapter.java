@@ -1,5 +1,6 @@
 package com.example.wanandroid.adapter;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,8 +46,10 @@ public class SuperChapterAdapter extends RecyclerView.Adapter<SuperChapterAdapte
         holder.textView.setText(data.get(position).getName());
         if (selectedPosition == holder.getAdapterPosition()) {
             holder.itemView.setBackgroundResource(holder.bgBlue);
+            holder.textView.setTextColor(Color.parseColor("#1194AA"));
         } else {
             holder.itemView.setBackgroundResource(holder.bgWhite);
+            holder.textView.setTextColor(Color.parseColor("#FF000000"));
         }
 //        holder.itemView.setBackgroundColor(selectedPosition == holder.getAdapterPosition() ? holder.bgBlue : holder.bgWhite);
         holder.textView.setOnClickListener(v -> {
@@ -72,8 +75,8 @@ public class SuperChapterAdapter extends RecyclerView.Adapter<SuperChapterAdapte
         public ChapterViewHolder(@NonNull View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.chapterName);
-            bgWhite = R.drawable.item_chapter;
-            bgBlue = R.drawable.home_round_100;
+            bgWhite = R.drawable.item_chapter2;
+            bgBlue = R.drawable.item_chapter_selected;
         }
     }
 

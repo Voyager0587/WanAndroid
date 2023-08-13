@@ -37,10 +37,6 @@ public class SplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-        textView2 = findViewById(R.id.textView2);
-        textView3 = findViewById(R.id.textView3);
-        textView3.animateText("WanAndroid");
-        textView2.animateText("——学习并分享自己的知识");
         HttpUtils.getInstance();
         int isAuto = SaveAccount.getIsAutoLogin(SplashScreen.this);
         if (1 == isAuto) {

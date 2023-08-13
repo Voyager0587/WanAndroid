@@ -5,7 +5,7 @@
     android:id="@+id/squareLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/square_background"
+    android:background="@color/White"
 
 >
 
@@ -71,7 +71,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="47dp"
-        android:background="@color/square_30"
+        android:background="@color/White"
         app:tabIndicatorColor="@color/square"
         app:tabIndicatorFullWidth="false"
         app:tabMode="scrollable"

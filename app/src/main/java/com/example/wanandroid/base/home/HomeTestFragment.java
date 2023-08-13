@@ -2,6 +2,7 @@ package com.example.wanandroid.base.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -105,7 +106,8 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
         refreshLayout = view.findViewById(R.id.refresh_layout);
         search_input = view.findViewById(R.id.search_input);
         blank_layout = view.findViewById(R.id.blank_layout);
-
+        //TODO 开屏界面加一个lottifie动画更好看，注册界面和登录界面UI，个人消息界面刷新和加载功能，搜索界面热词UI（手机上的截屏）
+        //TODO 还有界面上面的返回栏修改
         initListener();
         initChapter();
         getSuperChapterName();
@@ -551,10 +553,12 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
             public void run() {
                 bannerAdapter = new BannerAdapter(bannerData);
                 bannerAdapter.setContext(requireActivity());
+//                banner.setBannerGalleryMZ(20,0.8f);
                 banner.setAdapter(bannerAdapter).addBannerLifecycleObserver(getActivity())
-                        .setBannerRound(10f) //圆角
                         .setIndicator(new RectangleIndicator(getActivity())) //线条指示器
                         .setIndicatorHeight(18)//设置indicator的高度
+                        .setIndicatorSelectedColor(Color.parseColor("#F14F4F"))
+                        .setIndicatorNormalColor(Color.parseColor("#CC979B9D"))
                         .setIndicatorWidth(18, 18) //选中下宽度是否一致
                         .setIndicatorGravity(IndicatorConfig.Direction.CENTER);
             }

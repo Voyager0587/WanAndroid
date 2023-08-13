@@ -1,18 +1,17 @@
 package com.example.wanandroid.base.person;
 
+import android.os.Bundle;
+import android.widget.ImageButton;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Bundle;
-import android.widget.ImageButton;
-import android.widget.Toast;
-
 import com.example.wanandroid.R;
 import com.example.wanandroid.adapter.CommentAdapter;
 import com.example.wanandroid.bean.CommentBean;
-import com.example.wanandroid.bean.MessageBean;
 import com.example.wanandroid.utils.HttpUtils;
 
 import java.util.ArrayList;
@@ -23,9 +22,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
+ * @author Voyager
  * @className MessageActivity
  * @description 消息列表
- * @author Voyager
  * @date 2023/8/9
  */
 public class MessageActivity extends AppCompatActivity {
@@ -34,6 +33,7 @@ public class MessageActivity extends AppCompatActivity {
     ImageButton cancel;
     CommentAdapter commentAdapter;
     List<CommentBean.DataBean.DatasBean> datasBeanList = new ArrayList<CommentBean.DataBean.DatasBean>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,16 +44,16 @@ public class MessageActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        messageRecyclerView=findViewById(R.id.messageRecyclerView);
-        cancel=findViewById(R.id.cancel);
+        messageRecyclerView = findViewById(R.id.messageRecyclerView);
+        cancel = findViewById(R.id.cancel);
         cancel.setOnClickListener(v -> {
             finish();
         });
     }
 
     private void initRecyclerView() {
-        commentAdapter=new CommentAdapter(datasBeanList);
-        LinearLayoutManager manager=new LinearLayoutManager(this);
+        commentAdapter = new CommentAdapter(datasBeanList);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
         commentAdapter.setmContext(this);
         messageRecyclerView.setLayoutManager(manager);
         messageRecyclerView.setAdapter(commentAdapter);
@@ -65,20 +65,20 @@ public class MessageActivity extends AppCompatActivity {
      * @param pageGet 页数
      */
     private void getUnReadMessageData(int pageGet) {
-        Call<CommentBean> call= HttpUtils.getwAndroidService().getUnreadComments(pageGet);
+        Call<CommentBean> call = HttpUtils.getwAndroidService().getUnreadComments(pageGet);
         call.enqueue(new Callback<CommentBean>() {
             @Override
             public void onResponse(@NonNull Call<CommentBean> call, @NonNull Response<CommentBean> response) {
-                if(response.isSuccessful()){
-                    CommentBean commentBean=response.body();
+                if (response.isSuccessful()) {
+                    CommentBean commentBean = response.body();
                     datasBeanList.addAll(commentBean.getData().getDatas());
-                    if(!datasBeanList.isEmpty()){
+                    if (!datasBeanList.isEmpty()) {
                         commentAdapter.setDatasBeanList(datasBeanList);
 
-                            commentAdapter.notifyDataSetChanged();
-                            getUnReadMessageData(pageGet+1);
+                        commentAdapter.notifyDataSetChanged();
+                        getUnReadMessageData(pageGet + 1);
 
-                    }else {
+                    } else {
                         getReadMessageData(0);
                     }
 
@@ -87,7 +87,7 @@ public class MessageActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<CommentBean> call, @NonNull Throwable t) {
-                Toast.makeText(MessageActivity.this,"网络问题",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MessageActivity.this, "网络问题", Toast.LENGTH_SHORT).show();
             }
 
         });
@@ -99,13 +99,14 @@ public class MessageActivity extends AppCompatActivity {
      *
      * @param pageGet 页数
      */
-    private void getReadMessageData(int pageGet){
-        Call<CommentBean> call= HttpUtils.getwAndroidService().getReadComments(pageGet);
+    private void getReadMessageData(int pageGet) {
+        Call<CommentBean> call = HttpUtils.getwAndroidService().getReadComments(pageGet);
         call.enqueue(new Callback<CommentBean>() {
             @Override
             public void onResponse(@NonNull Call<CommentBean> call, @NonNull Response<CommentBean> response) {
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     CommentBean commentBean = response.body();
+                    assert commentBean != null;
                     datasBeanList.addAll(commentBean.getData().getDatas());
                     commentAdapter.setDatasBeanList(datasBeanList);
                     commentAdapter.notifyDataSetChanged();
@@ -118,8 +119,6 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
     }
-
-
 
 
 }

@@ -7,6 +7,7 @@ import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -105,12 +106,18 @@ public class SearchActivity extends AppCompatActivity {
         });
         confirm_button.setOnClickListener((v) -> {
             count++;
-            SearchArticleFragment searchArticleFragment = new SearchArticleFragment();
-            searchArticleFragment.setText(input);
-            fragmentManager.beginTransaction()
-                    .setReorderingAllowed(true)
-                    .replace(R.id.search_fragment_container, searchArticleFragment)
-                    .commit();
+            if(input!=null&&!input.isEmpty()){
+                SearchArticleFragment searchArticleFragment = new SearchArticleFragment();
+                searchArticleFragment.setText(input);
+                fragmentManager.beginTransaction()
+                        .setReorderingAllowed(true)
+                        .replace(R.id.search_fragment_container, searchArticleFragment)
+                        .commit();
+            }else {
+                Toast.makeText(getApplicationContext(), "搜索内容不能为空",Toast.LENGTH_SHORT
+                        ).show();
+            }
+
 
         });
     }

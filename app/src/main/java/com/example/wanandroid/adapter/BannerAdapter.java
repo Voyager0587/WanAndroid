@@ -54,7 +54,7 @@ public class BannerAdapter extends com.youth.banner.adapter.BannerAdapter<Banner
 
     @Override
     public void onBindView(BannerViewHolder holder, BannerBean.DataBean data, int position, int size) {
-        holder.textView.setText(data.getTitle());
+//        holder.textView.setText(data.getTitle());
         holder.imageView.setOnClickListener(v -> {
             Intent intent = new Intent(context, WebActivity.class);
             intent.putExtra("url", dataBeanList.get(position).getUrl());

@@ -1,47 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SplashScreen">
-<com.hanks.htextview.typer.TyperTextView
-    android:id="@id/textView2"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_below="@id/textView3"
-    android:layout_marginTop="80dp"
-    android:text="-Learn and create your own blog "
-    android:textSize="30sp"
-    android:layout_centerHorizontal="true"
-    android:paddingHorizontal="10dp"
-    app:charIncrease="2"
-    app:typerSpeed="90"
-    />
-
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 <ImageView
-    android:id="@+id/imageView"
-    android:layout_width="150dp"
-    android:layout_height="84dp"
-    android:background="@drawable/android_icon"
+    android:id="@+id/textview1"
+    android:layout_width="294dp"
+    android:layout_height="41dp"
+    android:background="@drawable/name2"
+    android:layout_alignParentBottom="true"
     android:layout_centerHorizontal="true"
-    android:layout_marginTop="170dp"
+    android:layout_marginBottom="50dp"
     />
 
-
-    <com.hanks.htextview.line.LineTextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="WanAndroid"
-        android:textSize="60dp"
-        android:layout_marginTop="80dp"
-        android:layout_below="@id/imageView"
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_above="@+id/textview1"
         android:layout_centerHorizontal="true"
-        app:animationDuration="3000"
-        app:lineColor="#FF0057"
-        app:lineWidth="4dp"
+        android:layout_marginBottom="10dp"
+        app:lottie_rawRes="@raw/animation"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
         />
 
 </RelativeLayout>
