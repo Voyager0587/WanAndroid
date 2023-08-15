@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.wanandroid.MainActivity;
 import com.example.wanandroid.R;
+import com.example.wanandroid.bean.CommentCountBean;
 import com.example.wanandroid.bean.MessageBean;
 import com.example.wanandroid.bean.UserDataBean;
 import com.example.wanandroid.sharedPreference.SaveAccount;
@@ -37,9 +38,9 @@ import retrofit2.Response;
  * @createTime
  */
 public class PersonFragment extends Fragment {
-    RelativeLayout info_layout, logout_layout, website_layout;
+    RelativeLayout info_layout, logout_layout, website_layout,wxArticle_layout;
     ImageView iv_bg, collectArticle, message;
-    TextView coinCount, rank, publicName;
+    TextView coinCount, rank, publicName,message_count;
 
     public PersonFragment() {
         // Required empty public constructor
@@ -60,6 +61,8 @@ public class PersonFragment extends Fragment {
         rank = view.findViewById(R.id.rank);
         publicName = view.findViewById(R.id.tv_nickname);
         website_layout = view.findViewById(R.id.website_layout);
+        message_count = view.findViewById(R.id.message_count);
+        wxArticle_layout = view.findViewById(R.id.wxArticle_layout);
         //TODO 搜索框添加一个X，登录输入密码框添加一个眼睛来让密码可见或不可见
         //TODO 拓展：信息界面里面还可以加入软件分享链接或者二维码
         initListener();
@@ -103,9 +106,35 @@ public class PersonFragment extends Fragment {
                 Toast.makeText(getActivity(), "网络问题", Toast.LENGTH_SHORT).show();
             }
         });
+
+        HttpUtils.getwAndroidService().getUnreadCommentsCount().enqueue(new Callback<CommentCountBean>() {
+            @Override
+            public void onResponse(@NonNull Call<CommentCountBean> call, @NonNull Response<CommentCountBean> response) {
+                if(response.body()!=null){
+                    CommentCountBean commentCountBean=response.body();
+                    if(commentCountBean.getData()==0){
+                        message_count.setText("");
+                        message_count.setVisibility(View.GONE);
+                    }else {
+                        message_count.setVisibility(View.VISIBLE);
+                        message_count.setText(""+commentCountBean.getData());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<CommentCountBean> call, @NonNull Throwable t) {
+
+            }
+        });
+
     }
 
     private void initListener() {
+        wxArticle_layout.setOnClickListener(v -> {
+            Intent intent = new Intent(requireActivity(), WXAccountActivity.class);
+            requireActivity().startActivity(intent);
+        });
         message.setOnClickListener(v -> {
             Intent intent = new Intent(requireActivity(), MessageActivity.class);
             requireActivity().startActivity(intent);

@@ -3,6 +3,7 @@ package com.example.wanandroid.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -48,7 +49,9 @@ public class HotkeyAdapter extends RecyclerView.Adapter<HotkeyAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.title.setText(hotkeyBeanList.get(position).getName());
-
+        if(position<=2){
+            holder.hot_icon.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -59,10 +62,11 @@ public class HotkeyAdapter extends RecyclerView.Adapter<HotkeyAdapter.ViewHolder
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView title;
-
+        ImageView hot_icon;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.hotkey);
+            hot_icon = itemView.findViewById(R.id.hot_icon);
 
         }
     }

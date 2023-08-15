@@ -28,18 +28,36 @@
             android:hint="@string/aacount"
             android:inputType="textEmailAddress"
             android:paddingLeft="35dp" />
-
-        <EditText
-            android:id="@+id/password"
-            android:layout_width="346dp"
-            android:layout_height="51dp"
-            android:layout_below="@id/account"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/input_round_13"
-            android:textColor="@color/black"
-            android:hint="@string/password"
-            android:inputType="textPassword"
-            android:paddingLeft="35dp" />
+<RelativeLayout
+    android:id="@+id/password"
+    android:layout_width="346dp"
+    android:layout_height="51dp"
+    android:background="@drawable/input_round_13"
+    android:layout_centerHorizontal="true"
+    android:layout_below="@id/account"
+    >
+    <EditText
+        android:id="@+id/et_password"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:inputType="textPassword"
+        android:hint="@string/password"
+        android:background="@color/White"
+        android:paddingStart="35dp"
+        />
+    <ToggleButton
+        android:id="@+id/toggleButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="8dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/toggle_pwd_selector"
+        android:textOff=""
+        android:textOn=""
+        />
+</RelativeLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/login"
