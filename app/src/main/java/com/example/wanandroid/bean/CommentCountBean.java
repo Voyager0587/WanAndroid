@@ -2,12 +2,12 @@ package com.example.wanandroid.bean;
 
 /**
  * @version 1.0
- * @className: CommentCount
+ * @className: CommentCountBean
  * @author: Voyager
  * @description: 未读消息数量数据类
  * @date: 2023/8/9 1:07
  **/
-public class CommentCount {
+public class CommentCountBean {
 
 
     /**

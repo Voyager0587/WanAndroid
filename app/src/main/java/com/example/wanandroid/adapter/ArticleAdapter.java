@@ -91,15 +91,13 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
             layout_article = itemView.findViewById(R.id.layout_article);
             time = itemView.findViewById(R.id.time);
             chapterName = itemView.findViewById(R.id.chapterName);
-
-
         }
     }
 
     @NonNull
     @Override
     public ArticleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_article, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_article_test, parent, false);
         return new ArticleViewHolder(view);
     }
 

@@ -6,11 +6,14 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,6 +43,7 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     MaterialButton login, signup;
+    ToggleButton toggleButton;
     EditText password, account;
     CheckBox auto_login;
     String accountStr, passwordStr;
@@ -62,6 +66,14 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void initListener() {
+
+        toggleButton.setOnClickListener(v -> {
+            if(toggleButton.isChecked()){
+                password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            }else {
+                password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            }
+        });
         auto_login.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -152,9 +164,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        toggleButton=findViewById(R.id.toggleButton);
         login = findViewById(R.id.login);
         signup = findViewById(R.id.signup);
-        password = findViewById(R.id.password);
+        password = findViewById(R.id.et_password);
         account = findViewById(R.id.account);
         account.setText(map.get("account"));
         password.setText(map.get("password"));

@@ -1,9 +1,12 @@
 package com.example.wanandroid.base.search;
 
 
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -48,6 +51,7 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         initView();
+
         fragmentManager = getSupportFragmentManager();
         fragmentManager
                 .beginTransaction()

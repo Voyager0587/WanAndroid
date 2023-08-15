@@ -4,11 +4,13 @@ import com.example.wanandroid.bean.BannerBean;
 import com.example.wanandroid.bean.ChapterBean;
 import com.example.wanandroid.bean.CollectArticleBean;
 import com.example.wanandroid.bean.CommentBean;
-import com.example.wanandroid.bean.CommentCount;
+import com.example.wanandroid.bean.CommentCountBean;
 import com.example.wanandroid.bean.HomeArticleBean;
 import com.example.wanandroid.bean.HotkeyBean;
 import com.example.wanandroid.bean.MessageBean;
 import com.example.wanandroid.bean.TopArticleBean;
+import com.example.wanandroid.bean.WXArticleBean;
+import com.example.wanandroid.bean.WXArticleChapterBean;
 import com.example.wanandroid.bean.WebsiteBean;
 
 import retrofit2.Call;
@@ -122,6 +124,7 @@ public interface WanAndroidService {
     Call<MessageBean> uncollectArticleInList(@Path("id") int id);
 
     //TODO 有一些Service没用上
+
     /**
      * 从个人收藏界面取消收藏
      *
@@ -160,7 +163,7 @@ public interface WanAndroidService {
      * @return MessageBean
      */
     @GET("message/lg/count_unread/json")
-    Call<CommentCount> getUnreadCommentsCount();
+    Call<CommentCountBean> getUnreadCommentsCount();
 
 
     /**
@@ -181,7 +184,22 @@ public interface WanAndroidService {
     @GET("message/lg/readed_list/{page}/json")
     Call<CommentBean> getReadComments(@Path("page") int page);
 
+    /**
+     * 获取微信公众号列表
+     *
+     * @return WXArticleChapterBean
+     */
+    @GET("wxarticle/chapters/json")
+    Call<WXArticleChapterBean> getWXArticleChapters();
 
-
+    /**
+     * 获取公众号历史文章
+     *
+     * @param id   公众号id
+     * @param page 页数
+     * @return WXArticleBean
+     */
+    @GET("wxarticle/list/{id}/{page}/json")
+    Call<WXArticleBean> getWXArticles(@Path("id") int id, @Path("page") int page);
 
 }
