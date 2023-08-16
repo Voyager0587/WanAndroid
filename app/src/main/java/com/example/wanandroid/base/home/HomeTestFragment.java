@@ -248,7 +248,7 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
         manager = new LinearLayoutManager(getActivity());
         manager.setOrientation(RecyclerView.VERTICAL);
         article_recyclerview.setLayoutManager(manager);
-        articleAdapter = new ArticleAdapter(articleBeanList);
+        articleAdapter = new ArticleAdapter(articleBeanList,requireActivity());
         articleAdapter.setmContext(getActivity());
         article_recyclerview.setAdapter(articleAdapter);
 

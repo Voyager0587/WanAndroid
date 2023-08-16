@@ -3,7 +3,9 @@ package com.example.wanandroid.base;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +14,8 @@ import com.example.wanandroid.R;
 import com.example.wanandroid.bean.MessageBean;
 import com.example.wanandroid.utils.HttpUtils;
 import com.google.android.material.snackbar.Snackbar;
+
+import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,7 +31,6 @@ import retrofit2.Response;
 public class WebActivity extends AppCompatActivity {
 
     private ImageButton cancel, like;
-
     /**
      * @param id 文章id,从正常的文章列表传入的是文章原本的id，从收藏页面传入的是另一个，只是便于寻找文章所在位置的id
      * @param originId 文章原本的id，便于进行收藏相关操作
@@ -84,6 +87,8 @@ public class WebActivity extends AppCompatActivity {
         if (tag == 1) {
             like.setVisibility(View.GONE);
         }
+
+
     }
 
     /**
@@ -91,7 +96,7 @@ public class WebActivity extends AppCompatActivity {
      */
     private void initListener() {
         cancel.setOnClickListener(v -> {
-            finish();
+            onBackPressed();
         });
 
         like.setOnClickListener(v -> {

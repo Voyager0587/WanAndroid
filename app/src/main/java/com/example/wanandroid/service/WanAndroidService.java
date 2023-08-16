@@ -9,7 +9,6 @@ import com.example.wanandroid.bean.HomeArticleBean;
 import com.example.wanandroid.bean.HotkeyBean;
 import com.example.wanandroid.bean.MessageBean;
 import com.example.wanandroid.bean.TopArticleBean;
-import com.example.wanandroid.bean.WXArticleBean;
 import com.example.wanandroid.bean.WXArticleChapterBean;
 import com.example.wanandroid.bean.WebsiteBean;
 
@@ -197,9 +196,9 @@ public interface WanAndroidService {
      *
      * @param id   公众号id
      * @param page 页数
-     * @return WXArticleBean
+     * @return HomeArticleBean
      */
     @GET("wxarticle/list/{id}/{page}/json")
-    Call<WXArticleBean> getWXArticles(@Path("id") int id, @Path("page") int page);
+    Call<HomeArticleBean> getWXArticles(@Path("id") int id, @Path("page") int page);
 
 }

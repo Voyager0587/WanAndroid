@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EFEDED"
+    android:background="#f7f7f7"
     tools:context=".base.search.HotkeyFragment">
 
     <ImageView
@@ -18,24 +18,17 @@
 
     <LinearLayout
         android:id="@+id/refresh_layout"
-        android:layout_width="78dp"
-        android:layout_height="37dp"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
         android:orientation="horizontal"
         android:layout_alignParentEnd="true"
+        android:layout_margin="10dp"
         >
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:src="@drawable/hotkey_refresh"
             />
-        <TextView
-            android:id="@+id/redresh"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="end|center"
-            android:layout_gravity="right"
-            android:textColor="@color/color_gray"
-            android:textSize="20sp" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

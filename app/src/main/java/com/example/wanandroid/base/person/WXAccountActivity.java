@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.os.Bundle;
+import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -53,7 +54,7 @@ public class WXAccountActivity extends AppCompatActivity {
         });
     }
     private void initRecyclerView(){
-        adapter=new WXAccountAdapter(wxArticleChapterList,this);
+        adapter=new WXAccountAdapter(wxArticleChapterList,this,WXAccountActivity.this);
         StaggeredGridLayoutManager layoutManager=new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
