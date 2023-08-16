@@ -104,7 +104,7 @@ public class CollectArticleActivity extends AppCompatActivity {
     private void initRecyclerView() {
         manager = new LinearLayoutManager(this);
         collectArticleRecyclerView.setLayoutManager(manager);
-        articleAdapter = new ArticleAdapter(collectArticleList);
+        articleAdapter = new ArticleAdapter(collectArticleList,CollectArticleActivity.this);
         articleAdapter.setmContext(this);
         articleAdapter.setIsCollectArticle(1);
         collectArticleRecyclerView.setAdapter(articleAdapter);

@@ -110,7 +110,8 @@ public class ProjectFragment extends Fragment implements ArticleAdapter.BackToTo
                     ProjectBean projectBean = response.body();
                     if (projectBean != null && projectBean.getData() != null) {
                         data = projectBean.getData().getDatas();
-                        projectAdapter = new ProjectAdapter(data);
+                        projectAdapter = new ProjectAdapter(requireContext(),requireActivity());
+                        projectAdapter.setProjectBean(data);
                         requireActivity().runOnUiThread(() -> {
                             blank_layout.setVisibility(View.GONE);
                             initRecyclerView();
@@ -180,7 +181,8 @@ public class ProjectFragment extends Fragment implements ArticleAdapter.BackToTo
     }
 
     private void initRecyclerView() {
-        projectAdapter = new ProjectAdapter(data);
+        projectAdapter = new ProjectAdapter(requireContext(),requireActivity());
+        projectAdapter.setProjectBean(data);
         manager = new LinearLayoutManager(getActivity());
         manager.setOrientation(RecyclerView.VERTICAL);
         projectAdapter.setBackToTopListener(this);

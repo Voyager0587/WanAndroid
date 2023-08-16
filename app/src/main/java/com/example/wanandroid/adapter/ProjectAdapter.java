@@ -1,10 +1,13 @@
 package com.example.wanandroid.adapter;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -33,6 +36,7 @@ import java.util.List;
 public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHolder> {
 
     private Context context;
+    private Activity activity;
     private List<ProjectBean.DataBean.DatasBean> projectBean = new ArrayList<ProjectBean.DataBean.DatasBean>();
 
     private ArticleAdapter.BackToTopListener backToTopListener;
@@ -53,9 +57,21 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
         this.context = context;
     }
 
+    public void setProjectBean(List<ProjectBean.DataBean.DatasBean> projectBean) {
+        this.projectBean = projectBean;
+
+    }
+
+    public ProjectAdapter(Context context, Activity activity) {
+        this.context = context;
+        this.activity = activity;
+
+    }
+
     public ProjectAdapter(List<ProjectBean.DataBean.DatasBean> projectBean) {
         this.projectBean = projectBean;
     }
+
 
     @NonNull
     @Override
@@ -87,7 +103,8 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
                 Intent intent = new Intent(context, WebActivity.class);
                 intent.putExtra("url", datasBean.getLink());
                 intent.putExtra("tag", 1);//告知WebActivity这是项目，让收藏键不可见
-                holder.itemView.getContext().startActivity(intent);
+                intent.putExtra("title", datasBean.getTitle());
+                holder.title.getContext().startActivity(intent);
 
             }
         });
@@ -95,8 +112,9 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
             if (datasBean.getLink() != null) {
                 Intent intent = new Intent(context, WebActivity.class);
                 intent.putExtra("url", datasBean.getLink());
+                intent.putExtra("title", datasBean.getTitle());
                 intent.putExtra("tag", 1);//告知WebActivity这是项目，让收藏键不可见
-                holder.itemView.getContext().startActivity(intent);
+                holder.title.getContext().startActivity(intent);
 
             }
 

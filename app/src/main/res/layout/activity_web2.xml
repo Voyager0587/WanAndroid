@@ -17,6 +17,8 @@
             android:layout_height="match_parent"
             android:background="@drawable/cancel"
             />
+
+
         <ImageButton
             android:id="@+id/like"
             android:layout_width="35dp"

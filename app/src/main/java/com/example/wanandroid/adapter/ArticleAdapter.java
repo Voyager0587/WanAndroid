@@ -1,10 +1,13 @@
 package com.example.wanandroid.adapter;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -31,11 +34,21 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
 
     private List<ArticleBean> articleBeanList = new ArrayList<ArticleBean>();
     private Context mContext;
+    Activity mActivity;
+
     private BackToTopListener backToTopListener;
+    public int tag=0;
 
 
     public void setArticleBeanList(List<ArticleBean> articleBeanList) {
         this.articleBeanList = articleBeanList;
+
+    }
+
+    public ArticleAdapter(List<ArticleBean> articleBeanList, Activity mActivity) {
+        this.articleBeanList = articleBeanList;
+        this.mActivity = mActivity;
+
     }
 
     public BackToTopListener getBackToTopListener() {
@@ -51,17 +64,14 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
      */
     private int isCollectArticle = 0;
 
-    public int getIsCollectArticle() {
-        return isCollectArticle;
-    }
+
 
     public void setIsCollectArticle(int isCollectArticle) {
         this.isCollectArticle = isCollectArticle;
+
     }
 
-    public Context getmContext() {
-        return mContext;
-    }
+
 
     public void setmContext(Context mContext) {
         this.mContext = mContext;
@@ -69,11 +79,13 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
 
     public ArticleAdapter(List<ArticleBean> articleBeanList) {
         this.articleBeanList = articleBeanList;
+
     }
 
     public ArticleAdapter(Context mContext, List<ArticleBean> articleBeanList) {
         this.articleBeanList = articleBeanList;
         this.mContext = mContext;
+
     }
 
     public static class ArticleViewHolder extends RecyclerView.ViewHolder {
@@ -81,6 +93,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         HtmlTextView title;
         RelativeLayout layout_article;
         Button like;
+
 
         public ArticleViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -97,6 +110,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     @NonNull
     @Override
     public ArticleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_article_test, parent, false);
         return new ArticleViewHolder(view);
     }
@@ -136,7 +150,8 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                 intent.putExtra("isCollectArticle", isCollectArticle);
                 intent.putExtra("originId", articleBean.getOriginId());
                 intent.putExtra("shareUser",articleBean.getShareUser());
-                holder.itemView.getContext().startActivity(intent);
+                intent.putExtra("tag",tag);
+                holder.title.getContext().startActivity(intent);
 
             }
         });
@@ -155,6 +170,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                 intent.putExtra("author", articleBean.getAuthor());
                 intent.putExtra("isCollectArticle", isCollectArticle);
                 intent.putExtra("originId", articleBean.getOriginId());
+                intent.putExtra("tag",tag);
                 holder.itemView.getContext().startActivity(intent);
 
             }
