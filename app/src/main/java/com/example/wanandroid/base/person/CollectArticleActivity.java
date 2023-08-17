@@ -70,7 +70,6 @@ public class CollectArticleActivity extends AppCompatActivity {
         refresh_layout.setRefreshHeader(new BezierRadarHeader(this).setEnableHorizontalDrag(true));
         refresh_layout.setRefreshFooter(new BallPulseFooter(this).setSpinnerStyle(SpinnerStyle.Scale));
         refresh_layout.setOnRefreshListener(refresh_layout -> {
-
             page = 0;
             getCollectArticle(0);
 
@@ -129,7 +128,7 @@ public class CollectArticleActivity extends AppCompatActivity {
                     internet_error.setVisibility(View.GONE);
                     CollectArticleBean collectArticleBean = response.body();
                     if (collectArticleBean.getData().getDatas().size() == 0 && Objects.requireNonNull(response.body()).getErrorCode() == 0) {
-                        Snackbar.make(blank_layout, "没有更多数据了", Snackbar.LENGTH_SHORT).show();
+                        Toast.makeText(CollectArticleActivity.this,"没有更多数据了",Toast.LENGTH_SHORT).show();
                         return;
                     }
                     List<CollectArticleBean.DataBean.DatasBean> datasBeanList = collectArticleBean.getData().getDatas();

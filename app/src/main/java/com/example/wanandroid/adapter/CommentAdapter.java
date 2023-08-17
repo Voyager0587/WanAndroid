@@ -55,6 +55,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.title.setText(datasBean.getTitle());
         holder.message.setText(datasBean.getMessage());
         holder.time.setText(datasBean.getNiceDate());
+        holder.name.setText(datasBean.getFromUser());
         if(datasBean.getIsRead()==0){
             holder.tag.setVisibility(View.VISIBLE);
         }else {
@@ -79,7 +80,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     }
 
     static class CommentViewHolder extends RecyclerView.ViewHolder {
-        TextView title, message, time;
+        TextView title, message, time,name;
         ImageView tag;
         public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -87,6 +88,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             message = itemView.findViewById(R.id.message);
             time = itemView.findViewById(R.id.time);
             tag = itemView.findViewById(R.id.tag);
+            name = itemView.findViewById(R.id.name);
         }
     }
 

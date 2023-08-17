@@ -111,6 +111,7 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
         initListener();
         initChapter();
         getSuperChapterName();
+        initRecyclerView();
         getDefaultArticle();
         initBannerData();
         initRefreshLayout();
@@ -157,7 +158,7 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
         refreshLayout.setOnRefreshListener(refreshlayout -> {
             page = 0;
 
-            initRecyclerView();
+
 
             if (chapterId == -100) {
                 getDefaultArticle();
@@ -247,11 +248,11 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
      * 初始化RecyclerView
      */
     private void initRecyclerView() {
-
         manager = new WrapContentLinearLayoutManager(getActivity(),RecyclerView.VERTICAL,false);
         article_recyclerview.setLayoutManager(manager);
         articleAdapter = new ArticleAdapter(articleBeanList,requireActivity());
         articleAdapter.setmContext(getActivity());
+        articleAdapter.setArticleBeanList(articleBeanList);
         article_recyclerview.setAdapter(articleAdapter);
     }
 
@@ -357,7 +358,8 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
                     }
                     requireActivity().runOnUiThread(() -> {
                         articleAdapter.setArticleBeanList(articleBeanList);
-                        articleAdapter.notifyItemRangeInserted(articleBeanList.size(), payload_articleBeanList.size());
+                        articleAdapter.notifyDataSetChanged();
+//                        articleAdapter.notifyItemRangeInserted(articleBeanList.size(), payload_articleBeanList.size());
                     });
                 }
 
@@ -475,15 +477,10 @@ public class HomeTestFragment extends Fragment implements SuperChapterAdapter.On
                                 internet_error.setVisibility(View.GONE);
                                 blank_layout.setVisibility(View.GONE);
                             }
-                            initRecyclerView();
-                        });
-                        if (pageGet != 0) {
-                            articleAdapter.notifyItemRangeInserted(articleBeanList.size(), payload_articleBeanList.size());
-                            manager.scrollToPositionWithOffset(position - 3,-150);
 
-                        }else {
+                        });
                             articleAdapter.notifyDataSetChanged();
-                        }
+
                     }
                     if (payload_articleBeanList.size() == 0) {
                         page--;
