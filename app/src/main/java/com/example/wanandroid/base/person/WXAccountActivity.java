@@ -45,7 +45,7 @@ public class WXAccountActivity extends AppCompatActivity {
         initRecyclerView();
         getWXAccounts();
         initListener();
-        //TODO 记得搜索的UI还要改
+
     }
 
     private void initListener(){

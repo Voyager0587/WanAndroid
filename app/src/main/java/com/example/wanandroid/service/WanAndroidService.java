@@ -124,6 +124,8 @@ public interface WanAndroidService {
 
     //TODO 有一些Service没用上
 
+    //TODO 添加小爱心收藏，给个人界面的那些添加刷新和加载
+
     /**
      * 从个人收藏界面取消收藏
      *

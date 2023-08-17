@@ -59,7 +59,6 @@ public class WebActivity extends AppCompatActivity {
         cancel = findViewById(R.id.cancel);
         like = findViewById(R.id.like);
         Intent intent = getIntent();
-        //TODO 可以考虑在最上面加一个文章标题，然后实现共享元素转场
         url = intent.getStringExtra("url");
         id = intent.getIntExtra("id", -1);
         title = intent.getStringExtra("title");
@@ -101,7 +100,8 @@ public class WebActivity extends AppCompatActivity {
 
         like.setOnClickListener(v -> {
             //收藏站内文章
-            if (isCollectArticle == 0) {//普通文章列表（比如首页文章列表）进入WebActivity的的监听逻辑
+            if (isCollectArticle == 0) {
+                //普通文章列表（比如首页文章列表）进入WebActivity的的监听逻辑
                 if (url.contains("wanandroid") && url.indexOf("wanandroid") < 22) {
                     if (id != -1) {
                         Call<MessageBean> collectInnerCall = HttpUtils.getwAndroidService().collectInnerArticle(id);
@@ -110,8 +110,6 @@ public class WebActivity extends AppCompatActivity {
                             public void onResponse(@NonNull Call<MessageBean> call, @NonNull Response<MessageBean> response) {
                                 Snackbar.make(like, "收藏成功", Snackbar.LENGTH_SHORT).show();
                                 like.setBackgroundResource(R.drawable.like_icon_selected);
-
-
                             }
 
                             @Override
@@ -120,7 +118,6 @@ public class WebActivity extends AppCompatActivity {
                             }
                         });
                     }
-
 
                 } else {
                     if (id != -1) {

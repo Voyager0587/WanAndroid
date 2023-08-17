@@ -45,7 +45,7 @@ public class PersonFragment extends Fragment {
     public PersonFragment() {
         // Required empty public constructor
     }
-//TODO 消息外面显示多少未读，里面的话先加载未读消息再加载已读消息，记住UI模仿
+
 
 
     @Override
@@ -63,8 +63,7 @@ public class PersonFragment extends Fragment {
         website_layout = view.findViewById(R.id.website_layout);
         message_count = view.findViewById(R.id.message_count);
         wxArticle_layout = view.findViewById(R.id.wxArticle_layout);
-        //TODO 搜索框添加一个X，登录输入密码框添加一个眼睛来让密码可见或不可见
-        //TODO 拓展：信息界面里面还可以加入软件分享链接或者二维码
+
         initListener();
         initUserData();
         initView();
