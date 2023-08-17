@@ -84,7 +84,6 @@ public class ProjectFragment extends Fragment implements ArticleAdapter.BackToTo
         page = 1;
         initData();
         initRefreshLayout();
-        initRecyclerView();
         initListener();
         return view;
     }
@@ -110,11 +109,9 @@ public class ProjectFragment extends Fragment implements ArticleAdapter.BackToTo
                     ProjectBean projectBean = response.body();
                     if (projectBean != null && projectBean.getData() != null) {
                         data = projectBean.getData().getDatas();
-                        projectAdapter = new ProjectAdapter(requireContext(),requireActivity());
-                        projectAdapter.setProjectBean(data);
+                        initRecyclerView();
                         requireActivity().runOnUiThread(() -> {
                             blank_layout.setVisibility(View.GONE);
-                            initRecyclerView();
                             projectAdapter.notifyDataSetChanged();
                             if (data.size() == 0) {
                                 blank_layout.setVisibility(View.VISIBLE);
@@ -160,8 +157,6 @@ public class ProjectFragment extends Fragment implements ArticleAdapter.BackToTo
                         loadMoreData.addAll(projectBean.getData().getDatas());
                         data.addAll(projectBean.getData().getDatas());
                         projectAdapter.notifyItemRangeInserted(data.size(), loadMoreData.size());
-
-
                     }
                     if (loadMoreData.size() == 0 && pageGet != 0) {
                         page--;
@@ -187,6 +182,7 @@ public class ProjectFragment extends Fragment implements ArticleAdapter.BackToTo
         manager.setOrientation(RecyclerView.VERTICAL);
         projectAdapter.setBackToTopListener(this);
         projectAdapter.setContext(getContext());
+        projectAdapter.setProjectBean(data);
         projectRecyclerView.setLayoutManager(manager);
         projectRecyclerView.setAdapter(projectAdapter);
 

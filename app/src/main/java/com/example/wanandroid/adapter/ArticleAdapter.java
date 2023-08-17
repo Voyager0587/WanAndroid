@@ -19,6 +19,8 @@ import com.example.wanandroid.R;
 import com.example.wanandroid.base.WebActivity;
 import com.example.wanandroid.bean.ArticleBean;
 
+import net.nightwhistler.htmlspanner.HtmlSpanner;
+
 import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import java.util.ArrayList;
@@ -128,7 +130,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         } else {
             holder.top_text.setVisibility(View.GONE);
         }
-        holder.title.setHtml(articleBean.getTitle());
+        holder.title.setText(new HtmlSpanner().fromHtml(articleBean.getTitle()));
         holder.time.setText(articleBean.getDate());
         if(articleBean.getChapterName().isEmpty()){
             holder.chapterName.setText("站外文章");

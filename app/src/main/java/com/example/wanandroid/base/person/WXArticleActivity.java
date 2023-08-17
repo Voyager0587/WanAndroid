@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +17,10 @@ import com.example.wanandroid.adapter.ArticleAdapter;
 import com.example.wanandroid.bean.ArticleBean;
 import com.example.wanandroid.bean.HomeArticleBean;
 import com.example.wanandroid.utils.HttpUtils;
+import com.scwang.smart.refresh.footer.BallPulseFooter;
+import com.scwang.smart.refresh.header.BezierRadarHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.constant.SpinnerStyle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,10 +32,9 @@ import retrofit2.Response;
 /**
  * @author Voyager
  * @className WXArticleActivity
- * @description
+ * @description 微信公众号文章展示
  * @date 2023/8/16 14:50
  */
-
 public class WXArticleActivity extends AppCompatActivity {
 
     SmartRefreshLayout refresh_layout;
@@ -40,8 +43,7 @@ public class WXArticleActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ArticleAdapter articleAdapter;
     private List<ArticleBean> articleBeanList = new ArrayList<>();
-    private List<ArticleBean> payload_articleBeanList = new ArrayList<>();
-    int id, page = 0;
+    int id, page = 1;
     String s_name;
 
     @Override
@@ -62,18 +64,22 @@ public class WXArticleActivity extends AppCompatActivity {
         cancel.setOnClickListener(v -> {
             finish();
         });
-
+        refresh_layout.setRefreshHeader(new BezierRadarHeader(WXArticleActivity.this).setEnableHorizontalDrag(true));
+        refresh_layout.setRefreshFooter(new BallPulseFooter(WXArticleActivity.this).setSpinnerStyle(SpinnerStyle.Scale));
         refresh_layout.setOnRefreshListener(refreshLayout -> {
-
+            page=1;
+            getWXArticles(id,1);
         });
         refresh_layout.setOnLoadMoreListener(refreshLayout -> {
-
+            page++;
+            getWXArticles(id,page);
         });
     }
 
     private void initRecyclerView() {
         articleAdapter=new ArticleAdapter(articleBeanList,WXArticleActivity.this);
         articleAdapter.setmContext(this);
+        articleAdapter.setArticleBeanList(articleBeanList);
         articleAdapter.tag=1;
         LinearLayoutManager manager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
@@ -94,16 +100,20 @@ public class WXArticleActivity extends AppCompatActivity {
      * 获取微信文章
      *
      * @param id   微信公众号id
-     * @param page 页数
+     * @param pageGet 页数
      */
-    private void getWXArticles(int id, int page) {
-        Call<HomeArticleBean> call = HttpUtils.getwAndroidService().getWXArticles(id, page);
+    private void getWXArticles(int id, int pageGet) {
+        Call<HomeArticleBean> call = HttpUtils.getwAndroidService().getWXArticles(id, pageGet);
         call.enqueue(new Callback<HomeArticleBean>() {
             @Override
             public void onResponse(@NonNull Call<HomeArticleBean> call, @NonNull Response<HomeArticleBean> response) {
                 if(response.body()!=null){
                     List<HomeArticleBean.DataBean.DatasBean> homeArticleBeanList = response.body().getData().getDatas();
+
                     if (homeArticleBeanList.size() > 0) {
+                        if(pageGet==1) {
+                            articleBeanList.clear();
+                        }
                         for (int i = 0; i < homeArticleBeanList.size(); i++) {
                             ArticleBean articleBean = new ArticleBean();
                             articleBean.setTitle(homeArticleBeanList.get(i).getTitle());
@@ -116,22 +126,33 @@ public class WXArticleActivity extends AppCompatActivity {
                             articleBean.setUrl(homeArticleBeanList.get(i).getLink());
                             articleBean.setDate(homeArticleBeanList.get(i).getNiceDate());
                             articleBeanList.add(articleBean);
-                            payload_articleBeanList.add(articleBean);
-
                         }
-
-                        articleAdapter.setArticleBeanList(articleBeanList);
                         runOnUiThread(()->{
                             articleAdapter.notifyDataSetChanged();
                         });
 
+                    }else if(homeArticleBeanList.isEmpty()) {
+                        Toast.makeText(WXArticleActivity.this,"没有更多数据了",Toast.LENGTH_SHORT).show();
+                    }
+                    if(pageGet==1){
+                        refresh_layout.finishRefresh();
+                    }else {
+                        refresh_layout.finishLoadMore();
                     }
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<HomeArticleBean> call, @NonNull Throwable t) {
-
+                Toast.makeText(WXArticleActivity.this,"网络问题",Toast.LENGTH_SHORT).show();
+                if(pageGet>1){
+                    page--;
+                }
+                if(pageGet==1){
+                    refresh_layout.finishRefresh();
+                }else {
+                    refresh_layout.finishLoadMore();
+                }
             }
         });
     }

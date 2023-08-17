@@ -115,6 +115,7 @@ public class SearchArticleFragment extends Fragment implements ArticleAdapter.Ba
     private void initRecyclerView() {
         articleAdapter = new ArticleAdapter(getContext(), articleBeanList);
         articleAdapter.setBackToTopListener(this);
+        articleAdapter.setArticleBeanList(articleBeanList);
         manager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(articleAdapter);
@@ -152,18 +153,10 @@ public class SearchArticleFragment extends Fragment implements ArticleAdapter.Ba
                         articleBean.setUrl(homeArticleBeanList.get(i).getLink());
                         articleBean.setDate(homeArticleBeanList.get(i).getNiceDate());
                         articleBeanList.add(articleBean);
-
                         payload_articleBeanList.add(articleBean);
-
-                        articleAdapter.setArticleBeanList(articleBeanList);
-                        articleAdapter.notifyDataSetChanged();
-                        refresh_layout_search.finishRefresh();
-                        if (pageGet != 0) {
-                            articleAdapter.notifyItemRangeInserted(articleBeanList.size(), payload_articleBeanList.size());
-                            manager.scrollToPositionWithOffset(position - 6, 0);
-
-                        }
                     }
+                    articleAdapter.notifyDataSetChanged();
+                    refresh_layout_search.finishRefresh();
                     if (payload_articleBeanList.size() == 0 && pageGet != 0) {
                         page--;
                     }

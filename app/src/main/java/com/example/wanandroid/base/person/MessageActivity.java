@@ -13,6 +13,13 @@ import com.example.wanandroid.R;
 import com.example.wanandroid.adapter.CommentAdapter;
 import com.example.wanandroid.bean.CommentBean;
 import com.example.wanandroid.utils.HttpUtils;
+import com.scwang.smart.refresh.footer.BallPulseFooter;
+import com.scwang.smart.refresh.header.BezierRadarHeader;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.constant.SpinnerStyle;
+import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,20 +39,45 @@ public class MessageActivity extends AppCompatActivity {
     RecyclerView messageRecyclerView;
     ImageButton cancel;
     CommentAdapter commentAdapter;
+    SmartRefreshLayout refresh_layout;
     List<CommentBean.DataBean.DatasBean> datasBeanList = new ArrayList<CommentBean.DataBean.DatasBean>();
-
+    int page=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
         initView();
         initRecyclerView();
-        getUnReadMessageData(0);
+        initRefreshLayout();
+        getUnReadMessageData(1);
     }
+
+
+    private void initRefreshLayout(){
+        refresh_layout.setRefreshHeader(new BezierRadarHeader(MessageActivity.this).setEnableHorizontalDrag(true));
+        refresh_layout.setRefreshFooter(new BallPulseFooter(MessageActivity.this).setSpinnerStyle(SpinnerStyle.Scale));
+        refresh_layout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                datasBeanList.clear();
+                page=1;
+                getUnReadMessageData(1);
+            }
+        });
+        refresh_layout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                page++;
+                getReadMessageData(page);
+            }
+        });
+    }
+
 
     private void initView() {
         messageRecyclerView = findViewById(R.id.messageRecyclerView);
         cancel = findViewById(R.id.cancel);
+        refresh_layout = findViewById(R.id.refresh_layout);
         cancel.setOnClickListener(v -> {
             finish();
         });
@@ -71,16 +103,19 @@ public class MessageActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<CommentBean> call, @NonNull Response<CommentBean> response) {
                 if (response.isSuccessful()) {
                     CommentBean commentBean = response.body();
+                    assert commentBean != null;
                     datasBeanList.addAll(commentBean.getData().getDatas());
-                    if (!datasBeanList.isEmpty()) {
-                        commentAdapter.setDatasBeanList(datasBeanList);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (!commentBean.getData().getDatas().isEmpty()) {
+                                getUnReadMessageData(pageGet + 1);
+                            } else {
+                                getReadMessageData(1);
+                            }
+                        }
+                    });
 
-                        commentAdapter.notifyDataSetChanged();
-                        getUnReadMessageData(pageGet + 1);
-
-                    } else {
-                        getReadMessageData(0);
-                    }
 
                 }
             }
@@ -88,6 +123,7 @@ public class MessageActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Call<CommentBean> call, @NonNull Throwable t) {
                 Toast.makeText(MessageActivity.this, "网络问题", Toast.LENGTH_SHORT).show();
+                refresh_layout.finishRefresh();
             }
 
         });
@@ -108,14 +144,31 @@ public class MessageActivity extends AppCompatActivity {
                     CommentBean commentBean = response.body();
                     assert commentBean != null;
                     datasBeanList.addAll(commentBean.getData().getDatas());
-                    commentAdapter.setDatasBeanList(datasBeanList);
-                    commentAdapter.notifyDataSetChanged();
+                    runOnUiThread(()->{
+                        commentAdapter.notifyDataSetChanged();
+                        if(pageGet==1){
+                            refresh_layout.finishRefresh();
+                        }else {
+                            if(commentBean.getData().getDatas().isEmpty()) {
+                                Toast.makeText(MessageActivity.this,"没有更多数据了",Toast.LENGTH_SHORT).show();
+                            }
+                            refresh_layout.finishLoadMore();
+                        }
+                    });
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<CommentBean> call, @NonNull Throwable t) {
-
+                Toast.makeText(MessageActivity.this,"网络问题",Toast.LENGTH_SHORT).show();
+                if(pageGet>1){
+                    page--;
+                }
+                if(pageGet==1){
+                    refresh_layout.finishRefresh();
+                }else {
+                    refresh_layout.finishLoadMore();
+                }
             }
         });
     }

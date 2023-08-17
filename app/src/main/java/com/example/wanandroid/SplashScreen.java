@@ -12,8 +12,7 @@ import com.example.wanandroid.base.home.BlogActivity;
 import com.example.wanandroid.bean.MessageBean;
 import com.example.wanandroid.sharedPreference.SaveAccount;
 import com.example.wanandroid.utils.HttpUtils;
-import com.hanks.htextview.line.LineTextView;
-import com.hanks.htextview.typer.TyperTextView;
+
 
 import java.util.Map;
 
@@ -29,10 +28,8 @@ import retrofit2.Response;
  */
 public class SplashScreen extends AppCompatActivity {
 
-    TyperTextView textView2;
-    LineTextView textView3;
     int judge = -1;
-    //TODO 科协一年学习新的
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +39,8 @@ public class SplashScreen extends AppCompatActivity {
         if (1 == isAuto) {
             autoLogin();
         }
-        setTimeout(2000);
+//        setTimeout(2000);
+
     }
 
 
@@ -79,13 +77,16 @@ public class SplashScreen extends AppCompatActivity {
             public void onResponse(@NonNull Call<MessageBean> call, @NonNull Response<MessageBean> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
+                    Intent intent;
                     if (response.body().getErrorCode() == 0) {
-                        judge = 1;
+//                        judge = 1;
+                        intent = new Intent(SplashScreen.this, BlogActivity.class);
                     } else {
                         Toast.makeText(SplashScreen.this, response.body().getErrorMsg(), Toast.LENGTH_SHORT).show();
+                        intent = new Intent(SplashScreen.this, MainActivity.class);
                     }
-            //TODO 开屏引导界面，搜索按照掘金app来做
-
+                    startActivity(intent);
+                    finish();
                 }
             }
 
