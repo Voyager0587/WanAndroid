@@ -138,6 +138,7 @@ public interface WanAndroidService {
     Call<MessageBean> unCollectArticleInPerson(@Path("id") int id, @Field("originId") int originId);
 
 
+    //收藏文章判断站内和站外文章
     /**
      * 获取收藏文章
      *

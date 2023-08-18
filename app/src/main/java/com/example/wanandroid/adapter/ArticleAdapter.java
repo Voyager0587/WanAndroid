@@ -11,6 +11,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +19,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.wanandroid.R;
 import com.example.wanandroid.base.WebActivity;
 import com.example.wanandroid.bean.ArticleBean;
+import com.example.wanandroid.bean.MessageBean;
+import com.example.wanandroid.utils.HttpUtils;
+import com.sackcentury.shinebuttonlib.ShineButton;
 
 import net.nightwhistler.htmlspanner.HtmlSpanner;
 
@@ -25,6 +29,10 @@ import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * @className: ArticleAdapter
@@ -39,6 +47,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     Activity mActivity;
 
     private BackToTopListener backToTopListener;
+
     public int tag=0;
 
 
@@ -94,7 +103,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         TextView author, top_text, time, chapterName;
         HtmlTextView title;
         RelativeLayout layout_article;
-        Button like;
+        ShineButton like;
 
 
         public ArticleViewHolder(@NonNull View itemView) {
@@ -130,6 +139,87 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         } else {
             holder.top_text.setVisibility(View.GONE);
         }
+        holder.like.setChecked(false);
+        holder.like.setChecked(articleBean.isCollect());
+        holder.like.setOnClickListener(v -> {
+            boolean isInner=articleBean.getUrl().contains("wanandroid");
+            if(holder.like.isChecked()){
+                if(isInner){
+                    Call<MessageBean> call= HttpUtils.getwAndroidService().collectInnerArticle(articleBeanList.get(position).getId());
+                    call.enqueue(new Callback<MessageBean>() {
+                        @Override
+                        public void onResponse(@NonNull Call<MessageBean> call, @NonNull Response<MessageBean> response) {
+                            if(response.body()==null || response.body().getErrorCode()!=0){
+                                Toast.makeText(mContext,"收藏失败",Toast.LENGTH_SHORT).show();
+                            }else {
+                                Toast.makeText(mContext,"收藏成功",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        @Override
+                        public void onFailure(@NonNull Call<MessageBean> call, @NonNull Throwable t) {
+                            Toast.makeText(mContext,"收藏失败",Toast.LENGTH_SHORT).show();
+                            holder.like.setChecked(false);
+                        }
+                    });
+                }else {
+                    Call<MessageBean> call =HttpUtils.getwAndroidService().collectOutArticle(articleBean.getTitle(), articleBean.getAuthor(), articleBean.getUrl());
+                    call.enqueue(new Callback<MessageBean>() {
+                        @Override
+                        public void onResponse(@NonNull Call<MessageBean> call, @NonNull Response<MessageBean> response) {
+                            if(response.body()==null || response.body().getErrorCode()!=0){
+                                Toast.makeText(mContext,"收藏失败",Toast.LENGTH_SHORT).show();
+                            }else {
+                                Toast.makeText(mContext,"收藏成功",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<MessageBean> call, @NonNull Throwable t) {
+                            Toast.makeText(mContext,"收藏失败",Toast.LENGTH_SHORT).show();
+                            holder.like.setChecked(false);
+                        }
+                    });
+                }
+            }else {
+                if(isCollectArticle==0){
+                    HttpUtils.getwAndroidService().uncollectArticleInList(articleBean.getId())
+                            .enqueue(new Callback<MessageBean>() {
+                        @Override
+                        public void onResponse(@NonNull Call<MessageBean> call, @NonNull Response<MessageBean> response) {
+                            if(response.body()==null || response.body().getErrorCode()!=0){
+                                Toast.makeText(mContext,"取消收藏失败",Toast.LENGTH_SHORT).show();
+                            }else {
+                                Toast.makeText(mContext,"取消收藏成功",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<MessageBean> call, @NonNull Throwable t) {
+                            Toast.makeText(mContext,"取消收藏失败",Toast.LENGTH_SHORT).show();
+                            holder.like.setChecked(true);
+                        }
+                    });
+                }else {
+                    HttpUtils.getwAndroidService().unCollectArticleInPerson(articleBean.getId(),articleBean.getOriginId())
+                            .enqueue(new Callback<MessageBean>() {
+                        @Override
+                        public void onResponse(@NonNull Call<MessageBean> call, @NonNull Response<MessageBean> response) {
+                            if(response.body()==null || response.body().getErrorCode()!=0){
+                                Toast.makeText(mContext,"取消收藏失败",Toast.LENGTH_SHORT).show();
+                            }else {
+                                Toast.makeText(mContext,"取消收藏成功",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<MessageBean> call, @NonNull Throwable t) {
+                            Toast.makeText(mContext,"取消收藏失败",Toast.LENGTH_SHORT).show();
+                            holder.like.setChecked(true);
+                        }
+                    });
+                }
+            }
+        });
         holder.title.setText(new HtmlSpanner().fromHtml(articleBean.getTitle()));
         holder.time.setText(articleBean.getDate());
         if(articleBean.getChapterName().isEmpty()){
@@ -137,6 +227,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         }else {
             holder.chapterName.setText(articleBean.getChapterName());
         }
+
         holder.title.setOnClickListener(v -> {
             if (articleBean.getUrl() != null) {
                 if(articleBean.isCollect()) {
@@ -187,12 +278,16 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     }
 
 
+
+
+
     @Override
     public int getItemCount() {
         return articleBeanList != null ? articleBeanList.size() : 0;
     }
 
     public interface BackToTopListener {
+
         void onBackToTop(int position);
 
     }
