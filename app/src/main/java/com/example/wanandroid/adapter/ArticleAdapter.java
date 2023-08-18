@@ -151,6 +151,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                         public void onResponse(@NonNull Call<MessageBean> call, @NonNull Response<MessageBean> response) {
                             if(response.body()==null || response.body().getErrorCode()!=0){
                                 Toast.makeText(mContext,"收藏失败",Toast.LENGTH_SHORT).show();
+                                holder.like.setChecked(false);
                             }else {
                                 Toast.makeText(mContext,"收藏成功",Toast.LENGTH_SHORT).show();
                             }
@@ -167,7 +168,9 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                         @Override
                         public void onResponse(@NonNull Call<MessageBean> call, @NonNull Response<MessageBean> response) {
                             if(response.body()==null || response.body().getErrorCode()!=0){
-                                Toast.makeText(mContext,"收藏失败",Toast.LENGTH_SHORT).show();
+                                assert response.body() != null;
+                                Toast.makeText(mContext,response.body().getErrorMsg(),Toast.LENGTH_SHORT).show();
+                                holder.like.setChecked(false);
                             }else {
                                 Toast.makeText(mContext,"收藏成功",Toast.LENGTH_SHORT).show();
                             }
@@ -175,7 +178,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
 
                         @Override
                         public void onFailure(@NonNull Call<MessageBean> call, @NonNull Throwable t) {
-                            Toast.makeText(mContext,"收藏失败",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext,"网络问题",Toast.LENGTH_SHORT).show();
                             holder.like.setChecked(false);
                         }
                     });
@@ -187,7 +190,9 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                         @Override
                         public void onResponse(@NonNull Call<MessageBean> call, @NonNull Response<MessageBean> response) {
                             if(response.body()==null || response.body().getErrorCode()!=0){
-                                Toast.makeText(mContext,"取消收藏失败",Toast.LENGTH_SHORT).show();
+                                assert response.body() != null;
+                                Toast.makeText(mContext,response.body().getErrorMsg(),Toast.LENGTH_SHORT).show();
+                                holder.like.setChecked(true);
                             }else {
                                 Toast.makeText(mContext,"取消收藏成功",Toast.LENGTH_SHORT).show();
                             }
@@ -195,7 +200,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
 
                         @Override
                         public void onFailure(@NonNull Call<MessageBean> call, @NonNull Throwable t) {
-                            Toast.makeText(mContext,"取消收藏失败",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext,"网络问题",Toast.LENGTH_SHORT).show();
                             holder.like.setChecked(true);
                         }
                     });
@@ -205,7 +210,8 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                         @Override
                         public void onResponse(@NonNull Call<MessageBean> call, @NonNull Response<MessageBean> response) {
                             if(response.body()==null || response.body().getErrorCode()!=0){
-                                Toast.makeText(mContext,"取消收藏失败",Toast.LENGTH_SHORT).show();
+                                assert response.body() != null;
+                                Toast.makeText(mContext,response.body().getErrorMsg(),Toast.LENGTH_SHORT).show();
                             }else {
                                 Toast.makeText(mContext,"取消收藏成功",Toast.LENGTH_SHORT).show();
                             }
@@ -213,7 +219,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
 
                         @Override
                         public void onFailure(@NonNull Call<MessageBean> call, @NonNull Throwable t) {
-                            Toast.makeText(mContext,"取消收藏失败",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext,"网络问题",Toast.LENGTH_SHORT).show();
                             holder.like.setChecked(true);
                         }
                     });

@@ -69,7 +69,6 @@ public class WebActivity extends AppCompatActivity {
         shareUser=intent.getStringExtra("shareUser");
         WebFragment webFragment = WebFragment.newInstance(url);
 
-        //为收藏界面的item.xml编写一个特殊的，加一个点亮的红色❤，点击后取消收藏，再点击相当于再次收藏
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_web, webFragment).commit();
         initListener();
         initView();
