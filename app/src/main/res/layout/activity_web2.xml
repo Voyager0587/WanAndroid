@@ -26,6 +26,7 @@
             android:background="@drawable/like_icon"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:visibility="gone"
             />
 
     </RelativeLayout>

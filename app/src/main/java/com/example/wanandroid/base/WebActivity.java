@@ -76,6 +76,14 @@ public class WebActivity extends AppCompatActivity {
 
     }
 
+
+
+
+
+
+
+
+
     /**
      * 初始化控件状态
      */
@@ -170,7 +178,6 @@ public class WebActivity extends AppCompatActivity {
                                 public void onResponse(@NonNull Call<MessageBean> call, @NonNull Response<MessageBean> response) {
                                     Snackbar.make(like, "收藏成功", Snackbar.LENGTH_SHORT).show();
                                     like.setBackgroundResource(R.drawable.like_icon_selected);
-
 
                                 }
 
