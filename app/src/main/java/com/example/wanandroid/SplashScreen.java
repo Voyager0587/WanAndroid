@@ -38,8 +38,10 @@ public class SplashScreen extends AppCompatActivity {
         int isAuto = SaveAccount.getIsAutoLogin(SplashScreen.this);
         if (1 == isAuto) {
             autoLogin();
+        }else {
+          setTimeout(2000);
         }
-//        setTimeout(2000);
+
 
     }
 
@@ -55,11 +57,12 @@ public class SplashScreen extends AppCompatActivity {
             @Override
             public void run() {
                 Intent intent;
-                if (1 == judge) {
-                    intent = new Intent(SplashScreen.this, BlogActivity.class);
-                } else {
-                    intent = new Intent(SplashScreen.this, MainActivity.class);
-                }
+//                if (1 == judge) {
+//                    intent = new Intent(SplashScreen.this, BlogActivity.class);
+//                } else {
+//                    intent = new Intent(SplashScreen.this, MainActivity.class);
+//                }
+                intent = new Intent(SplashScreen.this, MainActivity.class);
                 startActivity(intent);
                 finish();
             }

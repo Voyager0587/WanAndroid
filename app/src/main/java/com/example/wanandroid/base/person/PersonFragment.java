@@ -158,7 +158,6 @@ public class PersonFragment extends Fragment {
                             new OnConfirmListener() {
                                 @Override
                                 public void onConfirm() {
-                                    Toast.makeText(getContext(), "确认注销", Toast.LENGTH_SHORT).show();
                                     Call<MessageBean> logout = HttpUtils.getUserService().logout();
                                     logout.enqueue(new Callback<MessageBean>() {
                                         @Override
@@ -180,7 +179,7 @@ public class PersonFragment extends Fragment {
 
                                         @Override
                                         public void onFailure(@NonNull Call<MessageBean> call, @NonNull Throwable t) {
-                                            Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getContext(), "网络问题", Toast.LENGTH_SHORT).show();
                                         }
                                     });
                                 }

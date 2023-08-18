@@ -19,7 +19,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-
+//TODO 最终测试，最后end
 /**
  * @className: WanAndroidService
  * @author: Voyager
@@ -122,9 +122,8 @@ public interface WanAndroidService {
     @POST("lg/uncollect_originId/{id}/json")
     Call<MessageBean> uncollectArticleInList(@Path("id") int id);
 
-    //TODO 有一些Service没用上
 
-    //TODO 添加小爱心收藏，给个人界面的那些添加刷新和加载
+
 
     /**
      * 从个人收藏界面取消收藏

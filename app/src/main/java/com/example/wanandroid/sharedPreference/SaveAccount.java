@@ -100,6 +100,7 @@ public class SaveAccount {
         sharedPreferences.edit().clear().apply();
         sharedPreferences = context.getSharedPreferences("isAutoLogin", Context.MODE_PRIVATE);
         sharedPreferences.edit().clear().apply();
+        stopAutoLogin(context);
         return true;
     }
 }

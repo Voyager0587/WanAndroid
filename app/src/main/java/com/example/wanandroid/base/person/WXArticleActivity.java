@@ -131,7 +131,7 @@ public class WXArticleActivity extends AppCompatActivity {
                             articleAdapter.notifyDataSetChanged();
                         });
 
-                    }else if(homeArticleBeanList.isEmpty()) {
+                    }else {
                         Toast.makeText(WXArticleActivity.this,"没有更多数据了",Toast.LENGTH_SHORT).show();
                     }
                     if(pageGet==1){

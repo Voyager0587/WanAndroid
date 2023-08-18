@@ -74,26 +74,26 @@ public class MainActivity extends AppCompatActivity {
                 password.setTransformationMethod(PasswordTransformationMethod.getInstance());
             }
         });
-        auto_login.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    SaveAccount.openAutoLogin(MainActivity.this);
-                } else {
-                    SaveAccount.stopAutoLogin(MainActivity.this);
-                }
+        auto_login.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                SaveAccount.openAutoLogin(MainActivity.this);
+            } else {
+                SaveAccount.stopAutoLogin(MainActivity.this);
             }
         });
 
         login.setOnClickListener(v -> {
             accountStr = account.getText().toString().trim();
             passwordStr = password.getText().toString().trim();
+            login.setText("登录中...");
             if (TextUtils.isEmpty(accountStr)) {
                 Toast.makeText(context, "请输入账号", Toast.LENGTH_SHORT).show();
+                login.setText("登录");
                 return;
             }
             if (TextUtils.isEmpty(passwordStr)) {
                 Toast.makeText(context, "请输入密码", Toast.LENGTH_SHORT).show();
+                login.setText("登录");
                 return;
             }
 
@@ -112,15 +112,23 @@ public class MainActivity extends AppCompatActivity {
                             finish();
                         } else {
                             Toast.makeText(context, "登录失败", Toast.LENGTH_SHORT).show();
+                            login.setText("登录");
                         }
                     } else {
                         Toast.makeText(context, "登录失败", Toast.LENGTH_SHORT).show();
+                        login.setText("登录");
                     }
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<MessageBean> call, @NonNull Throwable t) {
-                    Log.e("MainActivity_login", "回调失败：" + t.getMessage() + "," + t.toString());
+                    Toast.makeText(context, "网络问题", Toast.LENGTH_SHORT).show();
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    login.setText("登录");
                 }
             });
         });

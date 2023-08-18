@@ -58,8 +58,8 @@ public class WebFragment extends Fragment {
             mAgentWebView = AgentWeb.with(this)
                     .setAgentWebParent((ViewGroup) view.findViewById(R.id.web_layout), new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
                     .useDefaultIndicator(-1, 3)
-                    .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.ASK)//打开其他页面时，弹窗质询用户前往其他应用 AgentWeb 3.0.0 加入。
-                    .interceptUnkownUrl() //拦截找不到相关页面的Url AgentWeb 3.0.0 加入。
+                    .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.ASK)
+                    .interceptUnkownUrl()
                     .createAgentWeb()
                     .ready()
                     .go(strWebURL);

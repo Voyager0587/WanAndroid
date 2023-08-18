@@ -94,6 +94,7 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
         signup.setOnClickListener(v -> {
+            signup.setText("注册中...");
             if (strAccount.isEmpty()) {
                 Toast.makeText(this, "账号不能为空！", Toast.LENGTH_SHORT).show();
             } else if (strPassword.isEmpty()) {
@@ -108,10 +109,13 @@ public class SignUpActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(@NonNull Call<MessageBean> call, @NonNull Response<MessageBean> response) {
                         if (response.isSuccessful()) {
+                            assert response.body() != null;
                             if (response.body().getErrorCode() == 0) {
+                                Toast.makeText(SignUpActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                                 startActivity(intent);
-
+                                finish();
+                                return;
                             }
                             Toast.makeText(SignUpActivity.this, response.body().getErrorMsg(), Toast.LENGTH_SHORT).show();
 
@@ -124,7 +128,7 @@ public class SignUpActivity extends AppCompatActivity {
                     }
                 });
             }
-
+            signup.setText("注册");
         });
 
         back.setOnClickListener(v -> {
