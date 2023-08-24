@@ -17,8 +17,6 @@
             android:layout_height="match_parent"
             android:background="@drawable/cancel"
             />
-
-
         <ImageButton
             android:id="@+id/like"
             android:layout_width="35dp"
@@ -28,6 +26,15 @@
             android:layout_centerVertical="true"
             android:visibility="gone"
             />
+        <ImageButton
+            android:id="@+id/explorer_open"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@drawable/explorer_open"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            />
+
 
     </RelativeLayout>
     <LinearLayout

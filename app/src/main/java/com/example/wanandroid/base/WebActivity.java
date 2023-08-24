@@ -1,6 +1,7 @@
 package com.example.wanandroid.base;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
@@ -30,7 +31,7 @@ import retrofit2.Response;
 
 public class WebActivity extends AppCompatActivity {
 
-    private ImageButton cancel, like;
+    private ImageButton cancel, like,explorer_open;
     /**
      * @param id 文章id,从正常的文章列表传入的是文章原本的id，从收藏页面传入的是另一个，只是便于寻找文章所在位置的id
      * @param originId 文章原本的id，便于进行收藏相关操作
@@ -44,7 +45,7 @@ public class WebActivity extends AppCompatActivity {
      * @param author 文章作者
      * @param shareUser 文章分享人（转载）
      */
-    String url, title, author,shareUser;
+    String url, title, author,shareUser,originUrl="";
 
     /**
      * @param isCollectArticle 是否是收藏文章，只是用来标识是否是从个人收藏界面进入的WebActivity
@@ -58,8 +59,10 @@ public class WebActivity extends AppCompatActivity {
         setContentView(R.layout.activity_web2);
         cancel = findViewById(R.id.cancel);
         like = findViewById(R.id.like);
+        explorer_open = findViewById(R.id.explorer_open);
         Intent intent = getIntent();
         url = intent.getStringExtra("url");
+        originUrl = intent.getStringExtra("originUrl");
         id = intent.getIntExtra("id", -1);
         title = intent.getStringExtra("title");
         author = intent.getStringExtra("author");
@@ -104,7 +107,18 @@ public class WebActivity extends AppCompatActivity {
         cancel.setOnClickListener(v -> {
             onBackPressed();
         });
-
+        explorer_open.setOnClickListener(v -> {
+            Uri uri;
+            if(originUrl==null) {
+                uri = Uri.parse(url);
+            }else {
+                uri = Uri.parse(originUrl);
+            }
+            Intent intent2 = new Intent();
+            intent2.setAction("android.intent.action.VIEW");
+            intent2.setData(uri);
+            startActivity(intent2);
+        });
         like.setOnClickListener(v -> {
             //收藏站内文章
             if (isCollectArticle == 0) {

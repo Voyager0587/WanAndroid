@@ -15,6 +15,8 @@ import com.example.wanandroid.utils.HttpUtils;
 
 
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,11 +38,20 @@ public class SplashScreen extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
         HttpUtils.getInstance();
         int isAuto = SaveAccount.getIsAutoLogin(SplashScreen.this);
-        if (1 == isAuto) {
-            autoLogin();
-        }else {
-          setTimeout(2000);
-        }
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                if (1 == isAuto) {
+                    autoLogin();
+                }else {
+                    setTimeout(2000);
+                }
+            }
+        };
+        timer.schedule(task, 0, 7000);
+
+
 
 
     }

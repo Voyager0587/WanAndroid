@@ -1,7 +1,9 @@
 package com.example.wanandroid.base.person;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -40,6 +42,7 @@ public class MessageActivity extends AppCompatActivity {
     ImageButton cancel;
     CommentAdapter commentAdapter;
     SmartRefreshLayout refresh_layout;
+    LinearLayout blank_layout;
     List<CommentBean.DataBean.DatasBean> datasBeanList = new ArrayList<CommentBean.DataBean.DatasBean>();
     int page=1;
     @Override
@@ -78,6 +81,7 @@ public class MessageActivity extends AppCompatActivity {
         messageRecyclerView = findViewById(R.id.messageRecyclerView);
         cancel = findViewById(R.id.cancel);
         refresh_layout = findViewById(R.id.refresh_layout);
+        blank_layout = findViewById(R.id.blank_layout);
         cancel.setOnClickListener(v -> {
             finish();
         });
@@ -147,6 +151,11 @@ public class MessageActivity extends AppCompatActivity {
                     runOnUiThread(()->{
                         commentAdapter.notifyDataSetChanged();
                         if(pageGet==1){
+                            if (datasBeanList.isEmpty()) {
+                                blank_layout.setVisibility(View.VISIBLE);
+                            } else {
+                                blank_layout.setVisibility(View.GONE);
+                            }
                             refresh_layout.finishRefresh();
                         }else {
                             if(commentBean.getData().getDatas().isEmpty()) {
