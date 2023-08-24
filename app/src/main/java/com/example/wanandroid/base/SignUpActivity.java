@@ -25,7 +25,7 @@ public class SignUpActivity extends AppCompatActivity {
     EditText rePassword, account, password;
     MaterialButton signup;
     AppCompatImageButton back;
-    String strPassword, strRePassword, strAccount;
+    String strPassword="", strRePassword="", strAccount="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +102,7 @@ public class SignUpActivity extends AppCompatActivity {
             } else if (strRePassword.isEmpty()) {
                 Toast.makeText(this, "密码不能为空！", Toast.LENGTH_SHORT).show();
             } else if (!strPassword.equals(strRePassword)) {
-                Toast.makeText(this, "两次输入的密码不相同！", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "两次输入的密码必须相同！", Toast.LENGTH_SHORT).show();
             } else {
                 Call<MessageBean> call = HttpUtils.getUserService().register(strAccount, strPassword, strRePassword);
                 call.enqueue(new Callback<MessageBean>() {

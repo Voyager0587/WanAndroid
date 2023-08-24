@@ -127,8 +127,9 @@ public class CollectArticleActivity extends AppCompatActivity {
                     }
                     internet_error.setVisibility(View.GONE);
                     CollectArticleBean collectArticleBean = response.body();
-                    if (collectArticleBean.getData().getDatas().size() == 0 && Objects.requireNonNull(response.body()).getErrorCode() == 0) {
-                        Toast.makeText(CollectArticleActivity.this,"没有更多数据了",Toast.LENGTH_SHORT).show();
+                    if (collectArticleBean.getData().getDatas().size() == 0 && Objects.requireNonNull(response.body()).getErrorCode() == 0&&pageGet==0) {
+                        blank_layout.setVisibility(View.VISIBLE);
+                        refresh_layout.finishRefresh();
                         return;
                     }
                     List<CollectArticleBean.DataBean.DatasBean> datasBeanList = collectArticleBean.getData().getDatas();
@@ -148,11 +149,7 @@ public class CollectArticleActivity extends AppCompatActivity {
                             loadCollectArticleList.add(articleBean);
                         }
                         runOnUiThread(() -> {
-                            if (collectArticleList.size() == 0) {
-                                blank_layout.setVisibility(View.VISIBLE);
-                            } else {
-                                blank_layout.setVisibility(View.GONE);
-                            }
+                            blank_layout.setVisibility(View.GONE);
                             initRecyclerView();
                             articleAdapter.notifyDataSetChanged();
                         });
@@ -160,6 +157,7 @@ public class CollectArticleActivity extends AppCompatActivity {
                     }
                     if (loadCollectArticleList.size() == 0 && pageGet != 0) {
                         page--;
+                        Toast.makeText(CollectArticleActivity.this,"没有更多数据了",Toast.LENGTH_SHORT).show();
                     }
                     refresh_layout.finishRefresh();
                 }

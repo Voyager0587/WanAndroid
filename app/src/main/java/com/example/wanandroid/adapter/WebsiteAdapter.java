@@ -2,6 +2,7 @@ package com.example.wanandroid.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.wanandroid.R;
 import com.example.wanandroid.base.WebActivity;
-import com.example.wanandroid.base.person.WebsiteActivity;
 import com.example.wanandroid.bean.WebsiteBean;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ import java.util.List;
  **/
 public class WebsiteAdapter extends RecyclerView.Adapter<WebsiteAdapter.WebsiteViewHolder> {
 
-    private List<WebsiteBean.DataBean> dataBeanList=new ArrayList<>();
+    private List<WebsiteBean.DataBean> dataBeanList = new ArrayList<>();
     private Context mContext;
 
     public void setmContext(Context mContext) {
@@ -47,32 +47,34 @@ public class WebsiteAdapter extends RecyclerView.Adapter<WebsiteAdapter.WebsiteV
     @NonNull
     @Override
     public WebsiteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_website,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_website, parent, false);
         return new WebsiteViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull WebsiteViewHolder holder, int position) {
         holder.website_name.setText(dataBeanList.get(position).getName());
-        String originalPath=dataBeanList.get(position).getLink();
-        String imagePath="";
-        int first=originalPath.indexOf("/");
-        int second=originalPath.indexOf("/",first+1);
-        int a=originalPath.indexOf("/",second+1);
-        if(a==-1) {
-            imagePath=originalPath+"/favicon.ico";
-        }else {
-            imagePath=originalPath.substring(0,a+1)+"favicon.ico";
+        String originalPath = dataBeanList.get(position).getLink();
+        String imagePath = "";
+        int first = originalPath.indexOf("/");
+        int second = originalPath.indexOf("/", first + 1);
+        int a = originalPath.indexOf("/", second + 1);
+        if (a == -1) {
+            imagePath = originalPath + "/favicon.ico";
+        } else {
+            imagePath = originalPath.substring(0, a + 1) + "favicon.ico";
         }
-        imagePath=imagePath.replace("http://","https://");
+        imagePath = imagePath.replace("http://", "https://");
         Glide.with(holder.imageView)
                 .load(imagePath)
                 .thumbnail(Glide.with(holder.itemView).load(R.drawable.blogger))
                 .into(holder.imageView);
         holder.itemView.setOnClickListener(v -> {
+
             Intent intent = new Intent(mContext, WebActivity.class);
-            intent.putExtra("url",dataBeanList.get(position).getLink().replace("http://","https://"));
-            intent.putExtra("tag",1);
+            intent.putExtra("url", dataBeanList.get(position).getLink().replace("http://", "https://"));
+            intent.putExtra("originUrl", dataBeanList.get(position).getLink());
+            intent.putExtra("tag", 1);
             mContext.startActivity(intent);
         });
     }
@@ -83,14 +85,15 @@ public class WebsiteAdapter extends RecyclerView.Adapter<WebsiteAdapter.WebsiteV
         return dataBeanList.size();
     }
 
-    static class WebsiteViewHolder extends RecyclerView.ViewHolder{
+    static class WebsiteViewHolder extends RecyclerView.ViewHolder {
 
         TextView website_name;
         ImageView imageView;
+
         public WebsiteViewHolder(@NonNull View itemView) {
             super(itemView);
-            website_name=itemView.findViewById(R.id.website_name);
-            imageView=itemView.findViewById(R.id.website_icon);
+            website_name = itemView.findViewById(R.id.website_name);
+            imageView = itemView.findViewById(R.id.website_icon);
         }
     }
 

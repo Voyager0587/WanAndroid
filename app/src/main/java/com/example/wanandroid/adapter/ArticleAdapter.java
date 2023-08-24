@@ -150,8 +150,9 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                         @Override
                         public void onResponse(@NonNull Call<MessageBean> call, @NonNull Response<MessageBean> response) {
                             if(response.body()==null || response.body().getErrorCode()!=0){
-                                Toast.makeText(mContext,"收藏失败",Toast.LENGTH_SHORT).show();
-                                holder.like.setChecked(false);
+                                assert response.body() != null;
+                                Toast.makeText(mContext,response.body().getErrorMsg(),Toast.LENGTH_SHORT).show();
+                                holder.like.setChecked(true);
                             }else {
                                 Toast.makeText(mContext,"收藏成功",Toast.LENGTH_SHORT).show();
                             }
@@ -170,7 +171,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                             if(response.body()==null || response.body().getErrorCode()!=0){
                                 assert response.body() != null;
                                 Toast.makeText(mContext,response.body().getErrorMsg(),Toast.LENGTH_SHORT).show();
-                                holder.like.setChecked(false);
+                                holder.like.setChecked(true);
                             }else {
                                 Toast.makeText(mContext,"收藏成功",Toast.LENGTH_SHORT).show();
                             }
@@ -195,6 +196,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                                 holder.like.setChecked(true);
                             }else {
                                 Toast.makeText(mContext,"取消收藏成功",Toast.LENGTH_SHORT).show();
+
                             }
                         }
 
@@ -226,7 +228,13 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                 }
             }
         });
-        holder.title.setText(new HtmlSpanner().fromHtml(articleBean.getTitle()));
+        if(isCollectArticle==1){
+            String str= String.valueOf(new HtmlSpanner().fromHtml(articleBean.getTitle()));
+            holder.title.setText(new HtmlSpanner().fromHtml(str));
+        }else {
+            holder.title.setText(new HtmlSpanner().fromHtml(articleBean.getTitle()));
+        }
+
         holder.time.setText(articleBean.getDate());
         if(articleBean.getChapterName().isEmpty()){
             holder.chapterName.setText("站外文章");
