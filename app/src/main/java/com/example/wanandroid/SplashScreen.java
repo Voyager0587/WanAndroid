@@ -31,14 +31,20 @@ import retrofit2.Response;
 public class SplashScreen extends AppCompatActivity {
 
     int judge = -1;
-
+    Timer timer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         HttpUtils.getInstance();
         int isAuto = SaveAccount.getIsAutoLogin(SplashScreen.this);
-        Timer timer = new Timer();
+
+//        if (1 == isAuto) {
+//            autoLogin();
+//        }else {
+//            setTimeout(2000);
+//        }
+        timer = new Timer();
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
@@ -50,9 +56,6 @@ public class SplashScreen extends AppCompatActivity {
             }
         };
         timer.schedule(task, 0, 7000);
-
-
-
 
     }
 
@@ -68,13 +71,9 @@ public class SplashScreen extends AppCompatActivity {
             @Override
             public void run() {
                 Intent intent;
-//                if (1 == judge) {
-//                    intent = new Intent(SplashScreen.this, BlogActivity.class);
-//                } else {
-//                    intent = new Intent(SplashScreen.this, MainActivity.class);
-//                }
                 intent = new Intent(SplashScreen.this, MainActivity.class);
                 startActivity(intent);
+                timer.cancel();
                 finish();
             }
         }, time);
@@ -99,6 +98,7 @@ public class SplashScreen extends AppCompatActivity {
                         Toast.makeText(SplashScreen.this, response.body().getErrorMsg(), Toast.LENGTH_SHORT).show();
                         intent = new Intent(SplashScreen.this, MainActivity.class);
                     }
+                    timer.cancel();
                     startActivity(intent);
                     finish();
                 }
