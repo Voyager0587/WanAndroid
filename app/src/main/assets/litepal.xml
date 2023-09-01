@@ -2,9 +2,10 @@
 <litepal>
     <dbname value="BookStore"/>
 
-    <version value="8"/>
+    <version value="11"/>
     <list>
         <mapping class="com.example.wanandroid.bean.MessageBean"/>
+        <mapping class="com.example.wanandroid.bean.ImageUriBean"/>
 
     </list>
 </litepal>

@@ -14,6 +14,8 @@ import com.example.wanandroid.sharedPreference.SaveAccount;
 import com.example.wanandroid.utils.HttpUtils;
 
 
+import org.litepal.tablemanager.Connector;
+
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -38,7 +40,7 @@ public class SplashScreen extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
         HttpUtils.getInstance();
         int isAuto = SaveAccount.getIsAutoLogin(SplashScreen.this);
-
+        Connector.getDatabase();
 //        if (1 == isAuto) {
 //            autoLogin();
 //        }else {

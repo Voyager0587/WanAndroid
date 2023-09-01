@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -125,7 +126,8 @@ public class ProjectFragment extends Fragment implements ArticleAdapter.BackToTo
 
             @Override
             public void onFailure(@NonNull Call<ProjectBean> call, Throwable t) {
-                Snackbar.make(refreshLayout, "error:网络问题", Snackbar.LENGTH_SHORT).show();
+//                Snackbar.make(refreshLayout, "error:网络问题", Snackbar.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), "error:网络问题", Toast.LENGTH_SHORT).show();
                 requireActivity().runOnUiThread(() -> {
                     if (data.size() == 0 && page == 1) {
                         internet_error.setVisibility(View.VISIBLE);
@@ -150,10 +152,11 @@ public class ProjectFragment extends Fragment implements ArticleAdapter.BackToTo
             public void onResponse(@NonNull Call<ProjectBean> call, @NonNull Response<ProjectBean> response) {
                 if (response.isSuccessful()) {
                     ProjectBean projectBean = response.body();
+                    assert projectBean != null;
                     if (projectBean.getData().getDatas().size() == 0 && Objects.requireNonNull(response.body()).getErrorCode() == 0) {
                         Snackbar.make(refreshLayout, "没有更多数据了", Snackbar.LENGTH_SHORT).show();
                     }
-                    if (projectBean != null && projectBean.getData() != null) {
+                    if (projectBean.getData() != null) {
                         loadMoreData.addAll(projectBean.getData().getDatas());
                         data.addAll(projectBean.getData().getDatas());
                         projectAdapter.notifyItemRangeInserted(data.size(), loadMoreData.size());
@@ -176,7 +179,7 @@ public class ProjectFragment extends Fragment implements ArticleAdapter.BackToTo
     }
 
     private void initRecyclerView() {
-        projectAdapter = new ProjectAdapter(requireContext(),requireActivity());
+        projectAdapter = new ProjectAdapter(requireContext(), requireActivity());
         projectAdapter.setProjectBean(data);
         manager = new LinearLayoutManager(getActivity());
         manager.setOrientation(RecyclerView.VERTICAL);
