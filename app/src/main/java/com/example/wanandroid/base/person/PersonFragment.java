@@ -101,7 +101,7 @@ public class PersonFragment extends Fragment {
     private void initView() throws IOException {
         ImageUriBean imageUriBean=LitePal.findLast(ImageUriBean.class);
         Bitmap bitmap;
-        if(imageUriBean.getImageUri() != null){
+        if(imageUriBean!= null){
             bitmap = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), Uri.parse(imageUriBean.getImageUri()));
         }else {
             bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.img1);

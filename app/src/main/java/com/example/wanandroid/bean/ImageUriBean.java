@@ -1,7 +1,5 @@
 package com.example.wanandroid.bean;
 
-import android.net.Uri;
-
 import org.litepal.crud.LitePalSupport;
 
 /**
@@ -9,7 +7,7 @@ import org.litepal.crud.LitePalSupport;
  * @className: ImageUriBean
  * @author: Voyager
  * @description: 头像Uri
- * @date: 2023/9/1 20:44
+ * @date: 2023/9/1
  **/
 public class ImageUriBean extends LitePalSupport {
     String imageUri;

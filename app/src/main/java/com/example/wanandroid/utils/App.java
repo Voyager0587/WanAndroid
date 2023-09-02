@@ -20,9 +20,12 @@ public class App extends Application {
         LitePal.initialize(this);
     }
 
-    public static App getInstance(){
+    public static App getInstance() {
         return instance;
     }
+
+
+
 
 
     /**
@@ -41,20 +44,27 @@ public class App extends Application {
      */
 
     /**
-     * 测试顺序
+     *
+     *
+     * 8、29 最终测试顺序
      * 注册--》登录(自动登录)--》
+     * 三个界面，主页、发现和个人
+     * 先看主页
      * 主页
      * 1.文章查看，分类chapter
      * 2.收藏，取消收藏
      * 3.文章刷新加（附带网络测试）
+     * 再看搜索
      * 搜索
      * 1.热词显示和点击
      * 2.搜索文章
      * 3.刷新和加载（附带网络测试）
+     *
      * 发现
      * 1.项目chapter滑动展示项目
      * 2.项目点击
      * 3.项目刷新和加载（附带网络测试）
+     *
      *个人（附带网络测试）
      * 1.收藏界面
      * 2.消息界面
