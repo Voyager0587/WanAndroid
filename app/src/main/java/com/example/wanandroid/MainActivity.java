@@ -8,9 +8,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -68,9 +66,9 @@ public class MainActivity extends AppCompatActivity {
     private void initListener() {
 
         toggleButton.setOnClickListener(v -> {
-            if(toggleButton.isChecked()){
+            if (toggleButton.isChecked()) {
                 password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-            }else {
+            } else {
                 password.setTransformationMethod(PasswordTransformationMethod.getInstance());
             }
         });
@@ -172,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        toggleButton=findViewById(R.id.toggleButton);
+        toggleButton = findViewById(R.id.toggleButton);
         login = findViewById(R.id.login);
         signup = findViewById(R.id.signup);
         password = findViewById(R.id.et_password);

@@ -3,6 +3,7 @@ package com.example.wanandroid;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -12,7 +13,6 @@ import com.example.wanandroid.base.home.BlogActivity;
 import com.example.wanandroid.bean.MessageBean;
 import com.example.wanandroid.sharedPreference.SaveAccount;
 import com.example.wanandroid.utils.HttpUtils;
-
 
 import org.litepal.tablemanager.Connector;
 
@@ -34,6 +34,7 @@ public class SplashScreen extends AppCompatActivity {
 
     int judge = -1;
     Timer timer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +53,7 @@ public class SplashScreen extends AppCompatActivity {
             public void run() {
                 if (1 == isAuto) {
                     autoLogin();
-                }else {
+                } else {
                     setTimeout(2000);
                 }
             }
@@ -68,6 +69,7 @@ public class SplashScreen extends AppCompatActivity {
      * @param time 持续时间
      */
     private void setTimeout(int time) {
+        Looper.prepare();
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -79,6 +81,7 @@ public class SplashScreen extends AppCompatActivity {
                 finish();
             }
         }, time);
+        Looper.loop();
     }
 
     /**

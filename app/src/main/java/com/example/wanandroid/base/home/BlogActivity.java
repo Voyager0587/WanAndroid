@@ -40,6 +40,7 @@ public class BlogActivity extends AppCompatActivity {
     ImageView homeImageView, personImageView, squareImageView;
     TextView homeTextView, personTextView, squareTextView;
     private boolean doubleBackToExitPressedOnce = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -281,7 +282,6 @@ public class BlogActivity extends AppCompatActivity {
         });
 
     }
-
 
 
     @Override
