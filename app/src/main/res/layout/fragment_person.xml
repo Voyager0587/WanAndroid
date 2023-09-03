@@ -50,10 +50,11 @@
             android:layout_height="30dp"
             android:layout_alignEnd="@+id/iv_user"
             android:layout_alignBottom="@+id/iv_user"
-            android:background="@color/person_20"
+            android:background="@color/color_gray_light_plus"
+            android:backgroundTint="@android:color/transparent"
             android:padding="1dp"
             app:shapeAppearanceOverlay="@style/circleImageStyle"
-            app:strokeColor="#FFF"
+            app:strokeColor="#343434"
             app:strokeWidth="1dp" />
 
         <com.google.android.material.imageview.ShapeableImageView

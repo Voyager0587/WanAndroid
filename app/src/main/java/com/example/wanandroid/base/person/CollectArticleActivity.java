@@ -122,12 +122,14 @@ public class CollectArticleActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<CollectArticleBean> call, @NonNull Response<CollectArticleBean> response) {
                 assert response.body() != null;
                 if (response.isSuccessful()) {
+                    internet_error.setVisibility(View.GONE);
+                    CollectArticleBean collectArticleBean = response.body();
                     if(refresh_layout.isRefreshing()) {
                         collectArticleList.clear();
                     }
-                    internet_error.setVisibility(View.GONE);
-                    CollectArticleBean collectArticleBean = response.body();
                     if (collectArticleBean.getData().getDatas().size() == 0 && Objects.requireNonNull(response.body()).getErrorCode() == 0&&pageGet==0) {
+                        collectArticleList.clear();
+                        articleAdapter.notifyDataSetChanged();
                         blank_layout.setVisibility(View.VISIBLE);
                         refresh_layout.finishRefresh();
                         return;
