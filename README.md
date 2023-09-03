@@ -2,7 +2,7 @@
 
 用到的一些开源库：
 html-textview：富文本显示标题
-
+HtmlSpanner：富文本显示
 FlexboxMananger:灵活RecyclerView的布局Manager
 
 
